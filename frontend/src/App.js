@@ -1,21 +1,28 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
-// Import components
 import Navbar from "./components/Navbar";
-// Import pages
-import Home from "./pages/Home";
+import CourseDetail from "./pages/CourseDetail";
 import Courses from "./pages/Courses";
 import Forum from "./pages/Forum";
-import Annoucements from "./pages/Announcements";
+import Home from "./pages/Home";
 function App() {
   return (
     <>
       <Router>
         <Navbar />
-        <Route exact path="/" component={Home} />
-        <Route path="/course" component={Courses} />
-        <Route path="/forum" component={Forum} />
-        <Route path="/annoucements" component={Annoucements} />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route
+            path="/courses"
+            render={({ match: { url } }) => (
+              <>
+                <Route exact path={`${url}/`} component={Courses} />
+                <Route path={`${url}/course`} component={CourseDetail} />
+              </>
+            )}
+          />
+          <Route path="/forum" component={Forum} />
+        </Switch>
       </Router>
     </>
   );

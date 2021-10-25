@@ -1,8 +1,12 @@
-.active::after{
+/* @import url("https://cdn.syncfusion.com/ej2/material.css"); */
+html::-webkit-scrollbar{
+  display: none;
+}
+.active::after {
   content: "";
   display: block;
   width: 30px;
   height: 5px;
-  background: pink;
+  background-color: rgba(52, 211, 153, 1);
   border-radius: 10px;
 }
