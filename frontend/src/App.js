@@ -5,9 +5,10 @@ import CourseDetail from "./pages/CourseDetail";
 import Courses from "./pages/Courses";
 import Forum from "./pages/Forum";
 import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 function App() {
   return (
-    <>
+    <div className="bg-gray-50">
       <Router>
         <Navbar />
         <Switch>
@@ -22,9 +23,10 @@ function App() {
             )}
           />
           <Route path="/forum" component={Forum} />
+          <Route path="/profile" component={Profile} />
         </Switch>
       </Router>
-    </>
+    </div>
   );
 }
 

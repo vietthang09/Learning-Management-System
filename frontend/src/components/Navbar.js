@@ -33,19 +33,16 @@ function Navbar() {
             >
               <CollectionIcon className="w-8 text-gray-500" />
             </NavLink>
-            <NavLink to="/forum" className="px-5 lg:px-10 py-1 rounded-lg hover:bg-gray-100">
-              <AcademicCapIcon className="w-8 text-gray-500" />
-            </NavLink>
-            {/* <a
-              href=""
+            <NavLink
+              to="/forum"
               className="px-5 lg:px-10 py-1 rounded-lg hover:bg-gray-100"
             >
-              <BellIcon className="w-8 text-gray-500" />
-            </a> */}
+              <AcademicCapIcon className="w-8 text-gray-500" />
+            </NavLink>
           </div>
-          <div>
+          <NavLink to="/profile">
             <UserCircleIcon className="w-8 text-gray-500" />
-          </div>
+          </NavLink>
         </div>
       </div>
     </div>

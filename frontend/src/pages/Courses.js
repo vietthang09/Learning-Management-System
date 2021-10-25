@@ -20,17 +20,14 @@ function Courses() {
               <SearchIcon className="w-6 text-green-400 transform hover:scale-105" />
             </button>
           </div>
-          <div>
-              <span className="text-red-500">Coming Soon</span>
-          </div>
         </div>
         <div className="px-7 lg:px-2 grid grid-cols-1 lg:grid-cols-4 gap-10 gap-y-8">
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
+          <CourseCard type="primary" />
+          <CourseCard type="primary" />
+          <CourseCard type="primary" />
+          <CourseCard type="primary" />
+          <CourseCard type="primary" />
+          <CourseCard type="primary" />
         </div>
       </div>
     </div>

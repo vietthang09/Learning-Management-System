@@ -4,6 +4,7 @@ import PostCard from "../components/PostCard";
 import { PhotographIcon, DocumentIcon } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import { useState, Fragment } from "react";
+import YouMayLikeCard from "../components/YouMayLikeCard";
 function Forum() {
   const [isOpen, setIsOpen] = useState(false);
   function closeModal() {
@@ -18,14 +19,12 @@ function Forum() {
       <div className="flex flex-wrap">
         <div className="hidden lg:block lg:w-1/4">
           <div className="p-2 sticky top-20 z-50">
-            <span className="text-lg font-medium">Rules</span>
-            <ul className="text-gray-700">
-              <li>Lorem ipsum dolor sit amet.</li>
-              <li>Lorem ipsum dolor sit amet.</li>
-              <li>Lorem ipsum dolor sit amet.</li>
-              <li>Lorem ipsum dolor sit amet.</li>
-              <li>Lorem ipsum dolor sit amet.</li>
-            </ul>
+            <span className="text-lg font-medium">You may like</span>
+            <div className="mt-2 grid grid-cols-1 lg:grid-cols-2 gap-2 gap-y-2">
+              <YouMayLikeCard />
+              <YouMayLikeCard />
+              <YouMayLikeCard />
+            </div>
           </div>
         </div>
         <div className="w-full lg:w-1/2">

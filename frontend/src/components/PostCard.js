@@ -3,7 +3,7 @@ import { LightBulbIcon, AnnotationIcon } from "@heroicons/react/outline";
 import CommentCard from "./CommentCard";
 function PostCard() {
   return (
-    <div className="mt-4 p-3 rounded-xl shadow">
+    <div className="mt-4 p-3 bg-white rounded-xl shadow">
       {/* Header */}
       <div className="flex space-x-1 items-center">
         <img

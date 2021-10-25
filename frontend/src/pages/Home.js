@@ -45,9 +45,9 @@ function Home() {
                   </div>
                 </div>
                 <div className="px-7 lg:px-0 grid grid-cols-1 lg:grid-cols-3 gap-2 gap-y-8">
-                  <CourseCard />
-                  <CourseCard />
-                  <CourseCard />
+                  <CourseCard type="primary" />
+                  <CourseCard type="primary" />
+                  <CourseCard type="primary" />
                 </div>
               </div>
             </div>
@@ -70,6 +70,15 @@ function Home() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="mb-5">
+        <span className="text-gray-800 text-2xl font-bold">Enroll Now</span>
+        <div className="mt-5 px-7 lg:px-0 grid grid-cols-1 lg:grid-cols-4 gap-4 gap-y-8">
+          <CourseCard type="enroll" />
+          <CourseCard type="enroll" />
+          <CourseCard type="enroll" />
+          <CourseCard type="enroll" />
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ import React from "react";
 import { ClockIcon, BookmarkIcon } from "@heroicons/react/outline";
 function AssignmentCard() {
   return (
-    <div className="p-2 mb-5 flex items-center border-r-2 border-green-400 rounded-lg shadow hover:shadow-md">
+    <div className="p-2 mb-5 flex items-center bg-white border-r-2 border-green-400 rounded-lg shadow hover:shadow-md">
       <img
         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
         alt=""
