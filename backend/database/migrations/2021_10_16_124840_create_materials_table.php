@@ -14,13 +14,10 @@ class CreateMaterialsTable extends Migration
     public function up()
     {
         Schema::create('materials', function (Blueprint $table) {
-            //$table->id();
-            $table->increments('id_material');
-            $table->integer('id_course')->unsigned();
-            $table->foreign('id_course')->references('id_course')->on('courses');
-            $table->string('name');
-            $table->date('create_date');
-            $table->string('link_download')->nullable();
+            $table->id();
+            $table->foreignId('course_id')->constrained()->onDelete('cascade');
+            $table->string('material_title');
+            $table->string('file_link');
             $table->timestamps();
         });
     }

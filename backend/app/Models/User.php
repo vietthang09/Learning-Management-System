@@ -17,6 +17,7 @@ class User extends Authenticatable
      *
      * @var string[]
      */
+
     protected $fillable = [
         'name',
         'email',
@@ -41,4 +42,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function registered()
+    {
+        return $this->hasMany(RegisteredStudent::class);
+    }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
 }

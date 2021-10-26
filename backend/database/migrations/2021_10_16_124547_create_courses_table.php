@@ -14,16 +14,12 @@ class CreateCoursesTable extends Migration
     public function up()
     {
         Schema::create('courses', function (Blueprint $table) {
-            //$table->id();
-            $table->increments('id_course');
-            $table->integer('id')->unsigned();
-            $table->foreign('id')->references('id')->on('users');
-            $table->string('name', 50);
-            $table->text('intro')->nullable();
-            $table->tinyInteger('maximum');
-            $table->dateTime('registration_deadline');
-            $table->dateTime('begin');
-            $table->dateTime('end');
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->string('course_cover');
+            $table->string('course_title');
+            $table->string('introduction');
+            $table->date('registration_deadline');
             $table->timestamps();
         });
     }
