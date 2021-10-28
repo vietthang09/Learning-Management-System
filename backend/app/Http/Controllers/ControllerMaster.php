@@ -22,7 +22,7 @@ class ControllerMaster extends Controller
             $countAssignments = ControllerMaster::countAssginments($course->course_id);
             $countStudents = ControllerMaster::countStudents($course->course_id);
             $countMaterials = ControllerMaster::countMaterials($course->course_id);
-            $teacherName = ControllerMaster::getTeacherByCourseId($user_id);
+            $teacherName = ControllerMaster::getTeacherByCourseId($course->course_id);
             $collection->push(['course' => $course, 'countAssignments' => $countAssignments, 'countStudents' => $countStudents, 'countMaterials' => $countMaterials, 'teacherName' => $teacherName]);
         }
         return $collection;
