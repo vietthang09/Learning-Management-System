@@ -13,10 +13,10 @@ class ControllerMaster extends Controller
     {
         $user_id = 2;
         $courses = DB::table('courses')
+            ->select('course_id', 'course_title')
             ->join('registered_students', 'registered_students.course_id', '=', 'courses.id')
             ->join('users', 'users.id', '=', 'registered_students.user_id')
-            ->where('users.id', $user_id)->get();
-
+            ->where('users.id', $user_id)->limit(3)->get();
         $collection = collect();
         foreach ($courses as $course) {
             $countAssignments = ControllerMaster::countAssginments($course->course_id);
@@ -32,6 +32,7 @@ class ControllerMaster extends Controller
     static function getAssignments()
     {
         $assignments = DB::table('assignments')
+            ->select('course_id', 'assignment_title', 'deadline')
             ->join('courses', 'courses.id', '=', 'assignments.course_id')
             ->join('users', 'users.id', '=', 'courses.id')
             ->get();

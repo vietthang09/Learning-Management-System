@@ -15,7 +15,7 @@ function MaterialCard(props) {
             </div>
           </Disclosure.Button>
           <Disclosure.Panel className="text-gray-500">
-            <div className="">hello</div>
+            <div className="">{props.content}</div>
           </Disclosure.Panel>
         </>
       )}

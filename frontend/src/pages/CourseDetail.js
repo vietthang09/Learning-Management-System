@@ -27,7 +27,12 @@ function CourseDetail(props) {
   }, []);
   var materials_HTMLLIST = "";
   materials_HTMLLIST = materials.map((item, index) => {
-    return <MaterialCard title={item.material_title} />;
+    return (
+      <MaterialCard
+        title={item.material_title}
+        content={item.material_content}
+      />
+    );
   });
   var assignments_HTMLLIST = "";
   assignments_HTMLLIST = assignments.map((item, index) => {
@@ -95,7 +100,7 @@ function CourseDetail(props) {
             <div className="flex justify-center">
               <a
                 className="mt-5 mb-10 px-16 py-2 text-green-500 bg-green-100 rounded-xl"
-                href=""
+                href={course.online_class_link}
               >
                 Join online class
               </a>

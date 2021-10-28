@@ -15,6 +15,7 @@ function Home() {
         setCourses(res.data.collection);
         setNumberToday(res.data.countTodayAssigments);
         setAssignments(res.data.assignments);
+        console.log(res.data.assignments);
       }
     });
   }, []);
