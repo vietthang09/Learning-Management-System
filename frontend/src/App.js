@@ -8,25 +8,18 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 function App() {
   return (
-    <div className="bg-gray-50">
+    <>
       <Router>
         <Navbar />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route
-            path="/courses"
-            render={({ match: { url } }) => (
-              <>
-                <Route exact path={`${url}/`} component={Courses} />
-                <Route path={`${url}/course`} component={CourseDetail} />
-              </>
-            )}
-          />
+          <Route path="/courses/:id" component={CourseDetail} />
+          <Route path="/courses" component={Courses} />
           <Route path="/forum" component={Forum} />
           <Route path="/profile" component={Profile} />
         </Switch>
       </Router>
-    </div>
+    </>
   );
 }
 

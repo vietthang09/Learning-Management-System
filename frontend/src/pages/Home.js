@@ -3,6 +3,7 @@ import { SearchIcon } from "@heroicons/react/outline";
 import CourseCard from "../components/CourseCard";
 import AssignmentCard from "../components/AssignmentCard";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [courses, setCourses] = useState([]);
@@ -21,14 +22,16 @@ function Home() {
   var courses_HTMLLIST = "";
   courses_HTMLLIST = courses.map((item, index) => {
     return (
-      <CourseCard
-        type="primary"
-        title={item.course.course_title}
-        countAssginments={item.countAssignments}
-        countStudents={item.countStudents}
-        countMaterials={item.countMaterials}
-        teacherName={item.teacherName}
-      />
+      <Link to={"/courses/" + item.course.course_id}>
+        <CourseCard
+          type="primary"
+          title={item.course.course_title}
+          countAssginments={item.countAssignments}
+          countStudents={item.countStudents}
+          countMaterials={item.countMaterials}
+          teacherName={item.teacherName}
+        />
+      </Link>
     );
   });
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -18,3 +19,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/home', [UserController::class, 'index']);
 Route::get('/courses', [CoursesController::class, 'index']);
+Route::get('/courses/{id}', [CourseController::class, 'index']);
