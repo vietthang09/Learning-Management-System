@@ -1,8 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SearchIcon } from "@heroicons/react/outline";
 import CourseCard from "../components/CourseCard";
 import AssignmentCard from "../components/AssignmentCard";
+import axios from "axios";
+
 function Home() {
+  const [courses, setCourses] = useState([]);
+  const [assignments, setAssignments] = useState([]);
+  const [numberToday, setNumberToday] = useState();
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/api/home").then((res) => {
+      if (res.status === 200) {
+        setCourses(res.data.collection);
+        setNumberToday(res.data.countTodayAssigments);
+        setAssignments(res.data.assignments);
+      }
+    });
+  }, []);
+
+  var courses_HTMLLIST = "";
+  courses_HTMLLIST = courses.map((item, index) => {
+    return (
+      <CourseCard
+        type="primary"
+        title={item.course.course_title}
+        countAssginments={item.countAssignments}
+        countStudents={item.countStudents}
+        countMaterials={item.countMaterials}
+        teacherName={item.teacherName}
+      />
+    );
+  });
+
+  var assignments_HTMLLIST = "";
+  assignments_HTMLLIST = assignments.map((item, index) => {
+    return (
+      <AssignmentCard
+        title={item.assignment_title}
+        courseTitle={item.course_title}
+        deadline={item.deadline}
+      />
+    );
+  });
+
   return (
     <div className="container m-auto mt-5">
       <div class="flex flex-wrap">
@@ -14,10 +54,10 @@ function Home() {
                   Hi Stark!
                 </h1>
                 <p className="text-xl lg:text-3xl font-normal opacity-80">
-                  You have 3 assignments this week
+                  You have {numberToday} assignments today
                 </p>
                 <p className="text-xl lg:text-3xl font-normal opacity-80">
-                  Start your learning today.
+                  Start your learning.
                 </p>
               </div>
             </div>
@@ -45,9 +85,7 @@ function Home() {
                   </div>
                 </div>
                 <div className="px-7 lg:px-0 grid grid-cols-1 lg:grid-cols-3 gap-2 gap-y-8">
-                  <CourseCard type="primary" />
-                  <CourseCard type="primary" />
-                  <CourseCard type="primary" />
+                  {courses_HTMLLIST}
                 </div>
               </div>
             </div>
@@ -61,12 +99,7 @@ function Home() {
               </div>
               <div className="mt-3">
                 <span className="text-lg font-medium">Up Comming</span>
-                <div>
-                  <AssignmentCard />
-                  <AssignmentCard />
-                  <AssignmentCard />
-                  <AssignmentCard />
-                </div>
+                <div>{assignments_HTMLLIST}</div>
               </div>
             </div>
           </div>

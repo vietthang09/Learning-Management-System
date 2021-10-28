@@ -9,14 +9,14 @@ import { Link } from "react-router-dom";
 function CourseCard(props) {
   let temp;
   if (props.type === "primary") {
-    temp = CourseCard_Primary();
+    temp = CourseCard_Primary(props);
   } else if (props.type === "enroll") {
-    temp = CourseCard_Enroll();
+    temp = CourseCard_Enroll(props);
   }
   return <>{temp}</>;
 }
 
-function CourseCard_Primary() {
+function CourseCard_Primary(props) {
   return (
     <Link to="/courses/course">
       <div className="relative group">
@@ -28,16 +28,14 @@ function CourseCard_Primary() {
         <div className="absolute -top-5 right-5 bg-green-400 text-white rounded-3xl">
           <div className="px-5 py-1">
             <div className="flex items-center">
-              <span className="text-3xl mr-1">5</span>
+              <span className="text-3xl mr-1">{props.countAssginments}</span>
               <AcademicCapIcon className="w-6 font-base" />
             </div>
             <span>Assignments</span>
           </div>
         </div>
         <div className="px-5 py-3 bg-white rounded-3xl shadow group-hover:shadow-md">
-          <span className="text-lg font-medium">
-            Lorem ipsum dolor sit amet.
-          </span>
+          <span className="text-lg font-medium">{props.title}</span>
           <div className="pt-4">
             <div className="flex items-center">
               <img
@@ -46,17 +44,17 @@ function CourseCard_Primary() {
                 className="w-8 mr-2"
               />
               <span className="text-base font-medium text-gray-500">
-                Lorem, ipsum.
+                {props.teacherName}
               </span>
             </div>
             <div className="flex items-center mt-2 text-xs">
               <div className="flex items-center text-gray-400 mr-5">
                 <UserGroupIcon className="w-5 mr-1" />
-                64 students
+                {props.countStudents} students
               </div>
               <div className="flex items-center text-gray-400">
                 <BookOpenIcon className="w-5 mr-1" />
-                10 materials
+                {props.countMaterials} materials
               </div>
             </div>
           </div>

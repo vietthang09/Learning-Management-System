@@ -1,11 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CourseCard from "../components/CourseCard";
 import { SearchIcon } from "@heroicons/react/outline";
-import { Listbox } from "@headlessui/react";
+import axios from "axios";
 const options = [{ option: "None" }, { option: "A-Z" }, { option: "Z-A" }];
-
 function Courses() {
+  const [courses, setCourses] = useState([]);
   const [selectedOption, setSelectedOption] = useState(options[0]);
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/api/courses").then((res) => {
+      if (res.status === 200) {
+        setCourses(res.data.courseList);
+      }
+    });
+  }, []);
+
+  var courses_HTMLLIST = "";
+  courses_HTMLLIST = courses.map((item, index) => {
+    return (
+      <CourseCard
+        type="primary"
+        title={item.course_title}
+        countAssginments={item.countAssignments}
+        countStudents={item.countStudents}
+        countMaterials={item.countMaterials}
+        teacherName={item.teacherName}
+      />
+    );
+  });
   return (
     <div>
       <div className="container m-auto mt-5">
@@ -22,12 +43,7 @@ function Courses() {
           </div>
         </div>
         <div className="px-7 lg:px-2 grid grid-cols-1 lg:grid-cols-4 gap-10 gap-y-8">
-          <CourseCard type="primary" />
-          <CourseCard type="primary" />
-          <CourseCard type="primary" />
-          <CourseCard type="primary" />
-          <CourseCard type="primary" />
-          <CourseCard type="primary" />
+          {courses_HTMLLIST}
         </div>
       </div>
     </div>
