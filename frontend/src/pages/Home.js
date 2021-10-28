@@ -9,43 +9,67 @@ function Home() {
   const [courses, setCourses] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [numberToday, setNumberToday] = useState();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/home").then((res) => {
       if (res.status === 200) {
         setCourses(res.data.collection);
         setNumberToday(res.data.countTodayAssigments);
         setAssignments(res.data.assignments);
-        console.log(res.data.assignments);
+        setLoading(false);
       }
     });
   }, []);
 
-  var courses_HTMLLIST = "";
-  courses_HTMLLIST = courses.map((item, index) => {
+  if (loading) {
     return (
-      <Link to={"/courses/" + item.course.course_id}>
-        <CourseCard
-          type="primary"
-          title={item.course.course_title}
-          countAssginments={item.countAssignments}
-          countStudents={item.countStudents}
-          countMaterials={item.countMaterials}
-          teacherName={item.teacherName}
+      <div className="h-screen w-screen flex justify-center items-center">
+        <img
+          src="https://eshops.vn/assets/images/loading.gif"
+          alt=""
+          className="w-64"
         />
-      </Link>
+      </div>
     );
-  });
+  } else {
+    var courses_HTMLLIST = "";
+    courses_HTMLLIST = courses.map((item, index) => {
+      return (
+        <Link to={"/courses/" + item.course.course_id}>
+          <CourseCard
+            type="primary"
+            title={item.course.course_title}
+            countAssginments={item.countAssignments}
+            countStudents={item.countStudents}
+            countMaterials={item.countMaterials}
+            teacherName={item.teacherName}
+          />
+        </Link>
+      );
+    });
 
-  var assignments_HTMLLIST = "";
-  assignments_HTMLLIST = assignments.map((item, index) => {
-    return (
-      <AssignmentCard
-        title={item.assignment_title}
-        courseTitle={item.course_title}
-        deadline={item.deadline}
-      />
-    );
-  });
+    var assignments_HTMLLIST = "";
+    assignments_HTMLLIST = assignments.map((item, index) => {
+      return (
+        <AssignmentCard
+          title={item.assignment_title}
+          courseTitle={item.course_title}
+          deadline={item.deadline}
+        />
+      );
+    });
+
+    var greeting = "";
+    if (numberToday >= 1) {
+      var temp = "";
+      if (numberToday > 1) {
+        temp = "s";
+      }
+      greeting = "You have " + numberToday + " assignment" + temp + " today";
+    } else {
+      greeting = "Wow, you don't have any assignment today";
+    }
+  }
 
   return (
     <div className="container m-auto mt-5">
@@ -58,7 +82,7 @@ function Home() {
                   Hi Stark!
                 </h1>
                 <p className="text-xl lg:text-3xl font-normal opacity-80">
-                  You have {numberToday} assignments today
+                  {greeting}
                 </p>
                 <p className="text-xl lg:text-3xl font-normal opacity-80">
                   Start your learning.
