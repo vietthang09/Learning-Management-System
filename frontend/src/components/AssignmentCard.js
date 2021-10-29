@@ -1,8 +1,24 @@
 import React from "react";
 import { ClockIcon, BookmarkIcon } from "@heroicons/react/outline";
 function AssignmentCard(props) {
+  var today = new Date();
+  var deadline = new Date(props.deadline);
+  var options = { year: "numeric", month: "long", day: "numeric" };
+  var dl = deadline.toLocaleDateString("en-US", options);
+  let status = "border-green-400";
+  if (today > deadline) {
+    status = "border-red-400";
+  }
+  if (today.getDate() === deadline.getDate()) {
+    status = "border-yellow-400";
+  }
   return (
-    <div className="p-2 mb-5 flex items-center bg-white border-r-2 border-green-400 rounded-lg shadow hover:shadow-md">
+    <div
+      className={
+        "p-2 mb-5 flex items-center bg-white border-r-2  rounded-lg shadow hover:shadow-md " +
+        status
+      }
+    >
       <img
         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
         alt=""
@@ -17,7 +33,7 @@ function AssignmentCard(props) {
           </div>
           <div className="flex items-center text-xs font-bold text-gray-500">
             <ClockIcon className="w-5 mr-1" />
-            <span>{props.deadline}</span>
+            <span>{dl}</span>
           </div>
         </div>
       </div>

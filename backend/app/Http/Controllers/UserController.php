@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,11 +20,14 @@ class UserController extends Controller
 
     // Get number of today assignmentss
     static function countTodayAssignments()
-    {
+    {   
+        $current = Carbon::now();
+        $yesterday = Carbon::now()->subDay();
         $numberAssignments = DB::table('assignments')
             ->join('courses', 'courses.id', '=', 'assignments.course_id')
             ->join('users', 'users.id', '=', 'courses.id')
-            ->where('deadline', '<=', date("Y/m/d"))
+            ->where('deadline', '<=', $current)
+            ->where('deadline', '>', $yesterday)
             ->get()->count();
         return $numberAssignments;
     }

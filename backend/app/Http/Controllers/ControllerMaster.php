@@ -32,13 +32,13 @@ class ControllerMaster extends Controller
     static function getAssignments()
     {
         $assignments = DB::table('assignments')
-            ->select('course_id', 'assignment_title', 'deadline')
+            ->select('course_id', 'assignment_title', 'deadline', 'course_title')
             ->join('courses', 'courses.id', '=', 'assignments.course_id')
             ->join('users', 'users.id', '=', 'courses.id')
+            ->orderBy('deadline', 'desc')
             ->get();
         return $assignments;
     }
-
 
     static function countAssginments($courseId)
     {
