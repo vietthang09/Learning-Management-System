@@ -39,6 +39,7 @@ function Home() {
           <CourseCard
             type="primary"
             title={item.course.course_title}
+            cover={item.course.course_cover}
             countAssginments={item.countAssignments}
             countStudents={item.countStudents}
             countMaterials={item.countMaterials}
@@ -98,7 +99,7 @@ function Home() {
             </div>
           </div>
           <div className="px-2">
-            <div class="h-full text-grey-dark flex items-center justify-start">
+            <div class="h-full text-grey-dark flex items-center justify-center">
               <div>
                 <div className="mb-10">
                   <div className="flex justify-between lg:w-80 p-2 bg-gray-100 rounded-md relative shadow-inner">
@@ -112,7 +113,7 @@ function Home() {
                     </button>
                   </div>
                 </div>
-                <div className="px-7 lg:px-0 grid grid-cols-1 lg:grid-cols-3 gap-2 gap-y-8">
+                <div className="lg:px-0 grid grid-cols-1 lg:grid-cols-3 gap-2 gap-y-8">
                   {courses_HTMLLIST}
                 </div>
               </div>

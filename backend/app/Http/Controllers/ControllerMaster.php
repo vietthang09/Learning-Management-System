@@ -13,7 +13,7 @@ class ControllerMaster extends Controller
     {
         $user_id = 2;
         $courses = DB::table('courses')
-            ->select('course_id', 'course_title')
+            ->select('course_id', 'course_title', 'course_cover')
             ->join('registered_students', 'registered_students.course_id', '=', 'courses.id')
             ->join('users', 'users.id', '=', 'registered_students.user_id')
             ->where('users.id', $user_id)->limit(3)->get();

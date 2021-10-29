@@ -88,9 +88,9 @@ function CourseDetail(props) {
         <div className="w-full lg:w-1/3 order-1 lg:order-2">
           <div className="p-3 shadow">
             <img
-              src="https://cdn.tgdd.vn/hoi-dap/1216572/tri-tue-nhan-tao-ai-la-gi-cac-ung-dung-va-tiem-nan-11-800x450.jpg"
-              alt=""
-              className="rounded-xl"
+              src={"http://127.0.0.1:3000/" + course.course_cover}
+              alt={course.course_cover}
+              className="object-cover rounded-xl"
             />
             <div className="mb-2">
               <p className="text-2xl font-bold">{course.course_title}</p>

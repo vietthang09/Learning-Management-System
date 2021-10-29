@@ -20,9 +20,9 @@ function CourseCard_Primary(props) {
   return (
     <div className="relative group">
       <img
-        src="https://cdn.tgdd.vn/hoi-dap/1216572/tri-tue-nhan-tao-ai-la-gi-cac-ung-dung-va-tiem-nan-11-800x450.jpg"
-        alt=""
-        className="h-auto w-full bg-cove rounded-3xl"
+        src={"http://127.0.0.1:3000/" + props.cover}
+        alt={props.course_cover}
+        className="h-44 w-full object-cover overflow-hidden rounded-3xl "
       />
       <div className="absolute -top-5 right-5 bg-green-400 text-white rounded-3xl">
         <div className="px-5 py-1">

@@ -2,31 +2,49 @@ import React, { useEffect, useState } from "react";
 import CourseCard from "../components/CourseCard";
 import { SearchIcon } from "@heroicons/react/outline";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const options = [{ option: "None" }, { option: "A-Z" }, { option: "Z-A" }];
 function Courses() {
   const [courses, setCourses] = useState([]);
   const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/courses").then((res) => {
       if (res.status === 200) {
         setCourses(res.data.courseList);
+        setLoading(false);
       }
     });
   }, []);
 
-  var courses_HTMLLIST = "";
-  courses_HTMLLIST = courses.map((item, index) => {
+  if (loading) {
     return (
-      <CourseCard
-        type="primary"
-        title={item.course_title}
-        countAssginments={item.countAssignments}
-        countStudents={item.countStudents}
-        countMaterials={item.countMaterials}
-        teacherName={item.teacherName}
-      />
+      <div className="h-screen w-screen flex justify-center items-center">
+        <img
+          src="https://eshops.vn/assets/images/loading.gif"
+          alt=""
+          className="w-64"
+        />
+      </div>
     );
-  });
+  } else {
+    var courses_HTMLLIST = "";
+    courses_HTMLLIST = courses.map((item, index) => {
+      return (
+        <Link to={"/courses/" + item.course.course_id}>
+          <CourseCard
+            type="primary"
+            title={item.course.course_title}
+            cover={item.course.course_cover}
+            countAssginments={item.countAssignments}
+            countStudents={item.countStudents}
+            countMaterials={item.countMaterials}
+            teacherName={item.teacherName}
+          />
+        </Link>
+      );
+    });
+  }
   return (
     <div>
       <div className="container m-auto mt-5">
