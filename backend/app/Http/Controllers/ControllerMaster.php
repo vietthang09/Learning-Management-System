@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Submission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -49,12 +50,24 @@ class ControllerMaster extends Controller
     static function getAssignments()
     {
         $assignments = DB::table('assignments')
-            ->select('course_id', 'assignment_title', 'deadline', 'course_title')
+            ->select('assignments.id', 'course_id', 'assignment_title', 'deadline', 'course_title')
             ->join('courses', 'courses.id', '=', 'assignments.course_id')
             ->join('users', 'users.id', '=', 'courses.id')
             ->orderBy('deadline', 'desc')
             ->get();
-        return $assignments;
+        $collection = collect();
+        foreach ($assignments as $assignment) {
+            $submission = ControllerMaster::getSubmission($assignment->id, 2);
+            $collection->push(['assignment' => $assignment, 'submission' => $submission]);
+        }
+        return $collection;
+    }
+
+    static function getSubmission($assignmentID, $userId)
+    {
+        $submission = DB::table('submissions')->where('assignment_id', '=', $assignmentID)
+            ->where('user_id', '=', $userId)->get();
+        return $submission;
     }
 
     static function countAssginments($courseId)
@@ -91,11 +104,18 @@ class ControllerMaster extends Controller
     static function getAssginmentsByCourseId($courseId)
     {
         $assignments = DB::table('assignments')
+            ->select('assignments.id', 'assignment_title', 'deadline', 'assignment_content')
             ->join('courses', 'courses.id', '=', 'assignments.course_id')
             ->join('users', 'users.id', '=', 'courses.id')
             ->where('courses.id', $courseId)
+            ->orderBy('deadline', 'desc')
             ->get();
-        return $assignments;
+        $collection = collect();
+        foreach ($assignments as $assignment) {
+            $submission = ControllerMaster::getSubmission($assignment->id, 2);
+            $collection->push(['assignment' => $assignment, 'submission' => $submission]);
+        }
+        return $collection;
     }
 
     // Get teacher by course id

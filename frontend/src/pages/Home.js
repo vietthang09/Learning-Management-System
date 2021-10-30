@@ -53,12 +53,18 @@ function Home() {
 
     var assignments_HTMLLIST = "";
     assignments_HTMLLIST = assignments.map((item, index) => {
+      var submited = false;
+      if (item.submission.length != 0) {
+        submited = true;
+      }
       return (
-        <Link to={"/courses/" + item.course_id}>
+        <Link to={"/courses/" + item.assignment.course_id}>
           <AssignmentCard
-            title={item.assignment_title}
-            courseTitle={item.course_title}
-            deadline={item.deadline}
+            type="normal"
+            title={item.assignment.assignment_title}
+            courseTitle={item.assignment.course_title}
+            deadline={item.assignment.deadline}
+            submission={submited}
           />
         </Link>
       );

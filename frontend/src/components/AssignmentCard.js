@@ -2,21 +2,39 @@ import React, { Fragment, useState } from "react";
 import { ClockIcon, BookmarkIcon } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
 
+function AssignmentCard_Normal(props) {}
+
 function AssignmentCard(props) {
   var today = new Date();
   var deadline = new Date(props.deadline);
   var options = { year: "numeric", month: "long", day: "numeric" };
   var dl = deadline.toLocaleDateString("en-US", options);
-  let status = "border-green-400";
-  if (today.getDate() > deadline.getDate()) {
+
+  var submission = props.submission;
+  var status = "border-yellow-400";
+  var visibleSubmission = "block";
+
+  if (today > deadline && submission == false) {
     status = "border-red-400";
+    visibleSubmission = "hidden";
   }
-  var model_HTML = "";
-  var submit_HTML = "";
-  if (props.full) {
-    model_HTML = model(props);
-    submit_HTML = submit();
+  if (today >= deadline && submission == true) {
+    status = "border-green-400";
   }
+  if (today < deadline && submission == true) {
+    status = "border-green-400";
+  }
+  if (today < deadline) {
+    status = "border-yellow-400";
+  }
+
+  var visibleNormal = "block";
+  var visibleFull = "hidden";
+  if (props.type == "full") {
+    visibleNormal = "hidden";
+    visibleFull = "block";
+  }
+
   let [isOpen, setIsOpen] = useState(false);
   function closeModal() {
     setIsOpen(false);
@@ -25,54 +43,64 @@ function AssignmentCard(props) {
   function openModal() {
     setIsOpen(true);
   }
-  function model(props) {
-    return (
-      <>
-        <button
-          type="button"
-          onClick={openModal}
-          className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-        >
-          View Requirements
-        </button>
-      </>
-    );
-  }
-  function submit() {
-    return (
-      <>
-        <button>Submit</button>
-      </>
-    );
-  }
 
   return (
     <>
       <div
         className={
-          "p-2 mb-5 flex items-center bg-white border-r-2  rounded-lg shadow hover:shadow-md " +
+          "p-2 mb-5 flex justify-between items-center bg-white border-r-2  rounded-lg shadow hover:shadow-md relative " +
           status
         }
       >
-        <img
-          src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-          alt=""
-          className="w-10 mr-3"
-        />
-        <div>
-          <span className="block text-lg font-medium">{props.title}</span>
-          <div className="flex mb-2">
-            <div className="flex items-center text-xs text-gray-400 mr-2">
-              <BookmarkIcon className="w-5 mr-1" />
-              <span>{props.courseTitle}</span>
-            </div>
-            <div className="flex items-center text-xs font-bold text-gray-500">
-              <ClockIcon className="w-5 mr-1" />
-              <span>{dl}</span>
+        <div className="flex items-center">
+          <img
+            src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+            alt=""
+            className="w-10 mr-3"
+          />
+          <div>
+            <span className="block text-lg font-medium">{props.title}</span>
+            <div className="flex mb-2">
+              <div
+                className={
+                  "flex items-center text-xs text-gray-400 mr-2 " +
+                  visibleNormal
+                }
+              >
+                <BookmarkIcon className="w-5 mr-1" />
+                <span>{props.courseTitle}</span>
+              </div>
+              <div className="flex items-center text-xs font-bold text-gray-500">
+                <ClockIcon className="w-5 mr-1" />
+                <span>{dl}</span>
+              </div>
             </div>
           </div>
+        </div>
+        <div className={visibleFull + " flex space-x-10"}>
+          <div className={visibleSubmission}>
+            <label
+              htmlFor="file"
+              className="px-4 py-2 text-sm font-medium text-green-400"
+            >
+              Choose file
+            </label>
+            <input type="file" className="hidden" id="file" />
+            <button
+              type="button"
+              className="px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100"
+            >
+              Submit
+            </button>
+          </div>
           <div>
-            {model_HTML}
+            <button
+              type="button"
+              onClick={openModal}
+              className="px-4 py-2 text-sm font-medium text-green-400 border border-green-400 rounded-lg"
+            >
+              Requirements
+            </button>
             <Transition appear show={isOpen} as={Fragment}>
               <Dialog
                 as="div"
@@ -134,10 +162,8 @@ function AssignmentCard(props) {
             </Transition>
           </div>
         </div>
-        {submit_HTML}
       </div>
     </>
   );
 }
-
 export default AssignmentCard;

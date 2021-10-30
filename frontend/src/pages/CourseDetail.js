@@ -57,13 +57,17 @@ function CourseDetail(props) {
     };
   } else {
     assignments_HTMLLIST = assignments.map((item, index) => {
+      var submited = false;
+      if (item.submission.length != 0) {
+        submited = true;
+      }
       return (
         <AssignmentCard
-          full={true}
-          title={item.assignment_title}
-          courseTitle={item.course_title}
-          content={item.assignment_content}
-          deadline={item.deadline}
+          type="full"
+          title={item.assignment.assignment_title}
+          content={item.assignment.assignment_content}
+          deadline={item.assignment.deadline}
+          submission={submited}
         />
       );
     });
