@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,4 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [UserController::class, 'index']);
+// Route::get('/', [UserController::class, 'index']);
+
+Route::get('/', [ForumController::class, 'ForumMaster']);
+
+Route::get('posting', [ForumController::class, 'index']);
+Route::post('store_post', [ForumController::class, 'sendData']);
