@@ -1,12 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AssignmentCard from "../components/AssignmentCard";
 import PostCard from "../components/PostCard";
 import { PhotographIcon, DocumentIcon } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import { useState, Fragment } from "react";
 import YouMayLikeCard from "../components/YouMayLikeCard";
+import axios from "axios";
+import { Link } from "react-router-dom";
 function Forum() {
   const [isOpen, setIsOpen] = useState(false);
+  const [assignments, setAssignments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/api/home").then((res) => {
+      if (res.status === 200) {
+        setAssignments(res.data.assignments);
+        setLoading(false);
+      }
+    });
+  }, []);
+  if (loading) {
+    return (
+      <div className="h-screen w-screen flex justify-center items-center">
+        <img
+          src="https://eshops.vn/assets/images/loading.gif"
+          alt=""
+          className="w-64"
+        />
+      </div>
+    );
+  } else {
+    var assignments_HTMLLIST = "";
+    assignments_HTMLLIST = assignments.map((item, index) => {
+      return (
+        <Link to={"/courses/" + item.course_id}>
+          <AssignmentCard
+            title={item.assignment_title}
+            courseTitle={item.course_title}
+            deadline={item.deadline}
+          />
+        </Link>
+      );
+    });
+  }
   function closeModal() {
     setIsOpen(false);
   }
@@ -141,12 +177,7 @@ function Forum() {
         <div className="hidden lg:block lg:w-1/4">
           <div className="px-2 sticky top-20 z-50">
             <span className="text-lg font-medium">Don't forgot</span>
-            <div>
-              <AssignmentCard />
-              <AssignmentCard />
-              <AssignmentCard />
-              <AssignmentCard />
-            </div>
+            {assignments_HTMLLIST}
           </div>
         </div>
       </div>

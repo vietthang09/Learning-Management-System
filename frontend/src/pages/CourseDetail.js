@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Disclosure, Tab } from "@headlessui/react";
 import AssignmentCard from "../components/AssignmentCard";
-import { ChevronRightIcon } from "@heroicons/react/outline";
+import { AcademicCapIcon, BookOpenIcon } from "@heroicons/react/outline";
 import MaterialCard from "../components/MaterialCard";
 import axios from "axios";
 
@@ -26,55 +26,78 @@ function CourseDetail(props) {
     });
   }, []);
   var materials_HTMLLIST = "";
-  materials_HTMLLIST = materials.map((item, index) => {
-    return (
-      <MaterialCard
-        title={item.material_title}
-        content={item.material_content}
-      />
-    );
-  });
+  if (materials.length == 0) {
+    materials_HTMLLIST = (e) => {
+      return (
+        <div className="flex justify-center items-center">
+          <span>Hmm, The teacher has not provided any materials</span>
+        </div>
+      );
+    };
+  } else {
+    materials_HTMLLIST = materials.map((item, index) => {
+      return (
+        <MaterialCard
+          title={item.material_title}
+          content={item.material_content}
+          link={item.file_link}
+        />
+      );
+    });
+  }
+
   var assignments_HTMLLIST = "";
-  assignments_HTMLLIST = assignments.map((item, index) => {
-    return (
-      <AssignmentCard
-        title={item.assignment_title}
-        courseTitle={item.course_title}
-        deadline={item.deadline}
-      />
-    );
-  });
+  if (assignments.length == 0) {
+    assignments_HTMLLIST = (e) => {
+      return (
+        <div className="flex justify-center items-center">
+          <span>Hmm, The teacher hasn't assigned any assignment yet</span>
+        </div>
+      );
+    };
+  } else {
+    assignments_HTMLLIST = assignments.map((item, index) => {
+      return (
+        <AssignmentCard
+          title={item.assignment_title}
+          courseTitle={item.course_title}
+          deadline={item.deadline}
+        />
+      );
+    });
+  }
+
   return (
     <div className="container  m-auto mt-5">
       <div className="flex flex-wrap">
         <div className="w-full lg:w-2/3 order-2 lg:order-1">
           <div className="p-5">
             <Tab.Group>
-              <Tab.List className="flex justify-between">
-                <Tab
-                  className={({ selected }) =>
-                    classNames(
-                      "px-32 py-2",
-                      selected
-                        ? "bg-green-400 text-white"
-                        : "bg-white text-black"
-                    )
-                  }
-                >
-                  Materials
-                </Tab>
-                <Tab
-                  className={({ selected }) =>
-                    classNames(
-                      "px-32 py-2",
-                      selected
-                        ? "bg-green-400 text-white"
-                        : "bg-white text-black"
-                    )
-                  }
-                >
-                  Assignments
-                </Tab>
+              <Tab.List>
+                <div className="px-5 lg:px-10 flex justify-between">
+                  <Tab
+                    className={({ selected }) =>
+                      classNames(
+                        "w-36 lg:w-72 py-2 bg-green-400 text-white rounded-xl",
+                        selected ? "opacity-100 shadow-lg" : "opacity-25"
+                      )
+                    }
+                  >
+                    <BookOpenIcon className="w-10 m-auto" />
+                    Materials
+                  </Tab>
+                  <Tab
+                    className={({ selected }) =>
+                      classNames(
+                        "w-36 lg:w-72 py-2 bg-green-400 text-white rounded-xl",
+                        selected ? "opacity-100 shadow-lg" : "opacity-25"
+                      )
+                    }
+                  >
+                    <AcademicCapIcon className="w-10 m-auto" />
+                    Assignments
+                  </Tab>
+                </div>
               </Tab.List>
               <Tab.Panels>
                 <Tab.Panel className="mt-5 space-y-2">
@@ -86,15 +109,22 @@ function CourseDetail(props) {
           </div>
         </div>
         <div className="w-full lg:w-1/3 order-1 lg:order-2">
-          <div className="p-3 shadow">
+          <div className="p-3 shadow rounded-xl">
             <img
-              src={"http://127.0.0.1:3000/" + course.course_cover}
-              alt={course.course_cover}
+              src={"http://localhost:8000/" + course.course_cover}
+              alt=""
               className="object-cover rounded-xl"
             />
             <div className="mb-2">
               <p className="text-2xl font-bold">{course.course_title}</p>
-              <p className="text-gray-700 text-lg font-medium">{teacher}</p>
+              <div className="flex">
+                <img
+                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                  alt=""
+                  className="w-8 mr-2"
+                />
+                <p className="text-gray-700 text-lg font-medium">{teacher}</p>
+              </div>
               <p className="text-gray-500">{course.introduction}</p>
             </div>
             <div className="flex justify-center">

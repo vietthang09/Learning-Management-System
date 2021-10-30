@@ -15,7 +15,11 @@ function MaterialCard(props) {
             </div>
           </Disclosure.Button>
           <Disclosure.Panel className="text-gray-500">
-            <div className="">{props.content}</div>
+            <div className="p-2 shadow rounded-xl">
+              <p>{props.content}</p>
+              Attachment: {" "}
+              <a className="underline" href={props.link}>{props.link}</a>
+            </div>
           </Disclosure.Panel>
         </>
       )}

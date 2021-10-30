@@ -9,6 +9,7 @@ function Home() {
   const [courses, setCourses] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [numberToday, setNumberToday] = useState();
+  const [newCourses, setNewCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/home").then((res) => {
@@ -16,6 +17,7 @@ function Home() {
         setCourses(res.data.collection);
         setNumberToday(res.data.countTodayAssigments);
         setAssignments(res.data.assignments);
+        setNewCourses(res.data.newCourses);
         setLoading(false);
       }
     });
@@ -52,13 +54,36 @@ function Home() {
     var assignments_HTMLLIST = "";
     assignments_HTMLLIST = assignments.map((item, index) => {
       return (
-        <AssignmentCard
-          title={item.assignment_title}
-          courseTitle={item.course_title}
-          deadline={item.deadline}
-        />
+        <Link to={"/courses/" + item.course_id}>
+          <AssignmentCard
+            title={item.assignment_title}
+            courseTitle={item.course_title}
+            deadline={item.deadline}
+          />
+        </Link>
       );
     });
+
+    var newCourses_HTMLLIST = "";
+    if (newCourses.length == 0) {
+      newCourses_HTMLLIST = (e) => {
+        return <span>There are nothing :(</span>;
+      };
+    } else {
+      newCourses_HTMLLIST = newCourses.map((item, index) => {
+        return (
+          <Link to={"/enroll/" + item.course.id}>
+            <CourseCard
+              type="enroll"
+              title={item.course.course_title}
+              cover={item.course.course_cover}
+              countStudents={item.countStudents}
+              teacherName={item.teacherName}
+            />
+          </Link>
+        );
+      });
+    }
 
     var greeting = "";
     if (numberToday >= 1) {
@@ -137,10 +162,7 @@ function Home() {
       <div className="mb-5">
         <span className="text-gray-800 text-2xl font-bold">Enroll Now</span>
         <div className="mt-5 px-7 lg:px-0 grid grid-cols-1 lg:grid-cols-4 gap-4 gap-y-8">
-          <CourseCard type="enroll" />
-          <CourseCard type="enroll" />
-          <CourseCard type="enroll" />
-          <CourseCard type="enroll" />
+          {newCourses_HTMLLIST}
         </div>
       </div>
     </div>

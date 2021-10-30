@@ -13,9 +13,10 @@ class ControllerMaster extends Controller
     {
         $user_id = 2;
         $courses = DB::table('courses')
-            ->select('course_id', 'course_title', 'course_cover')
+            ->select('course_id', 'course_title', 'course_cover', 'public')
             ->join('registered_students', 'registered_students.course_id', '=', 'courses.id')
             ->join('users', 'users.id', '=', 'registered_students.user_id')
+            ->where('public', 1)
             ->where('users.id', $user_id)->limit(3)->get();
         $collection = collect();
         foreach ($courses as $course) {
@@ -24,6 +25,22 @@ class ControllerMaster extends Controller
             $countMaterials = ControllerMaster::countMaterials($course->course_id);
             $teacherName = ControllerMaster::getTeacherByCourseId($course->course_id);
             $collection->push(['course' => $course, 'countAssignments' => $countAssignments, 'countStudents' => $countStudents, 'countMaterials' => $countMaterials, 'teacherName' => $teacherName]);
+        }
+        return $collection;
+    }
+
+    // Get new courses
+    static function getNewCourses()
+    {
+        $courses = DB::table('courses')
+            ->select('id', 'course_title', 'course_cover', 'public')
+            ->where('public', 0)
+            ->get();
+        $collection = collect();
+        foreach ($courses as $course) {
+            $countStudents = ControllerMaster::countStudents($course->id);
+            $teacherName = ControllerMaster::getTeacherByCourseId($course->id);
+            $collection->push(['course' => $course, 'countStudents' => $countStudents, 'teacherName' => $teacherName]);
         }
         return $collection;
     }
@@ -96,6 +113,7 @@ class ControllerMaster extends Controller
     static function getMaterialsByCourseId($courseId)
     {
         $materials = DB::table('materials')
+            ->select('material_title', 'material_content', 'file_link')
             ->join('courses', 'courses.id', '=', 'materials.course_id')
             ->where('courses.id', $courseId)
             ->get();

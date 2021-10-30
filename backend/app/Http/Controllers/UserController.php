@@ -13,6 +13,7 @@ class UserController extends Controller
         return response()->json([
             'status' => 200,
             'collection' => ControllerMaster::getCourses(2),
+            'newCourses' => ControllerMaster::getNewCourses(),
             'countTodayAssigments' => UserController::countTodayAssignments(),
             'assignments' => ControllerMaster::getAssignments(),
         ]);
@@ -20,7 +21,7 @@ class UserController extends Controller
 
     // Get number of today assignmentss
     static function countTodayAssignments()
-    {   
+    {
         $current = Carbon::now();
         $yesterday = Carbon::now()->subDay();
         $numberAssignments = DB::table('assignments')
