@@ -59,8 +59,10 @@ function CourseDetail(props) {
     assignments_HTMLLIST = assignments.map((item, index) => {
       return (
         <AssignmentCard
+          full={true}
           title={item.assignment_title}
           courseTitle={item.course_title}
+          content={item.assignment_content}
           deadline={item.deadline}
         />
       );
@@ -68,7 +70,7 @@ function CourseDetail(props) {
   }
 
   return (
-    <div className="container  m-auto mt-5">
+    <div className="container m-auto mt-5">
       <div className="flex flex-wrap">
         <div className="w-full lg:w-2/3 order-2 lg:order-1">
           <div className="p-5">
