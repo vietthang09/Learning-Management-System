@@ -58,8 +58,10 @@ function CourseDetail(props) {
   } else {
     assignments_HTMLLIST = assignments.map((item, index) => {
       var submited = false;
-      if (item.submission.length != 0) {
+      var fileName = "Choose file";
+      if (item.submission) {
         submited = true;
+        fileName = item.submission["link_file"];
       }
       return (
         <AssignmentCard
@@ -67,6 +69,7 @@ function CourseDetail(props) {
           title={item.assignment.assignment_title}
           content={item.assignment.assignment_content}
           deadline={item.assignment.deadline}
+          fileName={fileName}
           submission={submited}
         />
       );

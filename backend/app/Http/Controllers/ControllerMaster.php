@@ -65,8 +65,10 @@ class ControllerMaster extends Controller
 
     static function getSubmission($assignmentID, $userId)
     {
-        $submission = DB::table('submissions')->where('assignment_id', '=', $assignmentID)
-            ->where('user_id', '=', $userId)->get();
+        $submission = DB::table('submissions')
+            ->select('submissions.assignment_id', 'submissions.user_id', 'submissions.link_file')
+            ->where('assignment_id', '=', $assignmentID)
+            ->where('user_id', '=', $userId)->first();
         return $submission;
     }
 

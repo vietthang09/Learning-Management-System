@@ -2,8 +2,6 @@ import React, { Fragment, useState } from "react";
 import { ClockIcon, BookmarkIcon } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
 
-function AssignmentCard_Normal(props) {}
-
 function AssignmentCard(props) {
   var today = new Date();
   var deadline = new Date(props.deadline);
@@ -13,6 +11,7 @@ function AssignmentCard(props) {
   var submission = props.submission;
   var status = "border-yellow-400";
   var visibleSubmission = "block";
+  var buttonStyle = "";
 
   if (today > deadline && submission == false) {
     status = "border-red-400";
@@ -20,6 +19,7 @@ function AssignmentCard(props) {
   }
   if (today >= deadline && submission == true) {
     status = "border-green-400";
+    buttonStyle = "hidden";
   }
   if (today < deadline && submission == true) {
     status = "border-green-400";
@@ -42,6 +42,13 @@ function AssignmentCard(props) {
 
   function openModal() {
     setIsOpen(true);
+  }
+
+  var fileNameStyle = "";
+  var buttonTitle = "Submit";
+
+  if (props.fileName != "Choose file") {
+    buttonTitle = "Update";
   }
 
   return (
@@ -83,14 +90,17 @@ function AssignmentCard(props) {
               htmlFor="file"
               className="px-4 py-2 text-sm font-medium text-green-400"
             >
-              Choose file
+              {props.fileName}
             </label>
             <input type="file" className="hidden" id="file" />
             <button
               type="button"
-              className="px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100"
+              className={
+                "px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 " +
+                buttonStyle
+              }
             >
-              Submit
+              {buttonTitle}
             </button>
           </div>
           <div>

@@ -54,7 +54,7 @@ function Home() {
     var assignments_HTMLLIST = "";
     assignments_HTMLLIST = assignments.map((item, index) => {
       var submited = false;
-      if (item.submission.length != 0) {
+      if (item.submission) {
         submited = true;
       }
       return (
