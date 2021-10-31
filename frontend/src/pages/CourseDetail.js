@@ -36,13 +36,7 @@ function CourseDetail(props) {
     };
   } else {
     materials_HTMLLIST = materials.map((item, index) => {
-      return (
-        <MaterialCard
-          title={item.material_title}
-          content={item.material_content}
-          link={item.file_link}
-        />
-      );
+      return <MaterialCard data={item} />;
     });
   }
 
@@ -67,20 +61,31 @@ function CourseDetail(props) {
         submissionId = item.submission["id"];
         filePath = item.submission["file_path"];
       }
-      return (
-        <AssignmentCard
-          type="full"
-          id={item.assignment.id}
-          userId={2}
-          title={item.assignment.assignment_title}
-          content={item.assignment.assignment_content}
-          deadline={item.assignment.deadline}
-          fileName={fileName}
-          filePath={filePath}
-          submission={submited}
-          submissionId={submissionId}
-        />
-      );
+      return <AssignmentCard type="full" id={item.assignment.id} />;
+      // assignments_HTMLLIST = assignments.map((item, index) => {
+      //   var submited = false;
+      //   var fileName = "Choose file";
+      //   var submissionId = "";
+      //   var filePath = "";
+      //   if (item.submission) {
+      //     submited = true;
+      //     fileName = item.submission["file_name"];
+      //     submissionId = item.submission["id"];
+      //     filePath = item.submission["file_path"];
+      //   }
+      //   return (
+      //     <AssignmentCard
+      //       type="full"
+      //       id={item.assignment.id}
+      //       userId={2}
+      //       deadline={item.assignment.deadline}
+      //       fileName={fileName}
+      //       filePath={filePath}
+      //       submission={submited}
+      //       submissionId={submissionId}
+      //       data={item}
+      //     />
+      //   );
     });
   }
 

@@ -58,20 +58,13 @@ class ControllerMaster extends Controller
             ->get();
         $collection = collect();
         foreach ($assignments as $assignment) {
-            $submission = ControllerMaster::getSubmission($assignment->id, 2);
+            $submission = CourseController::getSubmission($assignment->id, 2);
             $collection->push(['assignment' => $assignment, 'submission' => $submission]);
         }
         return $collection;
     }
 
-    static function getSubmission($assignmentID, $userId)
-    {
-        $submission = DB::table('submissions')
-            ->select('submissions.assignment_id', 'submissions.user_id', 'submissions.file_name', 'submissions.file_path', 'submissions.id')
-            ->where('assignment_id', '=', $assignmentID)
-            ->where('user_id', '=', $userId)->first();
-        return $submission;
-    }
+
 
     static function countAssginments($courseId)
     {
@@ -115,7 +108,7 @@ class ControllerMaster extends Controller
             ->get();
         $collection = collect();
         foreach ($assignments as $assignment) {
-            $submission = ControllerMaster::getSubmission($assignment->id, 2);
+            $submission = CourseController::getSubmission($assignment->id, 2);
             $collection->push(['assignment' => $assignment, 'submission' => $submission,]);
         }
         return $collection;
