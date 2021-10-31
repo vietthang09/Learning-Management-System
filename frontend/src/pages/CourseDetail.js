@@ -67,7 +67,6 @@ function CourseDetail(props) {
         submissionId = item.submission["id"];
         filePath = item.submission["file_path"];
       }
-      console.log(filePath);
       return (
         <AssignmentCard
           type="full"
@@ -101,8 +100,8 @@ function CourseDetail(props) {
                       )
                     }
                   >
-                    <BookOpenIcon className="w-10 m-auto" />
-                    Materials
+                    <AcademicCapIcon className="w-10 m-auto" />
+                    Assignments
                   </Tab>
                   <Tab
                     className={({ selected }) =>
@@ -112,16 +111,16 @@ function CourseDetail(props) {
                       )
                     }
                   >
-                    <AcademicCapIcon className="w-10 m-auto" />
-                    Assignments
+                    <BookOpenIcon className="w-10 m-auto" />
+                    Materials
                   </Tab>
                 </div>
               </Tab.List>
               <Tab.Panels>
+                <Tab.Panel className="mt-5">{assignments_HTMLLIST}</Tab.Panel>
                 <Tab.Panel className="mt-5 space-y-2">
                   {materials_HTMLLIST}
                 </Tab.Panel>
-                <Tab.Panel className="mt-5">{assignments_HTMLLIST}</Tab.Panel>
               </Tab.Panels>
             </Tab.Group>
           </div>

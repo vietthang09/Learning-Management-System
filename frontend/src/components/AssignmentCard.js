@@ -1,5 +1,9 @@
 import React, { Fragment, useState } from "react";
-import { ClockIcon, BookmarkIcon } from "@heroicons/react/outline";
+import {
+  ClockIcon,
+  BookmarkIcon,
+  DownloadIcon,
+} from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
 
 function AssignmentCard(props) {
@@ -76,12 +80,12 @@ function AssignmentCard(props) {
       }).then((result) => {});
     }
     if (buttonTitle == "Update") {
-      console.log(submissionId);
       await fetch("http://localhost:8000/api/submit/update", {
         method: "POST",
         body: formData,
       }).then((result) => {});
     }
+    window.location.reload();
   };
 
   return (
@@ -118,7 +122,7 @@ function AssignmentCard(props) {
           </div>
         </div>
         <div className={visibleFull + " flex space-x-10"}>
-          <div className={visibleSubmission}>
+          <div className={visibleSubmission + " flex items-center space-x-5"}>
             <label
               htmlFor="file"
               id="label"
@@ -135,6 +139,11 @@ function AssignmentCard(props) {
                 setSelectedFile(e.target.files[0]);
               }}
             />
+            <a
+              href={"http://127.0.0.1:8000/api/download/" + props.submissionId}
+            >
+              <DownloadIcon className="w-5 text-green-400" />
+            </a>
             <button
               type="button"
               className={
@@ -202,7 +211,7 @@ function AssignmentCard(props) {
                       <div className="mt-4">
                         <button
                           type="button"
-                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
                           onClick={closeModal}
                         >
                           Got it, thanks!

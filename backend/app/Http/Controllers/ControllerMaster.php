@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Submission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ControllerMaster extends Controller
 {
@@ -115,7 +116,7 @@ class ControllerMaster extends Controller
         $collection = collect();
         foreach ($assignments as $assignment) {
             $submission = ControllerMaster::getSubmission($assignment->id, 2);
-            $collection->push(['assignment' => $assignment, 'submission' => $submission]);
+            $collection->push(['assignment' => $assignment, 'submission' => $submission,]);
         }
         return $collection;
     }
