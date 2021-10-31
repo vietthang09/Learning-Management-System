@@ -20,3 +20,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/home', [UserController::class, 'index']);
 Route::get('/courses', [CoursesController::class, 'index']);
 Route::get('/courses/{id}', [CourseController::class, 'index']);
+Route::post('/submit', [CourseController::class, 'store']);

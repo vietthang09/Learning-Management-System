@@ -63,9 +63,12 @@ function CourseDetail(props) {
         submited = true;
         fileName = item.submission["link_file"];
       }
+      console.log(item.assignment.id)
       return (
         <AssignmentCard
           type="full"
+          id={item.assignment.id}
+          userId={2}
           title={item.assignment.assignment_title}
           content={item.assignment.assignment_content}
           deadline={item.assignment.deadline}

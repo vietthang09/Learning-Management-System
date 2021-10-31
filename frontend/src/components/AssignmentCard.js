@@ -3,6 +3,7 @@ import { ClockIcon, BookmarkIcon } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
 
 function AssignmentCard(props) {
+  const [selectedFile, setSelectedFile] = useState();
   var today = new Date();
   var deadline = new Date(props.deadline);
   var options = { year: "numeric", month: "long", day: "numeric" };
@@ -17,14 +18,14 @@ function AssignmentCard(props) {
     status = "border-red-400";
     visibleSubmission = "hidden";
   }
-  if (today >= deadline && submission == true) {
+  if (today > deadline && submission == true) {
     status = "border-green-400";
     buttonStyle = "hidden";
   }
   if (today < deadline && submission == true) {
     status = "border-green-400";
   }
-  if (today < deadline) {
+  if (today < deadline && submission == false) {
     status = "border-yellow-400";
   }
 
@@ -50,6 +51,19 @@ function AssignmentCard(props) {
   if (props.fileName != "Choose file") {
     buttonTitle = "Update";
   }
+
+  var assid = props.id;
+  var userId = props.userId;
+  const handleSubmission = async (e) => {
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("assignment_id", assid);
+    formData.append("user_id", userId);
+    await fetch("http://localhost:8000/api/submit", {
+      method: "POST",
+      body: formData,
+    }).then((result) => {});
+  };
 
   return (
     <>
@@ -92,13 +106,19 @@ function AssignmentCard(props) {
             >
               {props.fileName}
             </label>
-            <input type="file" className="hidden" id="file" />
+            <input
+              type="file"
+              className="hidden"
+              id="file"
+              onChange={(e) => setSelectedFile(e.target.files[0])}
+            />
             <button
               type="button"
               className={
                 "px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 " +
                 buttonStyle
               }
+              onClick={handleSubmission}
             >
               {buttonTitle}
             </button>
