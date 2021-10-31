@@ -6,7 +6,6 @@ import {
 } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import toast, { Toaster } from "react-hot-toast";
-
 function AssignmentCard(props) {
   const [selectedFile, setSelectedFile] = useState();
   let [fN, setFN] = useState(props.fileName);
@@ -73,30 +72,33 @@ function AssignmentCard(props) {
     formData.append("filePath", fP);
     formData.append("submissionId", submissionId);
     if (buttonTitle == "Submit") {
-      console.log(submissionId);
       await fetch("http://localhost:8000/api/submit/upload", {
-        method: "POST", 
+        method: "POST",
         body: formData,
       }).then((result) => {});
-      notify();
     }
     if (buttonTitle == "Update") {
       await fetch("http://localhost:8000/api/submit/update", {
         method: "POST",
         body: formData,
       }).then((result) => {});
-      notify();
     }
-    // window.location.reload();
+    notify();
+    window.location.reload();
   };
+  function tooltipIn() {
+    let $lb = document.getElementById("label");
+    $lb.innerText = "Choose file";
+  }
+
+  function tooltipOut() {
+    let $lb = document.getElementById("label");
+    $lb.innerText = fN;
+  }
 
   return (
     <>
-      <Toaster
-        containerStyle={{
-          top: 20,
-        }}
-      />
+      <Toaster />
       <div
         className={
           "p-2 mb-5 flex justify-between items-center bg-white border-r-2  rounded-lg shadow hover:shadow-md relative " +
@@ -133,7 +135,9 @@ function AssignmentCard(props) {
             <label
               htmlFor="file"
               id="label"
-              className="px-4 py-2 text-sm font-medium text-green-400 relative"
+              className="text-center w-60 text-sm truncate font-medium text-green-400"
+              onMouseOver={tooltipIn}
+              onMouseOut={tooltipOut}
             >
               {fN}
             </label>
@@ -235,4 +239,5 @@ function AssignmentCard(props) {
     </>
   );
 }
+
 export default AssignmentCard;
