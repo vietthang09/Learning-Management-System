@@ -5,6 +5,7 @@ import {
   DownloadIcon,
 } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
+import toast, { Toaster } from "react-hot-toast";
 
 function AssignmentCard(props) {
   const [selectedFile, setSelectedFile] = useState();
@@ -51,7 +52,6 @@ function AssignmentCard(props) {
     setIsOpen(true);
   }
 
-  var fileNameStyle = "";
   var buttonTitle = "Submit";
 
   if (props.fileName != "Choose file") {
@@ -60,7 +60,7 @@ function AssignmentCard(props) {
   function setLabel(text) {
     setFN(text);
   }
-
+  const notify = () => toast.success("Successfully saved.");
   var assid = props.id;
   var userId = props.userId;
   var submissionId = props.submissionId;
@@ -75,21 +75,28 @@ function AssignmentCard(props) {
     if (buttonTitle == "Submit") {
       console.log(submissionId);
       await fetch("http://localhost:8000/api/submit/upload", {
-        method: "POST",
+        method: "POST", 
         body: formData,
       }).then((result) => {});
+      notify();
     }
     if (buttonTitle == "Update") {
       await fetch("http://localhost:8000/api/submit/update", {
         method: "POST",
         body: formData,
       }).then((result) => {});
+      notify();
     }
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
     <>
+      <Toaster
+        containerStyle={{
+          top: 20,
+        }}
+      />
       <div
         className={
           "p-2 mb-5 flex justify-between items-center bg-white border-r-2  rounded-lg shadow hover:shadow-md relative " +
@@ -126,7 +133,7 @@ function AssignmentCard(props) {
             <label
               htmlFor="file"
               id="label"
-              className="px-4 py-2 text-sm font-medium text-green-400"
+              className="px-4 py-2 text-sm font-medium text-green-400 relative"
             >
               {fN}
             </label>
@@ -147,7 +154,7 @@ function AssignmentCard(props) {
             <button
               type="button"
               className={
-                "px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 " +
+                "relative px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 " +
                 buttonStyle
               }
               onClick={handleSubmission}
