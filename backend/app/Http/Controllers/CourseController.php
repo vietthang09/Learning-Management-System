@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Submission;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -19,12 +22,27 @@ class CourseController extends Controller
     }
     public function store(Request $request)
     {
-        $fielnames = $request->input('name');
-        $filepath = $request->file('file')->store('submissions');
+        $fileName = $request->input('fileName');
+        $filePath = $request->file('file')->store('submissions');
         DB::table('submissions')->insert([
             'assignment_id' =>  $request->input('assignment_id'),
             'user_id' => $request->input('user_id'),
-            'link_file' => 'a',
+            'file_name' => $fileName,
+            'file_path' => $filePath,
+            'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
         ]);
+    }
+    public function update(Request $request)
+    {
+        $submissionId = $request->input('submissionId');
+        $filePath = $request->file('file')->store('submissions');
+        $fileName = $request->input('fileName');
+        DB::table('submissions')
+            ->where('id', $submissionId)
+            ->update([
+                'file_name' => $fileName,
+                'file_path' => $filePath,
+                'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')
+            ]);
     }
 }

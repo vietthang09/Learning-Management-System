@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -21,3 +22,5 @@ Route::get('/', [ForumController::class, 'ForumMaster']);
 
 Route::get('posting', [ForumController::class, 'index']);
 Route::post('store_post', [ForumController::class, 'sendData']);
+Route::get('/upload', [CourseController::class, 'test']);
+Route::get('/upload/update', [CourseController::class, 'test1']);

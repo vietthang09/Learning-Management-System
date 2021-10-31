@@ -4,6 +4,8 @@ import { Dialog, Transition } from "@headlessui/react";
 
 function AssignmentCard(props) {
   const [selectedFile, setSelectedFile] = useState();
+  let [fN, setFN] = useState(props.fileName);
+  var fP = props.fileName;
   var today = new Date();
   var deadline = new Date(props.deadline);
   var options = { year: "numeric", month: "long", day: "numeric" };
@@ -51,18 +53,35 @@ function AssignmentCard(props) {
   if (props.fileName != "Choose file") {
     buttonTitle = "Update";
   }
+  function setLabel(text) {
+    setFN(text);
+  }
 
   var assid = props.id;
   var userId = props.userId;
+  var submissionId = props.submissionId;
   const handleSubmission = async (e) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("assignment_id", assid);
     formData.append("user_id", userId);
-    await fetch("http://localhost:8000/api/submit", {
-      method: "POST",
-      body: formData,
-    }).then((result) => {});
+    formData.append("fileName", fN);
+    formData.append("filePath", fP);
+    formData.append("submissionId", submissionId);
+    if (buttonTitle == "Submit") {
+      console.log(submissionId);
+      await fetch("http://localhost:8000/api/submit/upload", {
+        method: "POST",
+        body: formData,
+      }).then((result) => {});
+    }
+    if (buttonTitle == "Update") {
+      console.log(submissionId);
+      await fetch("http://localhost:8000/api/submit/update", {
+        method: "POST",
+        body: formData,
+      }).then((result) => {});
+    }
   };
 
   return (
@@ -102,15 +121,19 @@ function AssignmentCard(props) {
           <div className={visibleSubmission}>
             <label
               htmlFor="file"
+              id="label"
               className="px-4 py-2 text-sm font-medium text-green-400"
             >
-              {props.fileName}
+              {fN}
             </label>
             <input
               type="file"
               className="hidden"
               id="file"
-              onChange={(e) => setSelectedFile(e.target.files[0])}
+              onChange={(e) => {
+                setLabel(e.target.files[0].name);
+                setSelectedFile(e.target.files[0]);
+              }}
             />
             <button
               type="button"

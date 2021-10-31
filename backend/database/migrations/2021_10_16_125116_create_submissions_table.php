@@ -18,6 +18,7 @@ class CreateSubmissionsTable extends Migration
             $table->foreignId('assignment_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained();
             $table->string('fileName');
+            $table->string('filePath');
             $table->timestamps();
         });
     }
