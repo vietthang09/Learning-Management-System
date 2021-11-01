@@ -30,7 +30,9 @@ function CourseDetail(props) {
     materials_HTMLLIST = (e) => {
       return (
         <div className="flex justify-center items-center">
-          <span>Hmm, The teacher has not provided any materials</span>
+          <span className="text-green-400 font-medium text-lg">
+            Hmm, The teacher has not provided any materials
+          </span>
         </div>
       );
     };
@@ -45,7 +47,9 @@ function CourseDetail(props) {
     assignments_HTMLLIST = (e) => {
       return (
         <div className="flex justify-center items-center">
-          <span>Hmm, The teacher hasn't assigned any assignment yet</span>
+          <span className="text-green-400 font-medium text-lg">
+            Hmm, The teacher hasn't assigned any assignment yet
+          </span>
         </div>
       );
     };
@@ -61,31 +65,7 @@ function CourseDetail(props) {
         submissionId = item.submission["id"];
         filePath = item.submission["file_path"];
       }
-      return <AssignmentCard type="full" id={item.assignment.id} />;
-      // assignments_HTMLLIST = assignments.map((item, index) => {
-      //   var submited = false;
-      //   var fileName = "Choose file";
-      //   var submissionId = "";
-      //   var filePath = "";
-      //   if (item.submission) {
-      //     submited = true;
-      //     fileName = item.submission["file_name"];
-      //     submissionId = item.submission["id"];
-      //     filePath = item.submission["file_path"];
-      //   }
-      //   return (
-      //     <AssignmentCard
-      //       type="full"
-      //       id={item.assignment.id}
-      //       userId={2}
-      //       deadline={item.assignment.deadline}
-      //       fileName={fileName}
-      //       filePath={filePath}
-      //       submission={submited}
-      //       submissionId={submissionId}
-      //       data={item}
-      //     />
-      //   );
+      return <AssignmentCard type={true} id={item.assignment.id} />;
     });
   }
 

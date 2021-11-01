@@ -59,13 +59,7 @@ function Home() {
       }
       return (
         <Link to={"/courses/" + item.assignment.course_id}>
-          <AssignmentCard
-            type="normal"
-            title={item.assignment.assignment_title}
-            courseTitle={item.assignment.course_title}
-            deadline={item.assignment.deadline}
-            submission={submited}
-          />
+          <AssignmentCard type={false} id={item.assignment.id} />
         </Link>
       );
     });
@@ -154,7 +148,7 @@ function Home() {
         <div class="w-full lg:w-1/4 px-2 pb-2">
           <div class="text-sm text-grey-dark flex items-center">
             <div className="w-full">
-              <div className="w-full h-72 flex justify-center items-center border">
+              <div className="w-full h-60 flex justify-center items-center border">
                 <span className="text-xl text-red-500">COMING SOON</span>
               </div>
               <div className="mt-3">

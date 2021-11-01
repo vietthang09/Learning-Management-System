@@ -55,6 +55,7 @@ class ControllerMaster extends Controller
             ->join('courses', 'courses.id', '=', 'assignments.course_id')
             ->join('users', 'users.id', '=', 'courses.id')
             ->orderBy('deadline', 'desc')
+            ->limit(4)
             ->get();
         $collection = collect();
         foreach ($assignments as $assignment) {
