@@ -3,16 +3,19 @@ import {
   ClockIcon,
   BookmarkIcon,
   DownloadIcon,
+  UploadIcon,
+  TrashIcon,
 } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 function AssignmentCard(props) {
-  const history = useHistory();
   const [assignment, setAssignment] = useState([]);
   const [submission, setSubmission] = useState([]);
   const [submissionStatus, setSubmissionStatus] = useState();
   useEffect(() => {
+    loadList();
+  }, []);
+  function loadList() {
     axios
       .get("http://127.0.0.1:8000/api/assignment/" + props.id)
       .then((res) => {
@@ -20,11 +23,8 @@ function AssignmentCard(props) {
         setSubmission(res.data.submission);
         setSubmissionStatus(res.data.submissionStatus);
       });
-  }, []);
+  }
   const [selectedFile, setSelectedFile] = useState();
-
-  var fP = props.fileName;
-  var buttonStyle = "";
 
   let [isOpen, setIsOpen] = useState(false);
   function closeModal() {
@@ -35,25 +35,43 @@ function AssignmentCard(props) {
     setIsOpen(true);
   }
 
+  var submissionId = "";
+  if (submission) submissionId = submission.id;
+
   const handleSubmission = async (e) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("assignment_id", props.id);
     formData.append("user_id", 2);
     formData.append("fileName", selectedFile.name);
-    formData.append("submissionId", submission.id);
+    formData.append("submissionId", submissionId);
     if (submissionStatus == "border-yellow-400") {
       await fetch("http://localhost:8000/api/submit/upload", {
         method: "POST",
         body: formData,
-      }).then((result) => {});
+      }).then((result) => {
+        loadList();
+      });
     }
     if (submissionStatus == "border-green-400") {
       await fetch("http://localhost:8000/api/submit/update", {
         method: "POST",
         body: formData,
-      }).then((result) => {});
+      }).then((result) => {
+        loadList();
+      });
     }
+  };
+
+  const handleDeletion = async (e) => {
+    const formData = new FormData();
+    formData.append("submissionId", submissionId);
+    await fetch("http://localhost:8000/api/submit/delete", {
+      method: "POST",
+      body: formData,
+    }).then((result) => {
+      loadList();
+    });
   };
 
   return (
@@ -129,75 +147,94 @@ function AssignmentCard(props) {
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                   >
-                    <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                    <div className="inline-block w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                       <Dialog.Title
                         as="h3"
-                        className="text-lg font-medium leading-6 text-gray-900"
+                        className="text-lg px-6 pt-6 font-medium leading-6 text-gray-900"
                       >
                         {assignment.assignment_title}
                       </Dialog.Title>
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500">
+                      <div className="mt-2 divide-y divide-gray-200">
+                        <p className="text-sm px-6 pb-6 text-gray-500">
                           {assignment.assignment_content}
                         </p>
                         <div
                           className={
                             submissionStatus == "border-red-400"
                               ? "hidden"
-                              : "block flex items-center space-x-2"
+                              : "block p-6"
                           }
                         >
-                          <div>
-                            <label
-                              htmlFor="file"
-                              id="label"
-                              className="text-center w-60 text-sm truncate font-medium text-green-400"
-                            >
+                          <div className="flex justify-between items-center">
+                            <span className="text-lg font-medium leading-6 text-gray-900">
                               {submission == null
-                                ? "Choose file"
+                                ? "You have not submitted"
                                 : submission.file_name}
-                            </label>
-                            <input
-                              type="file"
-                              className=""
-                              id="file"
-                              onChange={(e) => {
-                                setSelectedFile(e.target.files[0]);
-                              }}
-                            />
+                            </span>
+                            <a
+                              className={
+                                submissionStatus == "border-yellow-400"
+                                  ? "hidden"
+                                  : "block w-20 py-2 text-sm font-medium text-white rounded-md border border-green-400 hover:bg-opacity-100"
+                              }
+                              href={
+                                submission == null
+                                  ? ""
+                                  : "http://127.0.0.1:8000/api/download/" +
+                                    submission.id
+                              }
+                            >
+                              <DownloadIcon className="w-5 text-green-400 m-auto" />
+                            </a>
+                            <button
+                              className={
+                                submissionStatus == "border-yellow-400"
+                                  ? "hidden"
+                                  : "block w-20 py-2 text-sm font-medium text-white"
+                              }
+                              onClick={handleDeletion}
+                            >
+                              <TrashIcon className="w-5 text-red-400 m-auto" />
+                            </button>
                           </div>
-                          <a
-                            href={
-                              submission == null
-                                ? ""
-                                : "http://127.0.0.1:8000/api/download/" +
-                                  submission.id
-                            }
-                          >
-                            <DownloadIcon className="w-5 text-green-400" />
-                          </a>
+                        </div>
+                        <div
+                          className={
+                            submissionStatus == "border-red-400"
+                              ? "hidden"
+                              : "flex p-6 justify-between items-center"
+                          }
+                        >
+                          <input
+                            type="file"
+                            className=""
+                            id="file"
+                            onChange={(e) => {
+                              setSelectedFile(e.target.files[0]);
+                            }}
+                          />
                           <button
                             type="button"
                             className={
-                              "relative px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 " +
-                              buttonStyle
+                              "flex items-center relative px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 "
                             }
                             onClick={handleSubmission}
                           >
+                            <UploadIcon className="w-5" />
                             {submissionStatus == "border-yellow-400"
-                              ? "Submit"
-                              : "Update"}
+                              ? " Submit"
+                              : " Update"}
                           </button>
                         </div>
                       </div>
 
-                      <div className="mt-4">
+                      <div className="mt-4 px-6 pb-6">
                         <button
                           type="button"
                           className="inline-flex justify-center px-4 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
                           onClick={closeModal}
                         >
-                          Got it, thanks!
+                          Close
                         </button>
                       </div>
                     </div>

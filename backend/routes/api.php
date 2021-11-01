@@ -24,5 +24,6 @@ Route::get('/courses', [CoursesController::class, 'index']);
 Route::get('/courses/{id}', [CourseController::class, 'index']);
 Route::post('/submit/upload', [CourseController::class, 'store']);
 Route::post('/submit/update', [CourseController::class, 'update']);
+Route::post('/submit/delete', [CourseController::class, 'destroy']);
 Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
 Route::get('/assignment/{id}', [CourseController::class, 'getAssignment']);

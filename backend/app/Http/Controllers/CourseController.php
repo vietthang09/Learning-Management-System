@@ -46,6 +46,14 @@ class CourseController extends Controller
             ]);
     }
 
+    public function destroy(Request $request)
+    {
+        $submissionId = $request->input('submissionId');
+        DB::table('submissions')
+            ->where('id', $submissionId)
+            ->delete();
+    }
+
     public function getAssignment($id)
     {
         $assignment = DB::table('assignments')
