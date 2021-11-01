@@ -101,7 +101,7 @@ class ControllerMaster extends Controller
     static function getAssginmentsByCourseId($courseId)
     {
         $assignments = DB::table('assignments')
-            ->select('assignments.id', 'assignment_title', 'deadline', 'assignment_content')
+            ->select('assignments.id', 'assignment_title', 'deadline', 'assignment_content', 'courses.course_title')
             ->join('courses', 'courses.id', '=', 'assignments.course_id')
             ->join('users', 'users.id', '=', 'courses.id')
             ->where('courses.id', $courseId)
@@ -135,5 +135,15 @@ class ControllerMaster extends Controller
             ->where('courses.id', $courseId)
             ->get();
         return $materials;
+    }
+
+    // Get username by user id
+    static function getNameByUserId($userId)
+    {
+        $user = DB::table('users')
+            ->select('first_name', 'last_name')
+            ->where('id', $userId)
+            ->first();
+        return $user->first_name . " " . $user->last_name;
     }
 }

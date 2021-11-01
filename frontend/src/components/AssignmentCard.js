@@ -11,6 +11,7 @@ function AssignmentCard(props) {
   const [assignment, setAssignment] = useState([]);
   const [submission, setSubmission] = useState([]);
   const [submissionStatus, setSubmissionStatus] = useState();
+  const [courseTitle, setCourseTitle] = useState();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     loadList();
@@ -22,6 +23,7 @@ function AssignmentCard(props) {
         setAssignment(res.data.assignment);
         setSubmission(res.data.submission);
         setSubmissionStatus(res.data.submissionStatus);
+        setCourseTitle(res.data.course_title);
         setLoading(false);
       });
   }
@@ -121,7 +123,7 @@ function AssignmentCard(props) {
                   }
                 >
                   <BookmarkIcon className="w-5 mr-1" />
-                  <span>{assignment.assignment_title}</span>
+                  <span>{courseTitle}</span>
                 </div>
                 <div className="flex items-center text-xs font-bold text-gray-500">
                   <ClockIcon className="w-5 mr-1" />

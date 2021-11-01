@@ -6,37 +6,27 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useState, Fragment } from "react";
 import YouMayLikeCard from "../components/YouMayLikeCard";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 function Forum() {
   const [isOpen, setIsOpen] = useState(false);
   const [assignments, setAssignments] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
+  const [postContent, setPostContent] = useState();
+  const [selectedFile, setSelectedFile] = useState();
+  const history = useHistory();
+
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/home").then((res) => {
       if (res.status === 200) {
         setAssignments(res.data.assignments);
-        setLoading(false);
       }
     });
+    loadPosts();
   }, []);
-  if (loading) {
-    return (
-      <div className="h-screen w-screen flex justify-center items-center">
-        <img
-          src="https://eshops.vn/assets/images/loading.gif"
-          alt=""
-          className="w-64"
-        />
-      </div>
-    );
-  } else {
-    var assignments_HTMLLIST = "";
-    assignments_HTMLLIST = assignments.map((item, index) => {
-      return (
-        <Link to={"/courses/" + item.course_id}>
-          <AssignmentCard type={false} id={item.assignment.id} />
-        </Link>
-      );
+
+  function loadPosts() {
+    axios.get("http://127.0.0.1:8000/api/posts").then((res) => {
+      setPosts(res.data.posts);
     });
   }
   function closeModal() {
@@ -46,6 +36,23 @@ function Forum() {
   function openModal() {
     setIsOpen(true);
   }
+  const handleSubmit = async (e) => {
+    const thisClicked = e.currentTarget;
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("user_id", 2);
+    formData.append("content", postContent);
+    thisClicked.innerText = "Posting";
+    await fetch("http://localhost:8000/api/posts/new", {
+      method: "POST",
+      body: formData,
+    }).then(() => {
+      history.push("/");
+      history.replace("/forum");
+      loadPosts();
+      closeModal();
+    });
+  };
   return (
     <div className="container m-auto mt-5">
       <div className="flex flex-wrap">
@@ -123,6 +130,9 @@ function Forum() {
                         <textarea
                           className="w-full outline-none resize-none text-lg text-gray-900"
                           placeholder="What's in your mind, Stark?"
+                          onChange={(e) => {
+                            setPostContent(e.target.value);
+                          }}
                         ></textarea>
                       </div>
 
@@ -131,10 +141,14 @@ function Forum() {
                           <span className="text-sm text-gray-400 ">
                             Add to your Post
                           </span>
-                          <div className="flex">
-                            <PhotographIcon className="w-7 text-green-400" />
-                            <DocumentIcon className="w-7 text-yellow-400" />
-                          </div>
+                          <PhotographIcon className="w-7 text-green-400" />
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              setSelectedFile(e.target.files[0]);
+                            }}
+                          />
                         </div>
                         <div className="mt-4 flex justify-between">
                           <button
@@ -147,6 +161,7 @@ function Forum() {
                           <button
                             type="button"
                             className="inline-flex justify-center px-4 py-2 text-sm font-medium text-green-500 bg-green-100 border border-transparent rounded-md hover:bg-green-200"
+                            onClick={handleSubmit}
                           >
                             Post
                           </button>
@@ -161,10 +176,9 @@ function Forum() {
 
             {/* Post List */}
             <div>
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
+              {posts.map((item, index) => {
+                return <PostCard id={item.id} />;
+              })}
             </div>
             {/* End Post List */}
           </div>
@@ -172,7 +186,13 @@ function Forum() {
         <div className="hidden lg:block lg:w-1/4">
           <div className="px-2 sticky top-20 z-50">
             <span className="text-lg font-medium">Don't forgot</span>
-            {assignments_HTMLLIST}
+            {assignments.map((item, index) => {
+              return (
+                <Link to={"/courses/" + item.assignment.course_id}>
+                  <AssignmentCard type={false} id={item.assignment.id} />
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

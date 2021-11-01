@@ -81,6 +81,7 @@ class CourseController extends Controller
         }
         return response()->json([
             'assignment' => $assignment,
+            'course_title' => CourseController::getCourseTitleById($assignment->course_id),
             'submission' => $submission,
             'submissionStatus' => $submissionStatus,
         ]);
@@ -92,5 +93,14 @@ class CourseController extends Controller
             ->where('assignment_id', '=', $assignmentID)
             ->where('user_id', '=', $userId)->first();
         return $submission;
+    }
+
+    static function getCourseTitleById($courseId)
+    {
+        $course = DB::table('courses')
+            ->select('course_title')
+            ->where('id', $courseId)
+            ->first();
+        return $course->course_title;
     }
 }
