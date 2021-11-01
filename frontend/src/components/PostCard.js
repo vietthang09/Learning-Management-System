@@ -1,7 +1,17 @@
-import React from "react";
-import { LightBulbIcon, AnnotationIcon } from "@heroicons/react/outline";
+import React, { useEffect, useState } from "react";
+import { AnnotationIcon } from "@heroicons/react/outline";
 import CommentCard from "./CommentCard";
-function PostCard() {
+import axios from "axios";
+function PostCard(props) {
+  const [post, setPost] = useState([]);
+  useEffect(() => {
+    loadPost();
+  }, []);
+  function loadPost() {
+    axios.get("http://127.0.0.1:8000/api/post/" + props.id).then((res) => {
+      setPost(res.data.post);
+    });
+  }
   return (
     <div className="mt-4 p-3 bg-white rounded-xl shadow">
       {/* Header */}
@@ -19,11 +29,7 @@ function PostCard() {
       {/* End Header */}
       {/* Body */}
       <div className="mt-2 mb-2">
-        <img
-          src="https://cdn.tgdd.vn/hoi-dap/1216572/tri-tue-nhan-tao-ai-la-gi-cac-ung-dung-va-tiem-nan-11-800x450.jpg"
-          alt=""
-          className="rounded-md"
-        />
+        <img src={post.image} alt="" className="rounded-md" />
       </div>
       {/* End Body */}
       {/* Footer */}

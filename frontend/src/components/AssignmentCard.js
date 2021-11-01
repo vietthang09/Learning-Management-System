@@ -55,6 +55,7 @@ function AssignmentCard(props) {
       }).then((result) => {
         loadList();
         thisClicked.innerText = "Update";
+        closeModal();
       });
     }
     if (submissionStatus == "border-green-400") {
@@ -65,6 +66,7 @@ function AssignmentCard(props) {
       }).then((result) => {
         loadList();
         thisClicked.innerText = "Update";
+        closeModal();
       });
     }
   };
@@ -77,6 +79,7 @@ function AssignmentCard(props) {
       body: formData,
     }).then((result) => {
       loadList();
+      closeModal();
     });
   };
 
@@ -139,7 +142,7 @@ function AssignmentCard(props) {
               <Transition appear show={isOpen} as={Fragment}>
                 <Dialog
                   as="div"
-                  className="fixed inset-0 z-10 overflow-y-auto"
+                  className="fixed inset-0 z-10 overflow-y-auto backdrop-filter backdrop-blur-sm"
                   onClose={closeModal}
                 >
                   <div className="min-h-screen px-4 text-center">
@@ -163,10 +166,10 @@ function AssignmentCard(props) {
                     </span>
                     <Transition.Child
                       as={Fragment}
-                      enter="ease-out duration-300"
+                      enter="ease-out duration-100"
                       enterFrom="opacity-0 scale-95"
                       enterTo="opacity-100 scale-100"
-                      leave="ease-in duration-200"
+                      leave="ease-in duration-100"
                       leaveFrom="opacity-100 scale-100"
                       leaveTo="opacity-0 scale-95"
                     >
@@ -185,11 +188,11 @@ function AssignmentCard(props) {
                             className={
                               submissionStatus == "border-red-400"
                                 ? "hidden"
-                                : "block p-6"
+                                : "block px-6 pt-5 space-y-4"
                             }
                           >
                             <div className="flex justify-between items-center">
-                              <span className="text-lg truncate w-64 font-medium leading-6 text-gray-900">
+                              <span className="text-lg truncate w-64 font-medium leading-6 text-gray-500">
                                 {submission == null
                                   ? "You have not submitted"
                                   : submission.file_name}
@@ -220,33 +223,33 @@ function AssignmentCard(props) {
                                 <DownloadIcon className="w-5 text-green-400 m-auto" />
                               </a>
                             </div>
-                          </div>
-                          <div
-                            className={
-                              submissionStatus == "border-red-400"
-                                ? "hidden"
-                                : "flex p-6 justify-between items-center"
-                            }
-                          >
-                            <input
-                              type="file"
-                              className=""
-                              id="file"
-                              onChange={(e) => {
-                                setSelectedFile(e.target.files[0]);
-                              }}
-                            />
-                            <button
-                              type="button"
+                            <div
                               className={
-                                "flex items-center relative px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 "
+                                submissionStatus == "border-red-400"
+                                  ? "hidden"
+                                  : "flex py-2 justify-between items-center"
                               }
-                              onClick={(e) => handleSubmission(e)}
                             >
-                              {submissionStatus == "border-yellow-400"
-                                ? " Submit"
-                                : " Update"}
-                            </button>
+                              <input
+                                type="file"
+                                className=""
+                                id="file"
+                                onChange={(e) => {
+                                  setSelectedFile(e.target.files[0]);
+                                }}
+                              />
+                              <button
+                                type="button"
+                                className={
+                                  "flex items-center relative px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 "
+                                }
+                                onClick={(e) => handleSubmission(e)}
+                              >
+                                {submissionStatus == "border-yellow-400"
+                                  ? " Submit"
+                                  : " Update"}
+                              </button>
+                            </div>
                           </div>
                         </div>
 

@@ -34,11 +34,7 @@ function Forum() {
     assignments_HTMLLIST = assignments.map((item, index) => {
       return (
         <Link to={"/courses/" + item.course_id}>
-          <AssignmentCard
-            title={item.assignment_title}
-            courseTitle={item.course_title}
-            deadline={item.deadline}
-          />
+          <AssignmentCard type={false} id={item.assignment.id} />
         </Link>
       );
     });
@@ -85,23 +81,22 @@ function Forum() {
             <Transition appear show={isOpen} as={Fragment}>
               <Dialog
                 as="div"
-                className="fixed inset-0 z-10 overflow-y-auto"
+                className="fixed inset-0 z-10 overflow-y-auto backdrop-filter backdrop-blur-sm"
                 onClose={closeModal}
               >
                 <div className="min-h-screen px-4 text-center">
                   <Transition.Child
                     as={Fragment}
-                    enter="ease-out duration-300"
+                    enter="ease-out duration-100"
                     enterFrom="opacity-0"
                     enterTo="opacity-100"
-                    leave="ease-in duration-200"
+                    leave="ease-in duration-100"
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
                     <Dialog.Overlay className="fixed inset-0" />
                   </Transition.Child>
 
-                  {/* This element is to trick the browser into centering the modal contents. */}
                   <span
                     className="inline-block h-screen align-middle"
                     aria-hidden="true"

@@ -24,3 +24,4 @@ Route::get('posting', [ForumController::class, 'index']);
 Route::post('store_post', [ForumController::class, 'sendData']);
 Route::get('/upload', [CourseController::class, 'test']);
 Route::get('/upload/update', [CourseController::class, 'test1']);
+Route::get('/submit/delete', [CourseController::class, 'deleteSubmission']);

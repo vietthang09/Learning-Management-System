@@ -37,6 +37,10 @@ class CourseController extends Controller
         $submissionId = $request->input('submissionId');
         $filePath = $request->file('file')->store('submissions');
         $fileName = $request->input('fileName');
+        $submission = DB::table('submissions')
+            ->where('id', $submissionId)
+            ->first();
+        Storage::delete($submission->file_path);
         DB::table('submissions')
             ->where('id', $submissionId)
             ->update([
@@ -46,10 +50,14 @@ class CourseController extends Controller
             ]);
     }
 
-    public function destroy(Request $request)
+    public function deleteSubmission(Request $request)
     {
         $submissionId = $request->input('submissionId');
-        DB::table('submissions')
+        $submission = DB::table('submissions')
+            ->where('id', $submissionId)
+            ->first();
+        Storage::delete($submission->file_path);
+        $submission = DB::table('submissions')
             ->where('id', $submissionId)
             ->delete();
     }
