@@ -52,9 +52,21 @@ class CourseController extends Controller
             ->where('id', $id)
             ->first();
         $submission = CourseController::getSubmission($id, 2);
+        $submissionStatus = "border-red-400";
+        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('y-m-d');
+        if (strtotime($assignment->deadline) < strtotime($today) && $submission != null) {
+            $submissionStatus = "border-green-400";
+        }
+        if (strtotime($assignment->deadline) >= strtotime($today) && $submission == null) {
+            $submissionStatus = "border-yellow-400";
+        }
+        if (strtotime($assignment->deadline) >= strtotime($today) && $submission != null) {
+            $submissionStatus = "border-green-400";
+        }
         return response()->json([
             'assignment' => $assignment,
             'submission' => $submission,
+            'submissionStatus' => $submissionStatus,
         ]);
     }
     static function getSubmission($assignmentID, $userId)
