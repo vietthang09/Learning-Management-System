@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import {
-  ClockIcon,
-  BookmarkIcon,
+  FolderRemoveIcon,
   DownloadIcon,
   TrashIcon,
 } from "@heroicons/react/outline";
@@ -13,6 +12,13 @@ function AssignmentCard(props) {
   const [submissionStatus, setSubmissionStatus] = useState();
   const [courseTitle, setCourseTitle] = useState();
   const [loading, setLoading] = useState(true);
+  const [selectedFile, setSelectedFile] = useState();
+  let [isOpen, setIsOpen] = useState(false);
+  let [label, setLabel] = useState("Choose a file");
+  var submissionId = "";
+  if (submission) submissionId = submission.id;
+  var deadline = new Date(assignment.deadline);
+  var deadlineToString = deadline.toLocaleDateString("en-US");
   useEffect(() => {
     loadList();
   }, []);
@@ -27,9 +33,7 @@ function AssignmentCard(props) {
         setLoading(false);
       });
   }
-  const [selectedFile, setSelectedFile] = useState();
 
-  let [isOpen, setIsOpen] = useState(false);
   function closeModal() {
     setIsOpen(false);
   }
@@ -37,9 +41,6 @@ function AssignmentCard(props) {
   function openModal() {
     setIsOpen(true);
   }
-
-  var submissionId = "";
-  if (submission) submissionId = submission.id;
 
   const handleSubmission = async (e) => {
     const thisClicked = e.currentTarget;
@@ -100,7 +101,7 @@ function AssignmentCard(props) {
       <>
         <div
           className={
-            "p-2 mb-5 flex justify-between items-center bg-white border-r-2 rounded-lg shadow hover:shadow-md relative " +
+            "p-2 mb-5 flex justify-between items-center bg-white text-gray-600 border-r-2 rounded-md shadow-md hover:shadow relative " +
             submissionStatus
           }
         >
@@ -108,27 +109,17 @@ function AssignmentCard(props) {
             <img
               src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
               alt=""
-              className="w-10 mr-3"
+              className="w-10 h-10 mr-3 rounded-full"
             />
             <div>
-              <span className="block text-lg font-medium">
+              <span className="block text-lg text-gray-600 font-medium">
                 {assignment.assignment_title}
               </span>
-              <div className="flex mb-2">
-                <div
-                  className={
-                    props.type
-                      ? "hidden"
-                      : "flex items-center text-xs text-gray-400 mr-2"
-                  }
-                >
-                  <BookmarkIcon className="w-5 mr-1" />
-                  <span>{courseTitle}</span>
-                </div>
-                <div className="flex items-center text-xs font-bold text-gray-500">
-                  <ClockIcon className="w-5 mr-1" />
-                  <span>{assignment.deadline}</span>
-                </div>
+              <div className="mb-2 text-xs font-medium text-gray-400">
+                <span className={props.type ? "hidden" : "block"}>
+                  In: {courseTitle}
+                </span>
+                <span>Deadline: {deadlineToString}</span>
               </div>
             </div>
           </div>
@@ -178,12 +169,12 @@ function AssignmentCard(props) {
                       <div className="inline-block w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                         <Dialog.Title
                           as="h3"
-                          className="text-lg px-6 pt-6 font-medium leading-6 text-gray-900"
+                          className="text-lg px-6 pt-6 font-medium leading-6 text-gray-600"
                         >
                           {assignment.assignment_title}
                         </Dialog.Title>
                         <div className="mt-2 divide-y divide-gray-200">
-                          <p className="text-sm px-6 pb-6 text-gray-500">
+                          <p className="text-sm px-6 pb-6 text-gray-400">
                             {assignment.assignment_content}
                           </p>
                           <div
@@ -194,9 +185,9 @@ function AssignmentCard(props) {
                             }
                           >
                             <div className="flex justify-between items-center">
-                              <span className="text-lg truncate w-64 font-medium leading-6 text-gray-500">
+                              <span className="truncate w-64 font-medium text-gray-600">
                                 {submission == null
-                                  ? "You have not submitted"
+                                  ? "Your submission will appear here"
                                   : submission.file_name}
                               </span>
                               <button
@@ -232,14 +223,37 @@ function AssignmentCard(props) {
                                   : "flex py-2 justify-between items-center"
                               }
                             >
-                              <input
-                                type="file"
-                                className=""
-                                id="file"
-                                onChange={(e) => {
-                                  setSelectedFile(e.target.files[0]);
-                                }}
-                              />
+                              <div className="w-56 flex truncate">
+                                <button
+                                  className={
+                                    label == "Choose a file"
+                                      ? "hidden"
+                                      : "flex items-center"
+                                  }
+                                  onClick={(e) => {
+                                    setSelectedFile();
+                                    setLabel("Choose a file");
+                                  }}
+                                >
+                                  <FolderRemoveIcon className="w-6 text-red-400" />
+                                </button>
+                                <input
+                                  type="file"
+                                  id="file"
+                                  className="inputfile"
+                                  onChange={(e) => {
+                                    setLabel(e.target.files[0].name);
+                                    setSelectedFile(e.target.files[0]);
+                                  }}
+                                />
+                                <label
+                                  htmlFor="file"
+                                  id="label"
+                                  className="py-2 font-medium text-green-400"
+                                >
+                                  {label}
+                                </label>
+                              </div>
                               <button
                                 type="button"
                                 className={
@@ -258,7 +272,7 @@ function AssignmentCard(props) {
                         <div className="mt-4 px-6 pb-6">
                           <button
                             type="button"
-                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
+                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-500 hover:text-red-400s focus:outline-none"
                             onClick={closeModal}
                           >
                             Close

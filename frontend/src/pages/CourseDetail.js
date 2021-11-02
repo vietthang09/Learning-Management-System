@@ -42,33 +42,6 @@ function CourseDetail(props) {
     });
   }
 
-  var assignments_HTMLLIST = "";
-  if (assignments.length == 0) {
-    assignments_HTMLLIST = (e) => {
-      return (
-        <div className="flex justify-center items-center">
-          <span className="text-green-400 font-medium text-lg">
-            Hmm, The teacher hasn't assigned any assignment yet
-          </span>
-        </div>
-      );
-    };
-  } else {
-    assignments_HTMLLIST = assignments.map((item, index) => {
-      var submited = false;
-      var fileName = "Choose file";
-      var submissionId = "";
-      var filePath = "";
-      if (item.submission) {
-        submited = true;
-        fileName = item.submission["file_name"];
-        submissionId = item.submission["id"];
-        filePath = item.submission["file_path"];
-      }
-      return <AssignmentCard type={true} id={item.assignment.id} />;
-    });
-  }
-
   return (
     <div className="container m-auto mt-5">
       <div className="flex flex-wrap">
@@ -102,7 +75,13 @@ function CourseDetail(props) {
                 </div>
               </Tab.List>
               <Tab.Panels>
-                <Tab.Panel className="mt-5">{assignments_HTMLLIST}</Tab.Panel>
+                <Tab.Panel className="mt-5 px-10">
+                  {assignments.map((item, index) => {
+                    return (
+                      <AssignmentCard type={true} id={item.assignment.id} />
+                    );
+                  })}
+                </Tab.Panel>
                 <Tab.Panel className="mt-5 space-y-2">
                   {materials_HTMLLIST}
                 </Tab.Panel>
@@ -117,17 +96,21 @@ function CourseDetail(props) {
               alt=""
               className="object-cover rounded-xl"
             />
-            <div className="mb-2">
-              <p className="text-2xl font-bold">{course.course_title}</p>
-              <div className="flex">
+            <div className="space-y-3">
+              <p className="text-2xl font-bold text-gray-600">
+                {course.course_title}
+              </p>
+              <div className="flex items-center">
                 <img
                   src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                   alt=""
-                  className="w-8 mr-2"
+                  className="w-10 h-10 rounded-full mr-2"
                 />
-                <p className="text-gray-700 text-lg font-medium">{teacher}</p>
+                <span className="text-gray-500 text-lg font-medium">
+                  {teacher}
+                </span>
               </div>
-              <p className="text-gray-500">{course.introduction}</p>
+              <p className="text-gray-400">{course.introduction}</p>
             </div>
             <div className="flex justify-center">
               <a

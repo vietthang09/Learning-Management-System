@@ -1,5 +1,5 @@
 /* @import url("https://cdn.syncfusion.com/ej2/material.css"); */
-html::-webkit-scrollbar{
+html::-webkit-scrollbar {
   display: none;
 }
 .active::after {
@@ -9,4 +9,13 @@ html::-webkit-scrollbar{
   height: 5px;
   background-color: rgba(52, 211, 153, 1);
   border-radius: 10px;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }
