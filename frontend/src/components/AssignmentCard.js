@@ -89,11 +89,11 @@ function AssignmentCard(props) {
   if (loading) {
     return (
       <div className="flex justify-center items-center">
-        <img
+        {/* <img
           src="https://eshops.vn/assets/images/loading.gif"
           alt=""
           className="w-16"
-        />
+        /> */}
       </div>
     );
   } else {

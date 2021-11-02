@@ -27,9 +27,9 @@ function Home() {
     return (
       <div className="h-screen w-screen flex justify-center items-center">
         <img
-          src="https://eshops.vn/assets/images/loading.gif"
+          src="https://cdn.dribbble.com/users/2295279/screenshots/7195340/media/393b45e26e89ebf2effd9d6f41e91483.gif"
           alt=""
-          className="w-64"
+          className="w-96"
         />
       </div>
     );
