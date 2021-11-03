@@ -4,6 +4,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
 use App\Models\Course;
 use Illuminate\Http\Request;
@@ -31,3 +32,10 @@ Route::post('/submit/update', [CourseController::class, 'update']);
 Route::post('/submit/delete', [CourseController::class, 'deleteSubmission']);
 Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
 Route::get('/assignment/{id}', [CourseController::class, 'getAssignment']);
+Route::group([
+    'middleware' => 'api',
+], function ($router) {
+    Route::post('/login', [SessionController::class, 'login']);
+    Route::post('/register', [SessionController::class, 'register']);
+    Route::post('/logout', [SessionController::class, 'logout']);
+});
