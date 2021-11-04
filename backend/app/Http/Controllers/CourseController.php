@@ -12,10 +12,12 @@ class CourseController extends Controller
 {
     public function index($courseId)
     {
+        $courseInfo = DB::table('courses')
+            ->where('id', $courseId)
+            ->first();
         return response()->json([
-            'status' => 200,
-            'course' => ControllerMaster::getCourseById($courseId),
-            'teacher' => ControllerMaster::getUserNameById($courseId),
+            'courseInfo' => $courseInfo,
+            'teacher' => ControllerMaster::getUserNameById($courseInfo->user_id),
             'materials' => ControllerMaster::getMaterialsByCourseId($courseId),
             'assignments' => ControllerMaster::getAssginmentsByCourseId($courseId),
         ]);

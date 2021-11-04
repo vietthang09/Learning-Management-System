@@ -20,18 +20,21 @@ function CourseDetail(props) {
     deadline: "",
   });
   const user = JSON.parse(localStorage.getItem("user"));
+  URL = "http://127.0.0.1:8000/api/student/course/";
+  if (user.role == 1) {
+    URL = "http://127.0.0.1:8000/api/teacher/course/";
+  }
+  const courseId = props.match.params.id;
+  function loadData() {
+    axios.get(URL + courseId).then((res) => {
+      setCourse(res.data.courseInfo);
+      setTeacher(res.data.teacher);
+      setMaterials(res.data.materials);
+      setAssignments(res.data.assignments);
+    });
+  }
   useEffect(() => {
-    const courseId = props.match.params.id;
-    axios
-      .get("http://127.0.0.1:8000/api/student/courses/" + courseId)
-      .then((res) => {
-        if (res.data.status === 200) {
-          setCourse(res.data.course);
-          setTeacher(res.data.teacher);
-          setMaterials(res.data.materials);
-          setAssignments(res.data.assignments);
-        }
-      });
+    loadData();
   }, []);
   var materials_HTMLLIST = "";
   if (materials.length == 0) {
@@ -64,7 +67,20 @@ function CourseDetail(props) {
   };
 
   function confirm() {
-    alert(newAssignment.deadline);
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/api/teacher/createassignment/",
+      headers: { "Content-Type": "application/json" },
+      data: {
+        courseId: courseId,
+        title: newAssignment.title,
+        content: newAssignment.content,
+        deadline: newAssignment.deadline,
+      },
+    }).then((res) => {
+      closeModal();
+      loadData();
+    });
   }
 
   return (

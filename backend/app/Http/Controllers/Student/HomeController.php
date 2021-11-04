@@ -7,7 +7,6 @@ use App\Http\Controllers\ControllerMaster;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -34,7 +33,6 @@ class HomeController extends Controller
             ->where('registered_students.user_id', $studentId)
             ->where('deadline', '<=', $current)
             ->where('deadline', '>', $yesterday)
-            ->get()
             ->count();
         if ($numberAssignments > 1) {
             return $numberAssignments . ' assignments';

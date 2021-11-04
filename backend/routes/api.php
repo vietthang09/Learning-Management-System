@@ -6,6 +6,8 @@ use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\Student\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\Teacher\CourseController as TeacherCourseController;
+use App\Http\Controllers\Teacher\CoursesController as TeacherCoursesController;
 use App\Http\Controllers\Teacher\HomeController as TeacherHomeController;
 use App\Models\Course;
 use Illuminate\Http\Request;
@@ -27,7 +29,7 @@ Route::group([
 ], function () {
     Route::post('/home', [HomeController::class, 'index']);
     Route::post('/courses', [CoursesController::class, 'index']);
-    Route::get('/courses/{id}', [CourseController::class, 'index']);
+    Route::get('/course/{id}', [CourseController::class, 'index']);
     Route::post('/submit/upload', [CourseController::class, 'store']);
     Route::post('/submit/update', [CourseController::class, 'update']);
     Route::post('/submit/delete', [CourseController::class, 'deleteSubmission']);
@@ -38,6 +40,8 @@ Route::group([
     'prefix' => 'teacher'
 ], function () {
     Route::post('/home', [TeacherHomeController::class, 'index']);
+    Route::get('/course/{id}', [TeacherCourseController::class, 'index']);
+    Route::post('/createassignment', [TeacherCourseController::class, 'createAssignment']);
 });
 Route::get('/posts', [PostController::class, 'getPosts']);
 Route::post('/posts/new', [PostController::class, 'newPost']);
