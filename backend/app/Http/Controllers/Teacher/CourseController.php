@@ -39,50 +39,54 @@ class CourseController extends Controller
             ]);
     }
 
-    // public function getAssignment(Request $request)
-    // {
-    //     $assignmentID = $request->input('assignmentId');
-    //     $userId = $request->input('userId');
-    //     $assignment = DB::table('assignments')
-    //         ->where('id', $assignmentID)
-    //         ->first();
-    //     $submission = CourseController::getSubmission($assignmentID, $userId);
-    //     $submissionStatus = "border-red-400";
-    //     $today = Carbon::now('Asia/Ho_Chi_Minh')->format('y-m-d');
-    //     if (strtotime($assignment->deadline) < strtotime($today) && $submission != null) {
-    //         $submissionStatus = "border-green-400";
-    //     }
-    //     if (strtotime($assignment->deadline) >= strtotime($today) && $submission == null) {
-    //         $submissionStatus = "border-yellow-400";
-    //     }
-    //     if (strtotime($assignment->deadline) >= strtotime($today) && $submission != null) {
-    //         $submissionStatus = "border-green-400";
-    //     }
-    //     return response()->json([
-    //         'assignment' => $assignment,
-    //         'course_title' => CourseController::getCourseTitleById($assignment->course_id),
-    //         'submission' => $submission,
-    //         'submissionStatus' => $submissionStatus,
-    //     ]);
-    // }
-    // static function getSubmission($assignmentID, $userId)
-    // {
-    //     $submission = DB::table('submissions')
-    //         ->select('submissions.assignment_id', 'submissions.user_id', 'submissions.fileName', 'submissions.filePath', 'submissions.id')
-    //         ->where('assignment_id', '=', $assignmentID)
-    //         ->where('user_id', '=', $userId)
-    //         ->first();
-    //     return $submission;
-    // }
+    public function updateAssignment(Request $request)
+    {
+        DB::table('assignments')
+            ->where('id', $request->input('assignmentId'))
+            ->update([
+                'assignment_title' => $request->input('title'),
+                'assignment_content' => $request->input('content'),
+                'deadline' => $request->input('deadline'),
+            ]);
+    }
 
-    // static function getCourseTitleById($courseId)
-    // {
-    //     $course = DB::table('courses')
-    //         ->select('course_title')
-    //         ->where('id', $courseId)
-    //         ->first();
-    //     return $course->course_title;
-    // }
+    public function deleteAssignment(Request $request)
+    {
+        DB::table('assignments')
+            ->where('id', $request->input('assignmentId'))
+            ->delete();
+    }
+
+    static function countNumberSubmissions($assignmentId)
+    {
+        $submissions = DB::table('submissions')
+            ->where('assignment_id', $assignmentId)
+            ->count();
+        if ($submissions > 1) {
+            return $submissions . " students";
+        } else {
+            return $submissions . " student";
+        }
+    }
+
+    public function getAssignment(Request $request)
+    {
+        $assignmentID = $request->input('assignmentId');
+        $assignment = DB::table('assignments')
+            ->where('id', $assignmentID)
+            ->first();
+        $submissionStatus = "border-green-400";
+        $today = Carbon::now('Asia/Ho_Chi_Minh')->format('y-m-d');
+        if (strtotime($assignment->deadline) >= strtotime($today)) {
+            $submissionStatus = "border-yellow-400";
+        }
+        return response()->json([
+            'assignment' => $assignment,
+            'submissionStatus' => $submissionStatus,
+            'course_title' => CourseController::getCourseTitleById($assignment->course_id),
+            'numberOfSubmissions' => CourseController::countNumberSubmissions($assignmentID),
+        ]);
+    }
 
     static function getCourseInfo($courseId)
     {
@@ -90,5 +94,26 @@ class CourseController extends Controller
             ->where('id', $courseId)
             ->first();
         return $courseInfo;
+    }
+    static function getCourseTitleById($courseId)
+    {
+        $course = DB::table('courses')
+            ->select('course_title')
+            ->where('id', $courseId)
+            ->first();
+        return $course->course_title;
+    }
+
+    public function createMaterial(Request $request)
+    {
+        DB::table('materials')
+            ->insert([
+                'course_id' => $request->input('courseId'),
+                'material_title' => $request->input('title'),
+                'material_content' => $request->input('content'),
+                'fileName' => $request->input('fileName'),
+                'filePath' => $request->file('file')->store('materials'),
+                'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+            ]);
     }
 }

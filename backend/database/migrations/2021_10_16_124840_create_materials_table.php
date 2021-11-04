@@ -18,7 +18,8 @@ class CreateMaterialsTable extends Migration
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->string('material_title');
             $table->string('material_content');
-            $table->string('file_link');
+            $table->string('fileName');
+            $table->string('filePath');
             $table->timestamps();
         });
     }

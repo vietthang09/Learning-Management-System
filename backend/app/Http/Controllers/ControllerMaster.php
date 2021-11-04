@@ -88,14 +88,7 @@ class ControllerMaster extends Controller
     {
         $assignments = DB::table('assignments')
             ->join('courses', 'courses.id', '=', 'assignments.course_id')
-            // ->join('registered_students', 'registered_students.id', '=', 'courses.id')
-            // ->where('registered_students.user_id', 3)
             ->get();
-        // $collection = collect();
-        // foreach ($assignments as $assignment) {
-        //     $submission = CourseController::getSubmission($assignment->id, 2);
-        //     $collection->push(['assignment' => $assignment, 'submission' => $submission]);
-        // }
         return $assignments;
     }
 
@@ -139,11 +132,6 @@ class ControllerMaster extends Controller
         $assignments = DB::table('assignments')
             ->where('course_id', $courseId)
             ->get();
-        // $collection = collect();
-        // foreach ($assignments as $assignment) {
-        //     $submission = CourseController::getSubmission($assignment->id, 2);
-        //     $collection->push(['assignment' => $assignment, 'submission' => $submission,]);
-        // }
         return $assignments;
     }
 
@@ -152,7 +140,7 @@ class ControllerMaster extends Controller
     static function getMaterialsByCourseId($courseId)
     {
         $materials = DB::table('materials')
-            ->select('material_title', 'material_content', 'file_link')
+            ->select('material_title', 'material_content', 'fileName')
             ->join('courses', 'courses.id', '=', 'materials.course_id')
             ->where('courses.id', $courseId)
             ->get();

@@ -6,6 +6,7 @@ use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\Student\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\Student\CourseController as StudentCourseController;
 use App\Http\Controllers\Teacher\CourseController as TeacherCourseController;
 use App\Http\Controllers\Teacher\CoursesController as TeacherCoursesController;
 use App\Http\Controllers\Teacher\HomeController as TeacherHomeController;
@@ -29,20 +30,26 @@ Route::group([
 ], function () {
     Route::post('/home', [HomeController::class, 'index']);
     Route::post('/courses', [CoursesController::class, 'index']);
-    Route::get('/course/{id}', [CourseController::class, 'index']);
-    Route::post('/submit/upload', [CourseController::class, 'store']);
-    Route::post('/submit/update', [CourseController::class, 'update']);
-    Route::post('/submit/delete', [CourseController::class, 'deleteSubmission']);
-    Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
-    Route::post('/assignment', [CourseController::class, 'getAssignment']);
+    Route::get('/course/{id}', [StudentCourseController::class, 'index']);
+    Route::post('/submit/upload', [StudentCourseController::class, 'store']);
+    Route::post('/submit/update', [StudentCourseController::class, 'update']);
+    Route::post('/submit/delete', [StudentCourseController::class, 'deleteSubmission']);
+    Route::post('/assignment', [StudentCourseController::class, 'getAssignment']);
 });
+
 Route::group([
     'prefix' => 'teacher'
 ], function () {
     Route::post('/home', [TeacherHomeController::class, 'index']);
     Route::get('/course/{id}', [TeacherCourseController::class, 'index']);
     Route::post('/createassignment', [TeacherCourseController::class, 'createAssignment']);
+    Route::post('/assignment', [TeacherCourseController::class, 'getAssignment']);
+    Route::post('/assignment/delete', [TeacherCourseController::class, 'deleteAssignment']);
+    Route::post('/assignment/update', [TeacherCourseController::class, 'updateAssignment']);
+    Route::post('/material/creatematerial', [TeacherCourseController::class, 'createMaterial']);
 });
+
+Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
 Route::get('/posts', [PostController::class, 'getPosts']);
 Route::post('/posts/new', [PostController::class, 'newPost']);
 Route::get('/posts/{id}', [PostController::class, 'getPost']);
