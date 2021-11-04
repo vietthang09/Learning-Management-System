@@ -8,10 +8,18 @@ function Courses() {
   const [courses, setCourses] = useState([]);
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [loading, setLoading] = useState(true);
+  const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/courses").then((res) => {
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/api/courses",
+      headers: { "Content-Type": "application/json" },
+      data: {
+        userId: user.id,
+      },
+    }).then((res) => {
       if (res.status === 200) {
-        setCourses(res.data.courseList);
+        setCourses(res.data.listOfCourses);
         setLoading(false);
       }
     });
@@ -34,11 +42,10 @@ function Courses() {
         <Link to={"/courses/" + item.course.course_id}>
           <CourseCard
             type="primary"
-            title={item.course.course_title}
-            cover={item.course.course_cover}
-            countAssginments={item.countAssignments}
-            countStudents={item.countStudents}
-            countMaterials={item.countMaterials}
+            data={item.course}
+            numberOfStudents={item.numberOfStudents}
+            numberOfMaterials={item.numberOfMaterials}
+            numberOfAssignments={item.numberOfAssignments}
             teacherName={item.teacherName}
           />
         </Link>

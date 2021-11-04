@@ -5,7 +5,6 @@ import {
   BookOpenIcon,
   FlagIcon,
 } from "@heroicons/react/outline";
-import { Link } from "react-router-dom";
 function CourseCard(props) {
   let temp;
   if (props.type === "primary") {
@@ -20,21 +19,21 @@ function CourseCard_Primary(props) {
   return (
     <div className="relative group">
       <img
-        src={"http://localhost:8000/" + props.cover}
+        src={"http://localhost:8000/" + props.data.course_cover}
         alt=""
         className="h-44 w-full object-cover overflow-hidden rounded-3xl "
       />
       <div className="absolute -top-5 right-5 bg-green-400 text-white rounded-3xl">
         <div className="px-5 py-1">
           <div className="flex items-center">
-            <span className="text-3xl mr-1">{props.countAssginments}</span>
+            <span className="text-3xl mr-1">{props.numberOfAssignments}</span>
             <AcademicCapIcon className="w-6 font-base" />
           </div>
           <span>Assignments</span>
         </div>
       </div>
       <div className="px-5 py-3 bg-white rounded-3xl shadow group-hover:shadow-md">
-        <span className="text-lg font-medium">{props.title}</span>
+        <span className="text-lg font-medium">{props.data.course_title}</span>
         <div className="pt-4">
           <div className="flex items-center">
             <img
@@ -49,11 +48,11 @@ function CourseCard_Primary(props) {
           <div className="flex items-center mt-2 text-xs">
             <div className="flex items-center text-gray-400 mr-5">
               <UserGroupIcon className="w-5 mr-1" />
-              {props.countStudents} students
+              {props.numberOfStudents} students
             </div>
             <div className="flex items-center text-gray-400">
               <BookOpenIcon className="w-5 mr-1" />
-              {props.countMaterials} materials
+              {props.numberOfMaterials} materials
             </div>
           </div>
         </div>
@@ -66,7 +65,7 @@ function CourseCard_Enroll(props) {
   return (
     <div className="relative group">
       <img
-        src={"http://localhost:8000/" + props.cover}
+        src={"http://localhost:8000/" + props.data.course_cover}
         alt=""
         className="h-auto w-full bg-cove rounded-3xl"
       />
@@ -77,7 +76,7 @@ function CourseCard_Enroll(props) {
         </div>
       </div>
       <div className="px-5 py-3 bg-white rounded-3xl shadow group-hover:shadow-md">
-        <span className="text-lg font-medium">{props.title}</span>
+        <span className="text-lg font-medium">{props.data.course_title}</span>
         <div className="pt-4">
           <div className="flex items-center">
             <img
@@ -91,7 +90,7 @@ function CourseCard_Enroll(props) {
           </div>
           <div className="mt-2 flex items-center text-gray-400 text-sm">
             <UserGroupIcon className="w-5 mr-1" />
-            {props.countStudents} students have enrolled
+            {props.numberOfStudents} students have enrolled
           </div>
         </div>
       </div>

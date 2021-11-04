@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 
 class CoursesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $userId = $request->input('userId');
         return response()->json([
             'status' => 200,
-            'courseList' => ControllerMaster::getCourses(2),
+            'listOfCourses' => ControllerMaster::getAllCoursesEnrolled($userId, 0),
         ]);
     }
 }

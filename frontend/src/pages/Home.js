@@ -4,20 +4,29 @@ import CourseCard from "../components/CourseCard";
 import AssignmentCard from "../components/AssignmentCard";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import { useHistory } from "react-router";
 function Home() {
   const [courses, setCourses] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [numberToday, setNumberToday] = useState();
   const [newCourses, setNewCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  let history = useHistory();
+  const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/home").then((res) => {
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/api/home",
+      headers: { "Content-Type": "application/json" },
+      data: {
+        userId: user.id,
+      },
+    }).then((res) => {
       if (res.status === 200) {
-        setCourses(res.data.collection);
-        setNumberToday(res.data.countTodayAssigments);
-        setAssignments(res.data.assignments);
-        setNewCourses(res.data.newCourses);
+        setCourses(res.data.listOfCourses);
+        setNewCourses(res.data.listOfNewCourses);
+        setNumberToday(res.data.numberOfAssigmentsToday);
+        setAssignments(res.data.listOfAssignments);
         setLoading(false);
       }
     });
@@ -37,14 +46,13 @@ function Home() {
     var courses_HTMLLIST = "";
     courses_HTMLLIST = courses.map((item, index) => {
       return (
-        <Link to={"/courses/" + item.course.course_id}>
+        <Link to={"/courses/" + item.course.id}>
           <CourseCard
             type="primary"
-            title={item.course.course_title}
-            cover={item.course.course_cover}
-            countAssginments={item.countAssignments}
-            countStudents={item.countStudents}
-            countMaterials={item.countMaterials}
+            data={item.course}
+            numberOfStudents={item.numberOfStudents}
+            numberOfMaterials={item.numberOfMaterials}
+            numberOfAssignments={item.numberOfAssignments}
             teacherName={item.teacherName}
           />
         </Link>
@@ -58,8 +66,8 @@ function Home() {
         submited = true;
       }
       return (
-        <Link to={"/courses/" + item.assignment.course_id}>
-          <AssignmentCard type={false} id={item.assignment.id} />
+        <Link to={"/courses/" + item.course_id}>
+          <AssignmentCard type={false} id={item.id} />
         </Link>
       );
     });
@@ -75,9 +83,8 @@ function Home() {
           <Link to={"/enroll/" + item.course.id}>
             <CourseCard
               type="enroll"
-              title={item.course.course_title}
-              cover={item.course.course_cover}
-              countStudents={item.countStudents}
+              data={item.course}
+              numberOfStudents={item.numberOfStudents}
               teacherName={item.teacherName}
             />
           </Link>
@@ -105,7 +112,7 @@ function Home() {
             <div class="p-5 bg-green-400 text-white flex items-center justify-start rounded-3xl shadow-lg">
               <div className="p-5">
                 <h1 className="mb-5 text-4xl lg:text-5xl font-bold">
-                  Hi Stark!
+                  {"Hi " + user.name + " !"}
                 </h1>
                 <p className="text-xl lg:text-3xl font-normal opacity-80">
                   {greeting}

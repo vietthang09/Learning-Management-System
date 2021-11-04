@@ -78,7 +78,7 @@ function CourseDetail(props) {
                 <Tab.Panel className="mt-5 px-10">
                   {assignments.map((item, index) => {
                     return (
-                      <AssignmentCard type={true} id={item.assignment.id} />
+                      <AssignmentCard type={true} id={item.id} />
                     );
                   })}
                 </Tab.Panel>

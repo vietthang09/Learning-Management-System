@@ -26,7 +26,7 @@ class PostController extends Controller
         $created_at = Carbon::create($post->created_at, 'Asia/Ho_Chi_Minh');
         return response()->json([
             'post' => $post,
-            'userName' => ControllerMaster::getNameByUserId($post->user_id),
+            // 'userName' => ControllerMaster::getNameByUserId($post->user_id),
             'createdAt' => $created_at->diffForHumans(),
         ]);
     }

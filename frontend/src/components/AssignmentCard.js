@@ -22,16 +22,23 @@ function AssignmentCard(props) {
   useEffect(() => {
     loadList();
   }, []);
+  const user = JSON.parse(localStorage.getItem("user"));
   function loadList() {
-    axios
-      .get("http://127.0.0.1:8000/api/assignment/" + props.id)
-      .then((res) => {
-        setAssignment(res.data.assignment);
-        setSubmission(res.data.submission);
-        setSubmissionStatus(res.data.submissionStatus);
-        setCourseTitle(res.data.course_title);
-        setLoading(false);
-      });
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/api/assignment/",
+      headers: { "Content-Type": "application/json" },
+      data: {
+        assignmentId: props.id,
+        userId: user.id,
+      },
+    }).then((res) => {
+      setAssignment(res.data.assignment);
+      setSubmission(res.data.submission);
+      setSubmissionStatus(res.data.submissionStatus);
+      setCourseTitle(res.data.course_title);
+      setLoading(false);
+    });
   }
 
   function closeModal() {
@@ -41,13 +48,12 @@ function AssignmentCard(props) {
   function openModal() {
     setIsOpen(true);
   }
-
   const handleSubmission = async (e) => {
     const thisClicked = e.currentTarget;
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("assignment_id", props.id);
-    formData.append("user_id", 2);
+    formData.append("user_id", user.id);
     formData.append("fileName", selectedFile.name);
     formData.append("submissionId", submissionId);
     if (submissionStatus == "border-yellow-400") {
@@ -188,7 +194,7 @@ function AssignmentCard(props) {
                               <span className="truncate w-64 font-medium text-gray-600">
                                 {submission == null
                                   ? "Your submission will appear here"
-                                  : submission.file_name}
+                                  : submission.fileName}
                               </span>
                               <button
                                 className={

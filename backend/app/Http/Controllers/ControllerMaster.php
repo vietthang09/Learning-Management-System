@@ -11,69 +11,69 @@ use Illuminate\Support\Facades\Storage;
 class ControllerMaster extends Controller
 {
 
-    static function getCourses($userId)
+    static function getAllCoursesEnrolled($userId, $limit)
     {
-        $user_id = 2;
-        $courses = DB::table('courses')
-            ->select('course_id', 'course_title', 'course_cover', 'public')
-            ->join('registered_students', 'registered_students.course_id', '=', 'courses.id')
-            ->join('users', 'users.id', '=', 'registered_students.user_id')
-            ->where('public', 1)
-            ->where('users.id', $user_id)->limit(3)->get();
-        $collection = collect();
-        foreach ($courses as $course) {
-            $countAssignments = ControllerMaster::countAssginments($course->course_id);
-            $countStudents = ControllerMaster::countStudents($course->course_id);
-            $countMaterials = ControllerMaster::countMaterials($course->course_id);
-            $teacherName = ControllerMaster::getTeacherByCourseId($course->course_id);
-            $collection->push(['course' => $course, 'countAssignments' => $countAssignments, 'countStudents' => $countStudents, 'countMaterials' => $countMaterials, 'teacherName' => $teacherName]);
-        }
-        return $collection;
-    }
 
-    // Get new courses
-    static function getNewCourses()
-    {
-        $courses = DB::table('courses')
-            ->select('id', 'course_title', 'course_cover', 'public')
-            ->where('public', 0)
-            ->get();
-        $collection = collect();
-        foreach ($courses as $course) {
-            $countStudents = ControllerMaster::countStudents($course->id);
-            $teacherName = ControllerMaster::getTeacherByCourseId($course->id);
-            $collection->push(['course' => $course, 'countStudents' => $countStudents, 'teacherName' => $teacherName]);
+        $courses = null;
+        if ($limit == 0) {
+            $courses = DB::table('courses')
+                ->select('course_id', 'course_title', 'course_cover', 'public', 'courses.user_id')
+                ->join('registered_students', 'registered_students.course_id', '=', 'courses.id')
+                ->where('public', 1)
+                ->where('registered_students.user_id', $userId)
+                ->get();
+        } else {
+            $courses = DB::table('courses')
+                ->select('course_id', 'course_title', 'course_cover', 'public', 'courses.user_id')
+                ->join('registered_students', 'registered_students.course_id', '=', 'courses.id')
+                ->where('public', 1)
+                ->where('registered_students.user_id', $userId)
+                ->limit($limit)
+                ->get();
         }
-        return $collection;
+        $collectionOfCourses = collect();
+        foreach ($courses as $course) {
+            $teacherName = ControllerMaster::getUserNameById($course->user_id);
+            $numberOfStudents = ControllerMaster::countStudentsOfCourse($course->course_id);
+            $numberOfMaterials = ControllerMaster::countMaterialsOfCourse($course->course_id);
+            $numberOfAssignments = ControllerMaster::countAssginmentsOfCourse($course->course_id);
+            $collectionOfCourses->push([
+                'course' => $course,
+                'teacherName' => $teacherName,
+                'numberOfStudents' => $numberOfStudents,
+                'numberOfMaterials' => $numberOfMaterials,
+                'numberOfAssignments' => $numberOfAssignments,
+            ]);
+        }
+        return $collectionOfCourses;
     }
 
     // Get all assignments
-    static function getAssignments()
+    static function getAssignments($userId)
     {
         $assignments = DB::table('assignments')
-            ->select('assignments.id', 'course_id', 'assignment_title', 'deadline', 'course_title')
             ->join('courses', 'courses.id', '=', 'assignments.course_id')
-            ->join('users', 'users.id', '=', 'courses.id')
-            ->orderBy('deadline', 'desc')
-            ->limit(3)
+            // ->join('registered_students', 'registered_students.id', '=', 'courses.id')
+            // ->where('registered_students.user_id', 3)
             ->get();
-        $collection = collect();
-        foreach ($assignments as $assignment) {
-            $submission = CourseController::getSubmission($assignment->id, 2);
-            $collection->push(['assignment' => $assignment, 'submission' => $submission]);
-        }
-        return $collection;
-    }
-
-
-
-    static function countAssginments($courseId)
-    {
-        $assignments = Course::where('id', $courseId)->first()->assignments()->count();
+        // $collection = collect();
+        // foreach ($assignments as $assignment) {
+        //     $submission = CourseController::getSubmission($assignment->id, 2);
+        //     $collection->push(['assignment' => $assignment, 'submission' => $submission]);
+        // }
         return $assignments;
     }
 
-    static function countStudents($courseId)
+    static function countAssginmentsOfCourse($courseId)
+    {
+        $assignments = DB::table('assignments')
+            ->select('id')
+            ->where('course_id', $courseId)
+            ->count();
+        return $assignments;
+    }
+
+    static function countStudentsOfCourse($courseId)
     {
         $student = DB::table('users')
             ->join('registered_students', 'registered_students.user_id', '=', 'users.id')
@@ -82,9 +82,10 @@ class ControllerMaster extends Controller
         return $student;
     }
 
-    static function countMaterials($courseId)
+    static function countMaterialsOfCourse($courseId)
     {
         $materials = DB::table('materials')
+            ->select('id')
             ->join('courses', 'courses.id', '=', 'materials.course_id')
             ->where('courses.id', $courseId)->count();
         return $materials;
@@ -101,30 +102,16 @@ class ControllerMaster extends Controller
     static function getAssginmentsByCourseId($courseId)
     {
         $assignments = DB::table('assignments')
-            ->select('assignments.id', 'assignment_title', 'deadline', 'assignment_content', 'courses.course_title')
-            ->join('courses', 'courses.id', '=', 'assignments.course_id')
-            ->join('users', 'users.id', '=', 'courses.id')
-            ->where('courses.id', $courseId)
-            ->orderBy('deadline', 'desc')
+            ->where('course_id', $courseId)
             ->get();
-        $collection = collect();
-        foreach ($assignments as $assignment) {
-            $submission = CourseController::getSubmission($assignment->id, 2);
-            $collection->push(['assignment' => $assignment, 'submission' => $submission,]);
-        }
-        return $collection;
+        // $collection = collect();
+        // foreach ($assignments as $assignment) {
+        //     $submission = CourseController::getSubmission($assignment->id, 2);
+        //     $collection->push(['assignment' => $assignment, 'submission' => $submission,]);
+        // }
+        return $assignments;
     }
 
-    // Get teacher by course id
-    static function getTeacherByCourseId($courseId)
-    {
-        $teacher = DB::table('users')
-            ->join('courses', 'courses.user_id', '=', 'users.id')
-            ->where('courses.id', '=', $courseId)
-            ->first();
-        $teacherName = $teacher->first_name . " " . $teacher->last_name;
-        return $teacherName;
-    }
 
     // Get materials by course id
     static function getMaterialsByCourseId($courseId)
@@ -138,12 +125,11 @@ class ControllerMaster extends Controller
     }
 
     // Get username by user id
-    static function getNameByUserId($userId)
+    static function getUserNameById($userId)
     {
         $user = DB::table('users')
-            ->select('first_name', 'last_name')
             ->where('id', $userId)
             ->first();
-        return $user->first_name . " " . $user->last_name;
+        return $user->name;
     }
 }

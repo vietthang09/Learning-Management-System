@@ -15,7 +15,7 @@ class CourseController extends Controller
         return response()->json([
             'status' => 200,
             'course' => ControllerMaster::getCourseById($courseId),
-            'teacher' => ControllerMaster::getTeacherByCourseId($courseId),
+            'teacher' => ControllerMaster::getUserNameById($courseId),
             'materials' => ControllerMaster::getMaterialsByCourseId($courseId),
             'assignments' => ControllerMaster::getAssginmentsByCourseId($courseId),
         ]);
@@ -27,8 +27,8 @@ class CourseController extends Controller
         DB::table('submissions')->insert([
             'assignment_id' =>  $request->input('assignment_id'),
             'user_id' => $request->input('user_id'),
-            'file_name' => $fileName,
-            'file_path' => $filePath,
+            'fileName' => $fileName,
+            'filePath' => $filePath,
             'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
         ]);
     }
@@ -44,8 +44,8 @@ class CourseController extends Controller
         DB::table('submissions')
             ->where('id', $submissionId)
             ->update([
-                'file_name' => $fileName,
-                'file_path' => $filePath,
+                'fileName' => $fileName,
+                'filePath' => $filePath,
                 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')
             ]);
     }
@@ -56,18 +56,20 @@ class CourseController extends Controller
         $submission = DB::table('submissions')
             ->where('id', $submissionId)
             ->first();
-        Storage::delete($submission->file_path);
+        Storage::delete($submission->filePath);
         $submission = DB::table('submissions')
             ->where('id', $submissionId)
             ->delete();
     }
 
-    public function getAssignment($id)
+    public function getAssignment(Request $request)
     {
+        $assignmentID = $request->input('assignmentId');
+        $userId = $request->input('userId');
         $assignment = DB::table('assignments')
-            ->where('id', $id)
+            ->where('id', $assignmentID)
             ->first();
-        $submission = CourseController::getSubmission($id, 2);
+        $submission = CourseController::getSubmission($assignmentID, $userId);
         $submissionStatus = "border-red-400";
         $today = Carbon::now('Asia/Ho_Chi_Minh')->format('y-m-d');
         if (strtotime($assignment->deadline) < strtotime($today) && $submission != null) {
@@ -89,9 +91,10 @@ class CourseController extends Controller
     static function getSubmission($assignmentID, $userId)
     {
         $submission = DB::table('submissions')
-            ->select('submissions.assignment_id', 'submissions.user_id', 'submissions.file_name', 'submissions.file_path', 'submissions.id')
+            ->select('submissions.assignment_id', 'submissions.user_id', 'submissions.fileName', 'submissions.filePath', 'submissions.id')
             ->where('assignment_id', '=', $assignmentID)
-            ->where('user_id', '=', $userId)->first();
+            ->where('user_id', '=', $userId)
+            ->first();
         return $submission;
     }
 
