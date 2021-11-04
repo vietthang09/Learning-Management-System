@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Student;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ControllerMaster;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -14,24 +17,29 @@ class HomeController extends Controller
         return response()->json([
             'listOfCourses' => ControllerMaster::getAllCoursesEnrolled($userId, 3),
             'listOfNewCourses' => HomeController::getNewCourses(),
-            'numberOfAssigmentsToday' => HomeController::countTodayAssignments(),
+            'numberOfAssigmentsToday' => HomeController::countTodayAssignments($userId),
             'listOfAssignments' => HomeController::getAllAssignments($userId),
         ]);
     }
 
     // Get number of today assignmentss
-    static function countTodayAssignments()
+    static function countTodayAssignments($studentId)
     {
         $current = Carbon::now();
         $yesterday = Carbon::now()->subDay();
         $numberAssignments = DB::table('assignments')
-            ->join('courses', 'courses.id', '=', 'assignments.course_id')
-            ->join('users', 'users.id', '=', 'courses.id')
+            ->select('assignments.id', 'assignments.course_id')
+            ->join('courses', 'courses.id', 'assignments.course_id')
+            ->join('registered_students', 'registered_students.course_id', 'courses.id')
+            ->where('registered_students.user_id', $studentId)
             ->where('deadline', '<=', $current)
             ->where('deadline', '>', $yesterday)
             ->get()
             ->count();
-        return $numberAssignments;
+        if ($numberAssignments > 1) {
+            return $numberAssignments . ' assignments';
+        }
+        return $numberAssignments . ' assignment';
     }
 
     // Get new courses

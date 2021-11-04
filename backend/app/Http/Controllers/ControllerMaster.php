@@ -48,6 +48,41 @@ class ControllerMaster extends Controller
         return $collectionOfCourses;
     }
 
+    // Get course teaching by teacher
+    static function getCoursesIsBeingTaught($teacherId, $limit)
+    {
+        $courses = null;
+        if ($limit == 0) {
+            $courses = DB::table('courses')
+                ->select('id', 'course_title', 'course_cover', 'public', 'user_id')
+                ->where('user_id', $teacherId)
+                ->where('public', 1)
+                ->get();
+        } else {
+            $courses = DB::table('courses')
+                ->select('id', 'course_title', 'course_cover', 'public', 'user_id', 'id as course_id')
+                ->where('user_id', $teacherId)
+                ->where('public', 1)
+                ->limit($limit)
+                ->get();
+        }
+        $collectionOfCourses = collect();
+        foreach ($courses as $course) {
+            $teacherName = ControllerMaster::getUserNameById($course->user_id);
+            $numberOfStudents = ControllerMaster::countStudentsOfCourse($course->id);
+            $numberOfMaterials = ControllerMaster::countMaterialsOfCourse($course->id);
+            $numberOfAssignments = ControllerMaster::countAssginmentsOfCourse($course->id);
+            $collectionOfCourses->push([
+                'course' => $course,
+                'teacherName' => $teacherName,
+                'numberOfStudents' => $numberOfStudents,
+                'numberOfMaterials' => $numberOfMaterials,
+                'numberOfAssignments' => $numberOfAssignments,
+            ]);
+        }
+        return $collectionOfCourses;
+    }
+
     // Get all assignments
     static function getAssignments($userId)
     {

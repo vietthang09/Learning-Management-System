@@ -26,7 +26,7 @@ function AssignmentCard(props) {
   function loadList() {
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/api/assignment/",
+      url: "http://127.0.0.1:8000/api/student/assignment/",
       headers: { "Content-Type": "application/json" },
       data: {
         assignmentId: props.id,

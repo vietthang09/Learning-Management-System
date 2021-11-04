@@ -10,7 +10,7 @@ function Login() {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   let history = useHistory();
-  if (localStorage.getItem("user")) {
+  if (localStorage.getItem("token")) {
     history.push("/");
   }
   const login = () => {

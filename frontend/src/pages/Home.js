@@ -4,7 +4,7 @@ import CourseCard from "../components/CourseCard";
 import AssignmentCard from "../components/AssignmentCard";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router";
+import { Redirect, useHistory } from "react-router";
 function Home() {
   const [courses, setCourses] = useState([]);
   const [assignments, setAssignments] = useState([]);
@@ -13,10 +13,17 @@ function Home() {
   const [loading, setLoading] = useState(true);
   let history = useHistory();
   const user = JSON.parse(localStorage.getItem("user"));
+  if (localStorage.getItem("token")) {
+    <Redirect to="/login" />;
+  }
+  var URL = "http://127.0.0.1:8000/api/student/home";
+  if (user.role == 1) {
+    URL = "http://127.0.0.1:8000/api/teacher/home";
+  }
   useEffect(() => {
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/api/home",
+      url: URL,
       headers: { "Content-Type": "application/json" },
       data: {
         userId: user.id,
@@ -46,7 +53,7 @@ function Home() {
     var courses_HTMLLIST = "";
     courses_HTMLLIST = courses.map((item, index) => {
       return (
-        <Link to={"/courses/" + item.course.id}>
+        <Link to={"/courses/" + item.course.course_id}>
           <CourseCard
             type="primary"
             data={item.course}
@@ -92,15 +99,11 @@ function Home() {
       });
     }
 
-    var greeting = "";
-    if (numberToday >= 1) {
-      var temp = "";
-      if (numberToday > 1) {
-        temp = "s";
-      }
-      greeting = "You have " + numberToday + " assignment" + temp + " today";
+    var greeting = "No assignment today";
+    if (user.role == 0) {
+      greeting = "You have " + numberToday + " today";
     } else {
-      greeting = "Wow, you don't have any assignment today";
+      greeting = "You have assigned " + numberToday + " today";
     }
   }
 
@@ -118,7 +121,7 @@ function Home() {
                   {greeting}
                 </p>
                 <p className="text-xl lg:text-3xl font-normal opacity-80">
-                  Start your learning.
+                  Have a great day.
                 </p>
               </div>
             </div>
@@ -134,16 +137,9 @@ function Home() {
             <div class="h-full text-grey-dark flex items-center justify-center">
               <div>
                 <div className="mb-10">
-                  <div className="flex justify-between lg:w-80 p-2 bg-gray-100 rounded-md relative shadow-inner">
-                    <input
-                      type="text"
-                      className="w-full bg-gray-100 text-gray-500 focus:outline-none"
-                      placeholder="What course are you looking for?"
-                    />
-                    <button className="absolute -top-1/4 -right-2 p-4 bg-white border-2 border-green-400 rounded-full">
-                      <SearchIcon className="w-6 text-green-400 transform hover:scale-105" />
-                    </button>
-                  </div>
+                  <span className="text-gray-800 text-2xl font-bold">
+                    Recently visited
+                  </span>
                 </div>
                 <div className="lg:px-0 grid grid-cols-1 lg:grid-cols-3 gap-2 gap-y-8">
                   {courses_HTMLLIST}
@@ -155,10 +151,7 @@ function Home() {
         <div class="w-full lg:w-1/4 px-2 pb-2">
           <div class="text-sm text-grey-dark flex items-center">
             <div className="w-full">
-              <div className="w-full h-60 flex justify-center items-center border">
-                <span className="text-xl text-red-500">COMING SOON</span>
-              </div>
-              <div className="mt-3">
+              <div className="mt-0">
                 <span className="text-lg font-medium">Up Comming</span>
                 <div>{assignments_HTMLLIST}</div>
               </div>
