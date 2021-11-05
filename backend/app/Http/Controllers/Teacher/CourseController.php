@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PhpParser\Node\Stmt\TryCatch;
 
 class CourseController extends Controller
 {
@@ -30,25 +31,43 @@ class CourseController extends Controller
         $title =  $request->input('title');
         $content = $request->input('content');
         $deadline = $request->input('deadline');
-        DB::table('assignments')
-            ->insert([
-                'course_id' => $courseId,
-                'assignment_title' => $title,
-                'assignment_content' => $content,
-                'deadline' => $deadline,
-                'created_at' => Carbon::now('Asia/Ho_Chi_Minh')->format('y-m-d'),
+        try {
+            DB::table('assignments')
+                ->insert([
+                    'course_id' => $courseId,
+                    'assignment_title' => $title,
+                    'assignment_content' => $content,
+                    'deadline' => $deadline,
+                    'created_at' => Carbon::now('Asia/Ho_Chi_Minh')->format('y-m-d'),
+                ]);
+            return response()->json([
+                'status' => 201,
             ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+            ]);
+        }
     }
 
     public function updateAssignment(Request $request)
     {
-        DB::table('assignments')
-            ->where('id', $request->input('assignmentId'))
-            ->update([
-                'assignment_title' => $request->input('title'),
-                'assignment_content' => $request->input('content'),
-                'deadline' => $request->input('deadline'),
+        try {
+            DB::table('assignments')
+                ->where('id', $request->input('assignmentId'))
+                ->update([
+                    'assignment_title' => $request->input('title'),
+                    'assignment_content' => $request->input('content'),
+                    'deadline' => $request->input('deadline'),
+                ]);
+            return response()->json([
+                'status' => 201,
             ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+            ]);
+        }
     }
 
     public function deleteAssignment(Request $request)

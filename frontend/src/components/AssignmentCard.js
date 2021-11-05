@@ -3,10 +3,12 @@ import {
   FolderRemoveIcon,
   DownloadIcon,
   TrashIcon,
+  AdjustmentsIcon,
 } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 import { useHistory } from "react-router";
+import { NavLink } from "react-router-dom";
 function AssignmentCard(props) {
   const [assignment, setAssignment] = useState([]);
   const [submission, setSubmission] = useState([]);
@@ -194,13 +196,29 @@ function AssignmentCard(props) {
           </div>
           <div className={props.type ? "block flex space-x-10" : "hidden"}>
             <div>
-              <button
-                type="button"
-                onClick={openModal}
-                className="px-4 py-2 text-sm font-medium text-green-400 border border-green-400 rounded-lg"
-              >
-                View
-              </button>
+              {user.role == 1 ? (
+                <NavLink
+                  to={{
+                    pathname: "/update-assignment/" + assignment.id,
+                    state: {
+                      courseTitle: courseTitle,
+                      assignmentTitle: assignment.assignment_title,
+                      assignmentContent: assignment.assignment_content,
+                      assignmentDeadline: assignment.deadline,
+                    },
+                  }}
+                >
+                  <AdjustmentsIcon className="w-5" />
+                </NavLink>
+              ) : (
+                <button
+                  type="button"
+                  onClick={openModal}
+                  className="px-4 py-2 text-sm font-medium text-green-400 border border-green-400 rounded-lg"
+                >
+                  View
+                </button>
+              )}
               <Transition appear show={isOpen} as={Fragment}>
                 <Dialog
                   as="div"
