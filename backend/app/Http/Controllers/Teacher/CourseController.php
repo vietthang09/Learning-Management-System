@@ -7,6 +7,7 @@ use App\Http\Controllers\ControllerMaster;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -114,6 +115,33 @@ class CourseController extends Controller
                 'fileName' => $request->input('fileName'),
                 'filePath' => $request->file('file')->store('materials'),
                 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+            ]);
+    }
+
+    public function deleteMaterial(Request $request)
+    {
+        DB::table('materials')
+            ->where('id', $request->input('materialId'))
+            ->delete();
+    }
+
+    public function updateMaterial(Request $request)
+    {
+        $materialId = $request->input('materialId');
+        $filePath = $request->file('file')->store('materials');
+        $fileName = $request->input('fileName');
+        $material = DB::table('materials')
+            ->where('id', $materialId)
+            ->first();
+        Storage::delete($material->filePath);
+        DB::table('materials')
+            ->where('id', $materialId)
+            ->update([
+                'material_title' => $request->input('title'),
+                'material_content' => $request->input('content'),
+                'fileName' => $fileName,
+                'filePath' => $filePath,
+                'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')
             ]);
     }
 }

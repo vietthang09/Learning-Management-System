@@ -47,9 +47,12 @@ Route::group([
     Route::post('/assignment/delete', [TeacherCourseController::class, 'deleteAssignment']);
     Route::post('/assignment/update', [TeacherCourseController::class, 'updateAssignment']);
     Route::post('/material/creatematerial', [TeacherCourseController::class, 'createMaterial']);
+    Route::post('/material/delete', [TeacherCourseController::class, 'deleteMaterial']);
+    Route::post('/material/update', [TeacherCourseController::class, 'updateMaterial']);
 });
 
 Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
+Route::get('/material/download/{id}', [DownloadController::class, 'getMaterial']);
 Route::get('/posts', [PostController::class, 'getPosts']);
 Route::post('/posts/new', [PostController::class, 'newPost']);
 Route::get('/posts/{id}', [PostController::class, 'getPost']);

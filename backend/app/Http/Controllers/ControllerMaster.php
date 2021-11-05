@@ -140,7 +140,7 @@ class ControllerMaster extends Controller
     static function getMaterialsByCourseId($courseId)
     {
         $materials = DB::table('materials')
-            ->select('material_title', 'material_content', 'fileName')
+            ->select('materials.id', 'material_title', 'material_content', 'fileName')
             ->join('courses', 'courses.id', '=', 'materials.course_id')
             ->where('courses.id', $courseId)
             ->get();
