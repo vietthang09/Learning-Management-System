@@ -318,12 +318,11 @@ function CourseDetail(props) {
                                   </div>
                                   <div>
                                     <span>Content</span>
-                                    <input
-                                      type="text"
+                                    <textarea
                                       name="content"
                                       className="border"
                                       onChange={onInputChange_Material}
-                                    />
+                                    ></textarea>
                                   </div>
                                   <div>
                                     <span>File</span>
