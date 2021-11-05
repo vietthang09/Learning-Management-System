@@ -201,6 +201,7 @@ function AssignmentCard(props) {
                   to={{
                     pathname: "/update-assignment/" + assignment.id,
                     state: {
+                      courseId: props.courseId,
                       courseTitle: courseTitle,
                       assignmentTitle: assignment.assignment_title,
                       assignmentContent: assignment.assignment_content,
@@ -258,150 +259,102 @@ function AssignmentCard(props) {
                           as="h3"
                           className="text-lg px-6 pt-6 font-medium leading-6 text-gray-600"
                         >
-                          {user.role == 1 ? (
-                            <input
-                              type="text"
-                              className={user.role == 1 ? "" : "hidden"}
-                              defaultValue={assignment.assignment_title}
-                              name="title"
-                              onChange={onInputChange}
-                            />
-                          ) : (
-                            assignment.assignment_title
-                          )}
+                          {assignment.assignment_title}
                         </Dialog.Title>
                         <div className="mt-2 divide-y divide-gray-200">
-                          {user.role == 1 ? (
-                            <>
-                              <textarea
-                                className={user.role == 1 ? "" : "hidden"}
-                                defaultValue={assignment.assignment_content}
-                                name="content"
-                                onChange={onInputChange}
-                              ></textarea>
-                              <input
-                                type="date"
-                                defaultValue={assignment.deadline}
-                                onChange={onInputChange}
-                                name="deadline"
-                              />
+                          <p className="text-sm px-6 pb-6 text-gray-400">
+                            {assignment.assignment_content}
+                          </p>
+                          <div
+                            className={
+                              submissionStatus == "border-red-400"
+                                ? "hidden"
+                                : "block px-6 pt-5 space-y-4"
+                            }
+                          >
+                            <div className="flex justify-between items-center">
+                              <span className="truncate w-64 font-medium text-gray-600">
+                                {submission == null
+                                  ? "Your submission will appear here"
+                                  : submission.fileName}
+                              </span>
                               <button
-                                type="button"
-                                className="flex items-center relative px-4 py-2 text-sm font-medium text-white bg-red-400 rounded-md bg-opacity-75 hover:bg-opacity-100 "
-                                onClick={deleteAssignment}
+                                className={
+                                  submissionStatus == "border-yellow-400"
+                                    ? "hidden"
+                                    : "block w-20 py-2 text-sm font-medium text-white"
+                                }
+                                onClick={handleDeletion}
                               >
-                                Delete
+                                <TrashIcon className="w-5 text-red-400 m-auto" />
                               </button>
-                              <button
-                                type="button"
-                                className="flex items-center relative px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 "
-                                onClick={confirmUpdateAssignment}
+                              <a
+                                className={
+                                  submissionStatus == "border-yellow-400"
+                                    ? "hidden"
+                                    : "block w-20 py-2 text-sm font-medium text-white rounded-md border border-green-400 hover:bg-opacity-100"
+                                }
+                                href={
+                                  submission == null
+                                    ? ""
+                                    : "http://127.0.0.1:8000/api/download/" +
+                                      submission.id
+                                }
                               >
-                                Update
-                              </button>
-                            </>
-                          ) : (
-                            <p className="text-sm px-6 pb-6 text-gray-400">
-                              {assignment.assignment_content}
-                            </p>
-                          )}
-                          {user.role == 1 ? (
-                            <div>
-                              <span>{numberOfSubmissions} submitted</span>
-                              <button>View all</button>
+                                <DownloadIcon className="w-5 text-green-400 m-auto" />
+                              </a>
                             </div>
-                          ) : (
                             <div
                               className={
                                 submissionStatus == "border-red-400"
                                   ? "hidden"
-                                  : "block px-6 pt-5 space-y-4"
+                                  : "flex py-2 justify-between items-center"
                               }
                             >
-                              <div className="flex justify-between items-center">
-                                <span className="truncate w-64 font-medium text-gray-600">
-                                  {submission == null
-                                    ? "Your submission will appear here"
-                                    : submission.fileName}
-                                </span>
+                              <div className="w-56 flex truncate">
                                 <button
                                   className={
-                                    submissionStatus == "border-yellow-400"
+                                    label == "Choose a file"
                                       ? "hidden"
-                                      : "block w-20 py-2 text-sm font-medium text-white"
+                                      : "flex items-center"
                                   }
-                                  onClick={handleDeletion}
+                                  onClick={() => {
+                                    setSelectedFile();
+                                    setLabel("Choose a file");
+                                  }}
                                 >
-                                  <TrashIcon className="w-5 text-red-400 m-auto" />
+                                  <FolderRemoveIcon className="w-6 text-red-400" />
                                 </button>
-                                <a
-                                  className={
-                                    submissionStatus == "border-yellow-400"
-                                      ? "hidden"
-                                      : "block w-20 py-2 text-sm font-medium text-white rounded-md border border-green-400 hover:bg-opacity-100"
-                                  }
-                                  href={
-                                    submission == null
-                                      ? ""
-                                      : "http://127.0.0.1:8000/api/download/" +
-                                        submission.id
-                                  }
+                                <input
+                                  type="file"
+                                  id="file"
+                                  className="inputfile"
+                                  onChange={(e) => {
+                                    setLabel(e.target.files[0].name);
+                                    setSelectedFile(e.target.files[0]);
+                                  }}
+                                />
+                                <label
+                                  htmlFor="file"
+                                  id="label"
+                                  className="py-2 font-medium text-green-400"
                                 >
-                                  <DownloadIcon className="w-5 text-green-400 m-auto" />
-                                </a>
+                                  {label}
+                                </label>
                               </div>
-                              <div
+                              <button
+                                type="button"
                                 className={
-                                  submissionStatus == "border-red-400"
-                                    ? "hidden"
-                                    : "flex py-2 justify-between items-center"
+                                  "flex items-center relative px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 "
                                 }
+                                onClick={(e) => handleSubmission(e)}
                               >
-                                <div className="w-56 flex truncate">
-                                  <button
-                                    className={
-                                      label == "Choose a file"
-                                        ? "hidden"
-                                        : "flex items-center"
-                                    }
-                                    onClick={() => {
-                                      setSelectedFile();
-                                      setLabel("Choose a file");
-                                    }}
-                                  >
-                                    <FolderRemoveIcon className="w-6 text-red-400" />
-                                  </button>
-                                  <input
-                                    type="file"
-                                    id="file"
-                                    className="inputfile"
-                                    onChange={(e) => {
-                                      setLabel(e.target.files[0].name);
-                                      setSelectedFile(e.target.files[0]);
-                                    }}
-                                  />
-                                  <label
-                                    htmlFor="file"
-                                    id="label"
-                                    className="py-2 font-medium text-green-400"
-                                  >
-                                    {label}
-                                  </label>
-                                </div>
-                                <button
-                                  type="button"
-                                  className={
-                                    "flex items-center relative px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 "
-                                  }
-                                  onClick={(e) => handleSubmission(e)}
-                                >
-                                  {submissionStatus == "border-yellow-400"
-                                    ? " Submit"
-                                    : " Update"}
-                                </button>
-                              </div>
+                                {submissionStatus == "border-yellow-400"
+                                  ? " Submit"
+                                  : " Update"}
+                              </button>
                             </div>
-                          )}
+                          </div>
                         </div>
 
                         <div className="mt-4 px-6 pb-6">

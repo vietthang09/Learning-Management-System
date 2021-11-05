@@ -12,6 +12,7 @@ import { RouteWithNav } from "./components/RouteWithNav";
 import AssignmentSetting from "./components/AssignmentSetting";
 import CreateAssignment from "./components/CreateAssignment";
 import AssignmentAdjustments from "./components/AssignmentAdjustments";
+import CreateMaterial from "./components/CreateMaterial";
 function App() {
   return (
     <>
@@ -27,6 +28,16 @@ function App() {
           <RouteWithNav
             exact
             path="/update-assignment/:id"
+            component={AssignmentAdjustments}
+          />
+          <RouteWithNav
+            exact
+            path="/create-material/:id"
+            component={CreateMaterial}
+          />
+          <RouteWithNav
+            exact
+            path="/update-material/:id"
             component={AssignmentAdjustments}
           />
           <RouteWithNav exact path="/courses/:id" component={CourseDetail} />

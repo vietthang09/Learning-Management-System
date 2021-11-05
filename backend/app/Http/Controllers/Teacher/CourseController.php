@@ -72,9 +72,18 @@ class CourseController extends Controller
 
     public function deleteAssignment(Request $request)
     {
-        DB::table('assignments')
-            ->where('id', $request->input('assignmentId'))
-            ->delete();
+        try {
+            DB::table('assignments')
+                ->where('id', $request->input('assignmentId'))
+                ->delete();
+            return response()->json([
+                'status' => 201,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+            ]);
+        }
     }
 
     static function countNumberSubmissions($assignmentId)
@@ -126,15 +135,24 @@ class CourseController extends Controller
 
     public function createMaterial(Request $request)
     {
-        DB::table('materials')
-            ->insert([
-                'course_id' => $request->input('courseId'),
-                'material_title' => $request->input('title'),
-                'material_content' => $request->input('content'),
-                'fileName' => $request->input('fileName'),
-                'filePath' => $request->file('file')->store('materials'),
-                'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+        try {
+            DB::table('materials')
+                ->insert([
+                    'course_id' => $request->input('courseId'),
+                    'material_title' => $request->input('title'),
+                    'material_content' => $request->input('content'),
+                    'fileName' => $request->input('fileName'),
+                    'filePath' => $request->file('file')->store('materials'),
+                    'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+                ]);
+            return response()->json([
+                'status' => 201,
             ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => $th,
+            ]);
+        }
     }
 
     public function deleteMaterial(Request $request)
@@ -162,5 +180,44 @@ class CourseController extends Controller
                 'filePath' => $filePath,
                 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')
             ]);
+    }
+
+    public function getSubmissions(Request $request)
+    {
+        $assignmentId = $request->input('assignmentId');
+        try {
+            $submissions = DB::table('submissions')
+                ->select('submissions.id', 'submissions.assignment_id', 'users.name', 'submissions.fileName', 'submissions.filePath', 'submissions.created_at', 'submissions.updated_at', 'submissions.mark')
+                ->join('users', 'users.id', 'submissions.user_id')
+                ->where('assignment_id', $assignmentId)
+                ->get();
+            return response()->json([
+                'status' => 201,
+                'submissions' => $submissions,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => $th,
+            ]);
+        }
+    }
+
+    public function giveMark(Request $request)
+    {
+        $submissionId = $request->input('submissionId');
+        try {
+            DB::table('submissions')
+                ->where('id', $submissionId)
+                ->update([
+                    'mark' => $request->input('mark'),
+                ]);
+            return response()->json([
+                'status' => 201,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => $th,
+            ]);
+        }
     }
 }

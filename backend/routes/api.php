@@ -46,6 +46,8 @@ Route::group([
     Route::post('/assignment', [TeacherCourseController::class, 'getAssignment']);
     Route::post('/assignment/delete', [TeacherCourseController::class, 'deleteAssignment']);
     Route::post('/assignment/update', [TeacherCourseController::class, 'updateAssignment']);
+    Route::post('/assignment/submissions', [TeacherCourseController::class, 'getSubmissions']);
+    Route::post('/assignment/give-mark', [TeacherCourseController::class, 'giveMark']);
     Route::post('/material/creatematerial', [TeacherCourseController::class, 'createMaterial']);
     Route::post('/material/delete', [TeacherCourseController::class, 'deleteMaterial']);
     Route::post('/material/update', [TeacherCourseController::class, 'updateMaterial']);

@@ -19,6 +19,7 @@ class CreateSubmissionsTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('fileName');
             $table->string('filePath');
+            $table->double('mark');
             $table->timestamps();
         });
     }

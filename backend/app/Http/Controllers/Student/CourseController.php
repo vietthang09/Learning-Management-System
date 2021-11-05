@@ -43,7 +43,7 @@ class CourseController extends Controller
         $submission = DB::table('submissions')
             ->where('id', $submissionId)
             ->first();
-        Storage::delete($submission->file_path);
+        Storage::delete($submission->filePath);
         DB::table('submissions')
             ->where('id', $submissionId)
             ->update([

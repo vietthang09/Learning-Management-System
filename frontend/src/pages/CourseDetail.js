@@ -148,15 +148,26 @@ function CourseDetail(props) {
                       );
                     })}
                   </Tab.Panel>
-                  <Tab.Panel className="mt-5 space-y-2">
+                  <Tab.Panel className="mt-5 px-10">
+                    {user.role == 0 ? (
+                      ""
+                    ) : (
+                      <div className="flex justify-end">
+                        <NavLink
+                          to={{
+                            pathname: "/create-material/" + courseId,
+                            state: {
+                              courseTitle: course.course_title,
+                            },
+                          }}
+                          className="p-2 mb-5 w-72 flex justify-center items-center bg-white text-gray-500 text-lg font-medium border-r-2 rounded-md shadow-md hover:shadow relative"
+                        >
+                          <PlusCircleIcon className="animate-pulse w-5 mr-2 text-green-400" />
+                          New material
+                        </NavLink>
+                      </div>
+                    )}
                     <div className={user.role == 0 ? "hidden" : ""}>
-                      <button
-                        type="button"
-                        onClick={openModal}
-                        className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                      >
-                        New material
-                      </button>
                       <Transition appear show={isOpen} as={Fragment}>
                         <Dialog
                           as="div"
