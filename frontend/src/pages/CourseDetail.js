@@ -8,12 +8,14 @@ import {
 } from "@heroicons/react/outline";
 import MaterialCard from "../components/MaterialCard";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 function CourseDetail(props) {
+  var location = useLocation();
   const [course, setCourse] = useState([]);
   const [teacher, setTeacher] = useState();
   const [materials, setMaterials] = useState([]);

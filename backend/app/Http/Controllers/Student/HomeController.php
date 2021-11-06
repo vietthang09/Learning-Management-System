@@ -44,7 +44,7 @@ class HomeController extends Controller
     static function getNewCourses()
     {
         $courses = DB::table('courses')
-            ->select('id', 'course_title', 'course_cover', 'public', 'user_id')
+            ->select('id', 'course_title', 'course_cover', 'introduction', 'public', 'user_id')
             ->where('public', 0)
             ->get();
         $collectionOfNewCourses = collect();

@@ -3,7 +3,7 @@ import { SearchIcon } from "@heroicons/react/outline";
 import CourseCard from "../components/CourseCard";
 import AssignmentCard from "../components/AssignmentCard";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Redirect, useHistory } from "react-router";
 function Home() {
   const [courses, setCourses] = useState([]);
@@ -11,7 +11,6 @@ function Home() {
   const [numberToday, setNumberToday] = useState();
   const [newCourses, setNewCourses] = useState([]);
   const [loading, setLoading] = useState(true);
-  let history = useHistory();
   const user = JSON.parse(localStorage.getItem("user"));
   if (localStorage.getItem("token")) {
     <Redirect to="/login" />;
@@ -29,7 +28,7 @@ function Home() {
         userId: user.id,
       },
     }).then((res) => {
-      if (res.status === 200) {
+      if (res.status == 200) {
         setCourses(res.data.listOfCourses);
         setNewCourses(res.data.listOfNewCourses);
         setNumberToday(res.data.numberOfAssigmentsToday);
@@ -41,19 +40,20 @@ function Home() {
 
   if (loading) {
     return (
-      <div className="h-screen w-screen flex justify-center items-center">
-        <img
-          src="https://cdn.dribbble.com/users/2295279/screenshots/7195340/media/393b45e26e89ebf2effd9d6f41e91483.gif"
-          alt=""
-          className="w-96"
-        />
-      </div>
+      <div className="h-screen w-screen flex justify-center items-center"></div>
     );
   } else {
     var courses_HTMLLIST = "";
     courses_HTMLLIST = courses.map((item, index) => {
       return (
-        <Link to={"/courses/" + item.course.course_id}>
+        <NavLink
+          to={{
+            pathname: "/courses/" + item.course.course_id,
+            state: {
+              new: false,
+            },
+          }}
+        >
           <CourseCard
             type="primary"
             data={item.course}
@@ -62,16 +62,12 @@ function Home() {
             numberOfAssignments={item.numberOfAssignments}
             teacherName={item.teacherName}
           />
-        </Link>
+        </NavLink>
       );
     });
 
     var assignments_HTMLLIST = "";
-    assignments_HTMLLIST = assignments.map((item, index) => {
-      var submited = false;
-      if (item.submission) {
-        submited = true;
-      }
+    assignments_HTMLLIST = assignments.map((item) => {
       return (
         <Link to={"/courses/" + item.course_id}>
           <AssignmentCard type={false} id={item.id} />
@@ -86,15 +82,26 @@ function Home() {
       };
     } else {
       newCourses_HTMLLIST = newCourses.map((item, index) => {
+        console.log(item);
         return (
-          <Link to={"/enroll/" + item.course.id}>
+          <NavLink
+            to={{
+              pathname: "/new/" + item.course.id,
+              state: {
+                cover: item.course.course_cover,
+                title: item.course.course_title,
+                teacherName: item.teacherName,
+                introduction: item.course.introduction,
+              },
+            }}
+          >
             <CourseCard
               type="enroll"
               data={item.course}
               numberOfStudents={item.numberOfStudents}
               teacherName={item.teacherName}
             />
-          </Link>
+          </NavLink>
         );
       });
     }
@@ -162,6 +169,7 @@ function Home() {
       <div className="mb-5">
         <span className="text-gray-800 text-2xl font-bold">Enroll Now</span>
         <div className="mt-5 px-7 lg:px-0 grid grid-cols-1 lg:grid-cols-4 gap-4 gap-y-8">
+          <NavLink to="/new-course">New course</NavLink>
           {newCourses_HTMLLIST}
         </div>
       </div>

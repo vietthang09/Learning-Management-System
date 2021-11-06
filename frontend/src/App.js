@@ -9,11 +9,12 @@ import Profile from "./pages/Profile";
 // import ForumTest from "./pages/ForumTest";
 import Login from "./pages/Login";
 import { RouteWithNav } from "./components/RouteWithNav";
-import AssignmentSetting from "./components/AssignmentSetting";
 import CreateAssignment from "./components/CreateAssignment";
 import AssignmentAdjustments from "./components/AssignmentAdjustments";
 import CreateMaterial from "./components/CreateMaterial";
 import MaterialAdjustments from "./components/MaterialAdjustments";
+import CreateNewCourse from "./pages/CreateNewCourse";
+import NewCourse from "./pages/NewCourse";
 function App() {
   return (
     <>
@@ -21,6 +22,7 @@ function App() {
         <Switch>
           <Route path="/login" component={Login} />
           <RouteWithNav exact path="/" component={Home} />
+          <RouteWithNav exact path="/new-course" component={CreateNewCourse} />
           <RouteWithNav
             exact
             path="/create-assignment/:id"
@@ -42,6 +44,7 @@ function App() {
             component={MaterialAdjustments}
           />
           <RouteWithNav exact path="/courses/:id" component={CourseDetail} />
+          <RouteWithNav exact path="/new/:id" component={NewCourse} />
           <RouteWithNav exact path="/courses" component={Courses} />
           <RouteWithNav exact path="/forum" component={Forum} />
           <RouteWithNav exact path="/profile" component={Profile} />

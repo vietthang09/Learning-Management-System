@@ -41,6 +41,7 @@ Route::group([
     'prefix' => 'teacher'
 ], function () {
     Route::post('/home', [TeacherHomeController::class, 'index']);
+    Route::post('/create-course', [CoursesController::class, 'createCourse']);
     Route::get('/course/{id}', [TeacherCourseController::class, 'index']);
     Route::post('/createassignment', [TeacherCourseController::class, 'createAssignment']);
     Route::post('/assignment', [TeacherCourseController::class, 'getAssignment']);

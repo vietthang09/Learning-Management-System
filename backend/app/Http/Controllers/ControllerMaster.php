@@ -54,13 +54,13 @@ class ControllerMaster extends Controller
         $courses = null;
         if ($limit == 0) {
             $courses = DB::table('courses')
-                ->select('id', 'course_title', 'course_cover', 'public', 'user_id')
+                // ->select('id', 'course_title', 'course_cover', 'introduction', 'public', 'user_id')
                 ->where('user_id', $teacherId)
                 ->where('public', 1)
                 ->get();
         } else {
             $courses = DB::table('courses')
-                ->select('id', 'course_title', 'course_cover', 'public', 'user_id', 'id as course_id')
+                // ->select('id', 'course_title', 'course_cover', 'introduction', 'public', 'user_id', 'id as course_id')
                 ->where('user_id', $teacherId)
                 ->where('public', 1)
                 ->limit($limit)
