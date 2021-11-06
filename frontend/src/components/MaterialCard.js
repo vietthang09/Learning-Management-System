@@ -5,35 +5,7 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
 import { NavLink } from "react-router-dom";
 function MaterialCard(props) {
-  let history = useHistory();
   const user = JSON.parse(localStorage.getItem("user"));
-  // const deleteMaterial = async (e) => {
-  //   const formData = new FormData();
-  //   formData.append("materialId", props.data.id);
-  //   await fetch("http://localhost:8000/api/teacher/material/delete", {
-  //     method: "POST",
-  //     body: formData,
-  //   }).then((result) => {
-  //     history.push("/");
-  //     history.replace("/courses/" + props.courseId);
-  //   });
-  // };
-
-  // const update = async () => {
-  //   const formData = new FormData();
-  //   formData.append("materialId", props.data.id);
-  //   formData.append("title", document.getElementById("title").value);
-  //   formData.append("content", document.getElementById("content").value);
-  //   formData.append("file", selectedFile);
-  //   formData.append("fileName", selectedFile.name);
-  //   await fetch("http://localhost:8000/api/teacher/material/update", {
-  //     method: "POST",
-  //     body: formData,
-  //   }).then((result) => {
-  //     history.push("/");
-  //     history.replace("/courses/" + props.courseId);
-  //   });
-  // };
   return (
     <Disclosure>
       {({ open }) => (

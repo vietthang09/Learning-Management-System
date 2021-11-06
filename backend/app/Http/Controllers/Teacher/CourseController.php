@@ -157,29 +157,51 @@ class CourseController extends Controller
 
     public function deleteMaterial(Request $request)
     {
-        DB::table('materials')
-            ->where('id', $request->input('materialId'))
-            ->delete();
+        try {
+            DB::table('materials')
+                ->where('id', $request->input('materialId'))
+                ->delete();
+            return response()->json([
+                'status' => 201,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+            ]);
+        }
     }
 
     public function updateMaterial(Request $request)
     {
         $materialId = $request->input('materialId');
-        $filePath = $request->file('file')->store('materials');
-        $fileName = $request->input('fileName');
         $material = DB::table('materials')
             ->where('id', $materialId)
             ->first();
-        Storage::delete($material->filePath);
-        DB::table('materials')
-            ->where('id', $materialId)
-            ->update([
-                'material_title' => $request->input('title'),
-                'material_content' => $request->input('content'),
-                'fileName' => $fileName,
-                'filePath' => $filePath,
-                'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')
+        $fileName = "";
+        $filePath = $material->fileName;
+        if ($request->file('file')) {
+            $filePath = $request->file('file')->store('materials');
+            $fileName = $request->file('file')->getClientOriginalName();
+            Storage::delete($material->filePath);
+        }
+        try {
+            DB::table('materials')
+                ->where('id', $materialId)
+                ->update([
+                    'material_title' => $request->input('title'),
+                    'material_content' => $request->input('content'),
+                    'fileName' => $fileName,
+                    'filePath' => $filePath,
+                    'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')
+                ]);
+            return response()->json([
+                'status' => 201,
             ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+            ]);
+        }
     }
 
     public function getSubmissions(Request $request)

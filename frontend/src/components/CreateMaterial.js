@@ -17,27 +17,6 @@ function CreateMaterial(props) {
     if (!title || !content || !file) {
       toast.error("Please fill in all the information");
     } else {
-      //   axios({
-      //     method: "post",
-      //     url: "http://127.0.0.1:8000/api/teacher/material/creatematerial",
-      //     headers: { "Content-Type": "multipart/form-data" },
-      //     data: {
-      //       file: file,
-      //       courseId: courseId,
-      //       title: title,
-      //       content: content,
-      //       fileName: file.name,
-      //     },
-      //   }).then((response) => {
-      //     if (response.data.status == 201) {
-      //       toast.info("Done! Going back to the course");
-      //       setTimeout(() => {
-      //         history.goBack();
-      //       }, 3000);
-      //     } else {
-      //       toast.error("Something went wrong, please try again!");
-      //     }
-      //   });
       const formData = new FormData();
       formData.append("file", file);
       formData.append("courseId", courseId);
