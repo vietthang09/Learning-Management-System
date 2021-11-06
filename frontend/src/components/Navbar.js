@@ -21,7 +21,7 @@ function Navbar() {
         <div className="h-14 w-full flex justify-center lg:justify-between items-center max-w-screen-xl">
           <div className="hidden lg:block">
             <img
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+              src="http://localhost:3000/favicon.png"
               alt=""
               className="w-10"
             />

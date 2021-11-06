@@ -54,7 +54,13 @@ function CourseDetail(props) {
     };
   } else {
     materials_HTMLLIST = materials.map((item) => {
-      return <MaterialCard data={item} courseId={courseId} />;
+      return (
+        <MaterialCard
+          data={item}
+          courseId={courseId}
+          courseTitle={course.course_title}
+        />
+      );
     });
   }
   let [isOpen, setIsOpen] = useState(false);

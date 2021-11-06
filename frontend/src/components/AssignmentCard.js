@@ -7,21 +7,14 @@ import {
 } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
-import { useHistory } from "react-router";
 import { NavLink } from "react-router-dom";
 function AssignmentCard(props) {
   const [assignment, setAssignment] = useState([]);
   const [submission, setSubmission] = useState([]);
   const [submissionStatus, setSubmissionStatus] = useState();
   const [courseTitle, setCourseTitle] = useState();
-  const [numberOfSubmissions, setNumberOfSubmissions] = useState(0);
   const [loading, setLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState();
-  const [updateAssignment, setUpdateAssignment] = useState({
-    title: "",
-    content: "",
-    deadline: "",
-  });
   let [isOpen, setIsOpen] = useState(false);
   let [label, setLabel] = useState("Choose a file");
   var submissionId = "";
@@ -57,7 +50,6 @@ function AssignmentCard(props) {
       },
     }).then((res) => {
       setAssignment(res.data.assignment);
-      setNumberOfSubmissions(res.data.numberOfSubmissions);
       setSubmissionStatus(res.data.submissionStatus);
       setCourseTitle(res.data.course_title);
       setLoading(false);
@@ -117,56 +109,9 @@ function AssignmentCard(props) {
       closeModal();
     });
   };
-  let history = useHistory();
-  const deleteAssignment = async () => {
-    const formData = new FormData();
-    formData.append("assignmentId", assignment.id);
-    await fetch("http://127.0.0.1:8000/api/teacher/assignment/delete", {
-      method: "POST",
-      body: formData,
-    }).then((res) => {
-      history.push("/");
-      history.replace("/courses/" + props.courseId);
-      closeModal();
-    });
-  };
-
-  const onInputChange = (e) => {
-    setUpdateAssignment({
-      ...updateAssignment,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const confirmUpdateAssignment = async () => {
-    const formData = new FormData();
-    formData.append("assignmentId", assignment.id);
-    if (updateAssignment.title) {
-      formData.append("title", updateAssignment.title);
-    } else {
-      formData.append("title", assignment.assignment_title);
-    }
-    if (updateAssignment.content) {
-      formData.append("content", updateAssignment.content);
-    } else {
-      formData.append("content", assignment.assignment_content);
-    }
-    if (updateAssignment.deadline) {
-      formData.append("deadline", updateAssignment.deadline);
-    } else {
-      formData.append("deadline", assignment.deadline);
-    }
-    await fetch("http://127.0.0.1:8000/api/teacher/assignment/update", {
-      method: "POST",
-      body: formData,
-    }).then((res) => {
-      loadListForTeacher();
-      closeModal();
-    });
-  };
 
   if (loading) {
-    return <div className="flex justify-center items-center"></div>;
+    return <div className="flex justify-center items-center">a</div>;
   } else {
     return (
       <>
@@ -212,165 +157,167 @@ function AssignmentCard(props) {
                   <AdjustmentsIcon className="w-5" />
                 </NavLink>
               ) : (
-                <button
-                  type="button"
-                  onClick={openModal}
-                  className="px-4 py-2 text-sm font-medium text-green-400 border border-green-400 rounded-lg"
-                >
-                  View
-                </button>
-              )}
-              <Transition appear show={isOpen} as={Fragment}>
-                <Dialog
-                  as="div"
-                  className="fixed inset-0 z-10 overflow-y-auto"
-                  onClose={closeModal}
-                >
-                  <div className="min-h-screen px-4 text-center">
-                    <Transition.Child
-                      as={Fragment}
-                      enter="ease-out duration-300"
-                      enterFrom="opacity-0"
-                      enterTo="opacity-100"
-                      leave="ease-in duration-200"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
+                <>
+                  <button
+                    type="button"
+                    onClick={openModal}
+                    className="px-4 py-2 text-sm font-medium text-green-400 border border-green-400 rounded-lg"
+                  >
+                    View
+                  </button>
+                  <Transition appear show={isOpen} as={Fragment}>
+                    <Dialog
+                      as="div"
+                      className="fixed inset-0 z-10 overflow-y-auto"
+                      onClose={closeModal}
                     >
-                      <Dialog.Overlay className="fixed inset-0" />
-                    </Transition.Child>
-
-                    <span
-                      className="inline-block h-screen align-middle"
-                      aria-hidden="true"
-                    >
-                      &#8203;
-                    </span>
-                    <Transition.Child
-                      as={Fragment}
-                      enter="ease-out duration-100"
-                      enterFrom="opacity-0 scale-95"
-                      enterTo="opacity-100 scale-100"
-                      leave="ease-in duration-100"
-                      leaveFrom="opacity-100 scale-100"
-                      leaveTo="opacity-0 scale-95"
-                    >
-                      <div className="inline-block w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                        <Dialog.Title
-                          as="h3"
-                          className="text-lg px-6 pt-6 font-medium leading-6 text-gray-600"
+                      <div className="min-h-screen px-4 text-center">
+                        <Transition.Child
+                          as={Fragment}
+                          enter="ease-out duration-300"
+                          enterFrom="opacity-0"
+                          enterTo="opacity-100"
+                          leave="ease-in duration-200"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
                         >
-                          {assignment.assignment_title}
-                        </Dialog.Title>
-                        <div className="mt-2 divide-y divide-gray-200">
-                          <p className="text-sm px-6 pb-6 text-gray-400">
-                            {assignment.assignment_content}
-                          </p>
-                          <div
-                            className={
-                              submissionStatus == "border-red-400"
-                                ? "hidden"
-                                : "block px-6 pt-5 space-y-4"
-                            }
-                          >
-                            <div className="flex justify-between items-center">
-                              <span className="truncate w-64 font-medium text-gray-600">
-                                {submission == null
-                                  ? "Your submission will appear here"
-                                  : submission.fileName}
-                              </span>
-                              <button
-                                className={
-                                  submissionStatus == "border-yellow-400"
-                                    ? "hidden"
-                                    : "block w-20 py-2 text-sm font-medium text-white"
-                                }
-                                onClick={handleDeletion}
-                              >
-                                <TrashIcon className="w-5 text-red-400 m-auto" />
-                              </button>
-                              <a
-                                className={
-                                  submissionStatus == "border-yellow-400"
-                                    ? "hidden"
-                                    : "block w-20 py-2 text-sm font-medium text-white rounded-md border border-green-400 hover:bg-opacity-100"
-                                }
-                                href={
-                                  submission == null
-                                    ? ""
-                                    : "http://127.0.0.1:8000/api/download/" +
-                                      submission.id
-                                }
-                              >
-                                <DownloadIcon className="w-5 text-green-400 m-auto" />
-                              </a>
-                            </div>
-                            <div
-                              className={
-                                submissionStatus == "border-red-400"
-                                  ? "hidden"
-                                  : "flex py-2 justify-between items-center"
-                              }
+                          <Dialog.Overlay className="fixed inset-0" />
+                        </Transition.Child>
+
+                        <span
+                          className="inline-block h-screen align-middle"
+                          aria-hidden="true"
+                        >
+                          &#8203;
+                        </span>
+                        <Transition.Child
+                          as={Fragment}
+                          enter="ease-out duration-100"
+                          enterFrom="opacity-0 scale-95"
+                          enterTo="opacity-100 scale-100"
+                          leave="ease-in duration-100"
+                          leaveFrom="opacity-100 scale-100"
+                          leaveTo="opacity-0 scale-95"
+                        >
+                          <div className="inline-block w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                            <Dialog.Title
+                              as="h3"
+                              className="text-lg px-6 pt-6 font-medium leading-6 text-gray-600"
                             >
-                              <div className="w-56 flex truncate">
-                                <button
+                              {assignment.assignment_title}
+                            </Dialog.Title>
+                            <div className="mt-2 divide-y divide-gray-200">
+                              <p className="text-sm px-6 pb-6 text-gray-400">
+                                {assignment.assignment_content}
+                              </p>
+                              <div
+                                className={
+                                  submissionStatus == "border-red-400"
+                                    ? "hidden"
+                                    : "block px-6 pt-5 space-y-4"
+                                }
+                              >
+                                <div className="flex justify-between items-center">
+                                  <span className="truncate w-64 font-medium text-gray-600">
+                                    {submission == null
+                                      ? "Your submission will appear here"
+                                      : submission.fileName}
+                                  </span>
+                                  <button
+                                    className={
+                                      submissionStatus == "border-yellow-400"
+                                        ? "hidden"
+                                        : "block w-20 py-2 text-sm font-medium text-white"
+                                    }
+                                    onClick={handleDeletion}
+                                  >
+                                    <TrashIcon className="w-5 text-red-400 m-auto" />
+                                  </button>
+                                  <a
+                                    className={
+                                      submissionStatus == "border-yellow-400"
+                                        ? "hidden"
+                                        : "block w-20 py-2 text-sm font-medium text-white rounded-md border border-green-400 hover:bg-opacity-100"
+                                    }
+                                    href={
+                                      submission == null
+                                        ? ""
+                                        : "http://127.0.0.1:8000/api/download/" +
+                                          submission.id
+                                    }
+                                  >
+                                    <DownloadIcon className="w-5 text-green-400 m-auto" />
+                                  </a>
+                                </div>
+                                <div
                                   className={
-                                    label == "Choose a file"
+                                    submissionStatus == "border-red-400"
                                       ? "hidden"
-                                      : "flex items-center"
+                                      : "flex py-2 justify-between items-center"
                                   }
-                                  onClick={() => {
-                                    setSelectedFile();
-                                    setLabel("Choose a file");
-                                  }}
                                 >
-                                  <FolderRemoveIcon className="w-6 text-red-400" />
-                                </button>
-                                <input
-                                  type="file"
-                                  id="file"
-                                  className="inputfile"
-                                  onChange={(e) => {
-                                    setLabel(e.target.files[0].name);
-                                    setSelectedFile(e.target.files[0]);
-                                  }}
-                                />
-                                <label
-                                  htmlFor="file"
-                                  id="label"
-                                  className="py-2 font-medium text-green-400"
-                                >
-                                  {label}
-                                </label>
+                                  <div className="w-56 flex truncate">
+                                    <button
+                                      className={
+                                        label == "Choose a file"
+                                          ? "hidden"
+                                          : "flex items-center"
+                                      }
+                                      onClick={() => {
+                                        setSelectedFile();
+                                        setLabel("Choose a file");
+                                      }}
+                                    >
+                                      <FolderRemoveIcon className="w-6 text-red-400" />
+                                    </button>
+                                    <input
+                                      type="file"
+                                      id="file"
+                                      className="inputfile"
+                                      onChange={(e) => {
+                                        setLabel(e.target.files[0].name);
+                                        setSelectedFile(e.target.files[0]);
+                                      }}
+                                    />
+                                    <label
+                                      htmlFor="file"
+                                      id="label"
+                                      className="py-2 font-medium text-green-400"
+                                    >
+                                      {label}
+                                    </label>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    className={
+                                      "flex items-center relative px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 "
+                                    }
+                                    onClick={(e) => handleSubmission(e)}
+                                  >
+                                    {submissionStatus == "border-yellow-400"
+                                      ? " Submit"
+                                      : " Update"}
+                                  </button>
+                                </div>
                               </div>
+                            </div>
+
+                            <div className="mt-4 px-6 pb-6">
                               <button
                                 type="button"
-                                className={
-                                  "flex items-center relative px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 "
-                                }
-                                onClick={(e) => handleSubmission(e)}
+                                className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-500 hover:text-red-400s focus:outline-none"
+                                onClick={closeModal}
                               >
-                                {submissionStatus == "border-yellow-400"
-                                  ? " Submit"
-                                  : " Update"}
+                                Close
                               </button>
                             </div>
                           </div>
-                        </div>
-
-                        <div className="mt-4 px-6 pb-6">
-                          <button
-                            type="button"
-                            className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-500 hover:text-red-400s focus:outline-none"
-                            onClick={closeModal}
-                          >
-                            Close
-                          </button>
-                        </div>
+                        </Transition.Child>
                       </div>
-                    </Transition.Child>
-                  </div>
-                </Dialog>
-              </Transition>
+                    </Dialog>
+                  </Transition>
+                </>
+              )}
             </div>
           </div>
         </div>
