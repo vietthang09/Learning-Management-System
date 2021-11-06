@@ -41,4 +41,101 @@ class CoursesController extends Controller
             ]);
         }
     }
+
+    public function cancelRequest(Request $request)
+    {
+        $courseId = $request->input('courseId');
+        try {
+            DB::table('courses')
+                ->where('id', $courseId)
+                ->delete();
+            return response()->json([
+                'status' => 201,
+            ]);
+        } catch (DataException $ex) {
+            return response()->json([
+                'status' => $ex,
+            ]);
+        }
+    }
+
+    public function enroll(Request $request)
+    {
+        $studentId = $request->input('userId');
+        $courseId =  $request->input('courseId');
+        try {
+            DB::table('registered_students')
+                ->insert([
+                    'user_id' => $studentId,
+                    'course_id' => $courseId,
+                    'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+                ]);
+            return response()->json([
+                'status' => 201,
+            ]);
+        } catch (DataException $ex) {
+            return response()->json([
+                'status' => $ex,
+            ]);
+        }
+    }
+
+    public function checkEnroll(Request $request)
+    {
+        $studentId = $request->input('userId');
+        $courseId =  $request->input('courseId');
+        try {
+            $registration = DB::table('registered_students')
+                ->where('user_id', $studentId)
+                ->where('course_id', $courseId)
+                ->first();
+            if ($registration) {
+                return response()->json([
+                    'status' => 1,
+                ]);
+            }
+        } catch (DataException $ex) {
+            return response()->json([
+                'status' => $ex,
+            ]);
+        }
+    }
+
+    public function getOut(Request $request)
+    {
+        $studentId = $request->input('userId');
+        $courseId =  $request->input('courseId');
+        try {
+            DB::table('registered_students')
+                ->where('user_id', $studentId)
+                ->where('course_id', $courseId)
+                ->delete();
+            return response()->json([
+                'status' => 201,
+            ]);
+        } catch (DataException $ex) {
+            return response()->json([
+                'status' => $ex,
+            ]);
+        }
+    }
+
+    public function getEnrolledList(Request $request)
+    {
+        $courseId = $request->input('courseId');
+        try {
+            $students = DB::table('users')
+                ->join('registered_students', 'registered_students.user_id', 'users.id')
+                ->where('course_id', $courseId)
+                ->get();
+            return response()->json([
+                'status' => 201,
+                'students' => $students,
+            ]);
+        } catch (DataException $ex) {
+            return response()->json([
+                'status' => $ex,
+            ]);
+        }
+    }
 }

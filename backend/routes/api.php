@@ -30,6 +30,10 @@ Route::group([
 ], function () {
     Route::post('/home', [HomeController::class, 'index']);
     Route::post('/courses', [CoursesController::class, 'index']);
+    Route::post('/enroll', [CoursesController::class, 'enroll']);
+    Route::post('/check-enroll', [CoursesController::class, 'checkEnroll']);
+
+    Route::post('/get-out', [CoursesController::class, 'getOut']);
     Route::get('/course/{id}', [StudentCourseController::class, 'index']);
     Route::post('/submit/upload', [StudentCourseController::class, 'store']);
     Route::post('/submit/update', [StudentCourseController::class, 'update']);
@@ -42,6 +46,7 @@ Route::group([
 ], function () {
     Route::post('/home', [TeacherHomeController::class, 'index']);
     Route::post('/create-course', [CoursesController::class, 'createCourse']);
+    Route::post('/cancel-request', [CoursesController::class, 'cancelRequest']);
     Route::get('/course/{id}', [TeacherCourseController::class, 'index']);
     Route::post('/createassignment', [TeacherCourseController::class, 'createAssignment']);
     Route::post('/assignment', [TeacherCourseController::class, 'getAssignment']);
@@ -53,7 +58,7 @@ Route::group([
     Route::post('/material/delete', [TeacherCourseController::class, 'deleteMaterial']);
     Route::post('/material/update', [TeacherCourseController::class, 'updateMaterial']);
 });
-
+Route::post('/enrolled-list', [CoursesController::class, 'getEnrolledList']);
 Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
 Route::get('/material/download/{id}', [DownloadController::class, 'getMaterial']);
 Route::get('/posts', [PostController::class, 'getPosts']);

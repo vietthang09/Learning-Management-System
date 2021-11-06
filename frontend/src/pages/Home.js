@@ -82,7 +82,6 @@ function Home() {
       };
     } else {
       newCourses_HTMLLIST = newCourses.map((item, index) => {
-        console.log(item);
         return (
           <NavLink
             to={{
@@ -169,7 +168,7 @@ function Home() {
       <div className="mb-5">
         <span className="text-gray-800 text-2xl font-bold">Enroll Now</span>
         <div className="mt-5 px-7 lg:px-0 grid grid-cols-1 lg:grid-cols-4 gap-4 gap-y-8">
-          <NavLink to="/new-course">New course</NavLink>
+          {user.role == 0 ? "" : <NavLink to="/new-course">New course</NavLink>}
           {newCourses_HTMLLIST}
         </div>
       </div>
