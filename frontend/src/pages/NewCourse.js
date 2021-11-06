@@ -10,7 +10,7 @@ function NewCourse(props) {
   const courseId = props.match.params.id;
   var location = new useLocation();
   var history = useHistory();
-  const cancelRequest = async () => {
+  async function cancelRequest() {
     var formData = new FormData();
     formData.append("courseId", courseId);
     axios({
@@ -28,8 +28,8 @@ function NewCourse(props) {
         toast.error("Something went wrong, please try again!");
       }
     });
-  };
-  const enroll = async () => {
+  }
+  async function enroll() {
     var formData = new FormData();
     formData.append("userId", user.id);
     formData.append("courseId", courseId);
@@ -45,8 +45,8 @@ function NewCourse(props) {
         toast.error("Something went wrong, please try again!");
       }
     });
-  };
-  const getOut = async () => {
+  }
+  async function getOut() {
     var formData = new FormData();
     formData.append("userId", user.id);
     formData.append("courseId", courseId);
@@ -65,9 +65,9 @@ function NewCourse(props) {
         toast.error("Something went wrong, please try again!");
       }
     });
-  };
+  }
   const [enrollStatus, setEnrollStatus] = useState(false);
-  const checkEnroll = async () => {
+  async function checkEnroll() {
     var formData = new FormData();
     formData.append("userId", user.id);
     formData.append("courseId", courseId);
@@ -83,8 +83,7 @@ function NewCourse(props) {
         setEnrollStatus(false);
       }
     });
-  };
-
+  }
   useEffect(() => {
     if (user.role == 0) {
       checkEnroll();

@@ -54,13 +54,13 @@ class ControllerMaster extends Controller
         $courses = null;
         if ($limit == 0) {
             $courses = DB::table('courses')
-                // ->select('id', 'course_title', 'course_cover', 'introduction', 'public', 'user_id')
+                ->select('id as course_id', 'course_title', 'course_cover', 'introduction', 'public', 'user_id')
                 ->where('user_id', $teacherId)
                 ->where('public', 1)
                 ->get();
         } else {
             $courses = DB::table('courses')
-                // ->select('id', 'course_title', 'course_cover', 'introduction', 'public', 'user_id', 'id as course_id')
+                ->select('id as course_id', 'course_title', 'course_cover', 'introduction', 'public', 'user_id', 'id as course_id')
                 ->where('user_id', $teacherId)
                 ->where('public', 1)
                 ->limit($limit)
@@ -69,9 +69,9 @@ class ControllerMaster extends Controller
         $collectionOfCourses = collect();
         foreach ($courses as $course) {
             $teacherName = ControllerMaster::getUserNameById($course->user_id);
-            $numberOfStudents = ControllerMaster::countStudentsOfCourse($course->id);
-            $numberOfMaterials = ControllerMaster::countMaterialsOfCourse($course->id);
-            $numberOfAssignments = ControllerMaster::countAssginmentsOfCourse($course->id);
+            $numberOfStudents = ControllerMaster::countStudentsOfCourse($course->course_id);
+            $numberOfMaterials = ControllerMaster::countMaterialsOfCourse($course->course_id);
+            $numberOfAssignments = ControllerMaster::countAssginmentsOfCourse($course->course_id);
             $collectionOfCourses->push([
                 'course' => $course,
                 'teacherName' => $teacherName,

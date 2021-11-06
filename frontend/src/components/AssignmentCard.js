@@ -66,7 +66,7 @@ function AssignmentCard(props) {
   function openModal() {
     setIsOpen(true);
   }
-  const handleSubmission = async (e) => {
+  async function handleSubmission(e) {
     const thisClicked = e.currentTarget;
     const formData = new FormData();
     formData.append("file", selectedFile);
@@ -96,7 +96,7 @@ function AssignmentCard(props) {
         closeModal();
       });
     }
-  };
+  }
 
   const handleDeletion = async (e) => {
     const formData = new FormData();

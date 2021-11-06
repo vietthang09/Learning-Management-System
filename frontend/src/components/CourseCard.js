@@ -21,7 +21,7 @@ function CourseCard_Primary(props) {
       <img
         src={"http://localhost:8000/" + props.data.course_cover}
         alt=""
-        className="h-44 w-full object-cover overflow-hidden rounded-3xl "
+        className="h-44 w-full object-cover overflow-hidden rounded-3xl"
       />
       <div className="absolute -top-5 right-5 bg-green-400 text-white rounded-3xl">
         <div className="px-5 py-1">
@@ -67,7 +67,7 @@ function CourseCard_Enroll(props) {
       <img
         src={"http://localhost:8000/" + props.data.course_cover}
         alt=""
-        className="h-auto w-full bg-cove rounded-3xl"
+        className="h-44 w-full object-cover overflow-hidden rounded-3xl"
       />
       <div className="absolute -top-5 right-5 bg-red-400 text-white rounded-xl">
         <div className="px-7 py-1">

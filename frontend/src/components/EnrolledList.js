@@ -1,10 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
 function EnrolledList(props) {
   var [students, setStudents] = useState([]);
-  const loadData = async () => {
+  useEffect(() => {
     var formData = new FormData();
     formData.append("courseId", props.courseId);
     axios({
@@ -15,14 +13,8 @@ function EnrolledList(props) {
     }).then((response) => {
       if (response.data.status == 201) {
         setStudents(response.data.students);
-        console.log(response.data.students);
-      } else {
-        toast.error("Something went wrong, please try again!");
       }
     });
-  };
-  useEffect(() => {
-    loadData();
   }, []);
   return (
     <table className="min-w-full divide-y divide-gray-200">
@@ -44,7 +36,7 @@ function EnrolledList(props) {
             scope="col"
             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
           >
-            Submitted at
+            Registered at
           </th>
         </tr>
       </thead>

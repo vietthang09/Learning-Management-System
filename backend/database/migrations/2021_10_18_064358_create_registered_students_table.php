@@ -16,7 +16,8 @@ class CreateRegisteredStudentsTable extends Migration
         Schema::create('registered_students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('course_id')->constrained();
+            // $table->foreignId('course_id')->constrained();
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->timestamps();
         });
     }
