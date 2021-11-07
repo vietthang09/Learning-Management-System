@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SearchIcon } from "@heroicons/react/outline";
+import { SearchIcon, PlusCircleIcon } from "@heroicons/react/outline";
 import CourseCard from "../components/CourseCard";
 import AssignmentCard from "../components/AssignmentCard";
 import axios from "axios";
@@ -115,19 +115,17 @@ function Home() {
 
   return (
     <div className="container m-auto mt-5">
-      <div class="flex flex-wrap">
-        <div className="w-full lg:w-3/4">
-          <div className="px-2 mb-5 relative">
+      <div class="flex flex-wrap space-x-5">
+        <div className="flex-none px-5 lg:px-0 lg:flex-3">
+          <div className="mb-5 relative">
             <div class="p-5 bg-green-400 text-white flex items-center justify-start rounded-3xl shadow-lg">
               <div className="p-5">
                 <h1 className="mb-5 text-4xl lg:text-5xl font-bold">
                   {"Hi " + user.name + " !"}
                 </h1>
-                <p className="text-xl lg:text-3xl font-normal opacity-80">
-                  {greeting}
-                </p>
-                <p className="text-xl lg:text-3xl font-normal opacity-80">
-                  Have a great day.
+                <p className="text-xl lg:text-2xl">{greeting}</p>
+                <p className="text-xl lg:text-2xl">
+                  Have a <u>great day</u>.
                 </p>
               </div>
             </div>
@@ -139,36 +137,46 @@ function Home() {
               />
             </div>
           </div>
-          <div className="px-2">
-            <div class="h-full text-grey-dark flex items-center justify-center">
-              <div>
-                <div className="mb-10">
-                  <span className="text-gray-800 text-2xl font-bold">
+          <div className="">
+            <div class="flex items-center justify-center">
+              <div className="w-full">
+                <div className="mb-5">
+                  <span className="text-gray-600 text-2xl font-bold">
                     Recently visited
                   </span>
                 </div>
-                <div className="lg:px-0 grid grid-cols-1 lg:grid-cols-3 gap-2 gap-y-8">
+                <div className="px-5 lg:px-0 grid grid-cols-1 lg:grid-cols-3 gap-2 gap-y-8">
                   {courses_HTMLLIST}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="w-full lg:w-1/4 px-2 pb-2">
-          <div class="text-sm text-grey-dark flex items-center">
-            <div className="w-full">
-              <div className="mt-0">
-                <span className="text-lg font-medium">Up Comming</span>
-                <div>{assignments_HTMLLIST}</div>
-              </div>
-            </div>
-          </div>
+        <div class="flex-none w-full px-5 lg:px-0 lg:flex-1 my-5 lg:my-0">
+          <span className="text-lg text-gray-600 font-medium">Up Comming</span>
+          {assignments_HTMLLIST}
         </div>
       </div>
-      <div className="mb-5">
-        <span className="text-gray-800 text-2xl font-bold">Enroll Now</span>
-        <div className="mt-5 px-7 lg:px-0 grid grid-cols-1 lg:grid-cols-4 gap-4 gap-y-8">
-          {user.role == 0 ? "" : <NavLink to="/new-course">New course</NavLink>}
+      <div className="my-5">
+        <div className="space-y-2">
+          <span className="text-gray-600 text-2xl font-bold">
+            {user.role == 0 ? "Enroll now" : "Waiting for approval"}
+          </span>
+          {user.role == 0 ? (
+            ""
+          ) : (
+            <div className=" flex space-x-2 text-green-400 font-semibold">
+              <NavLink
+                to="/new-course"
+                className="relative p-2 border border-green-400 rounded-lg hover:text-white hover:bg-green-400"
+              >
+                New course
+                <PlusCircleIcon className="absolute top-0 -right-1 w-2 animate-ping" />
+              </NavLink>
+            </div>
+          )}
+        </div>
+        <div className="mt-5 lg:px-0 grid grid-cols-1 lg:grid-cols-4 gap-4 gap-y-8">
           {newCourses_HTMLLIST}
         </div>
       </div>

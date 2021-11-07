@@ -3,28 +3,29 @@ import {
   HomeIcon,
   CollectionIcon,
   AcademicCapIcon,
-  BellIcon,
   UserCircleIcon,
 } from "@heroicons/react/outline";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useHistory } from "react-router";
 function Navbar() {
   let history = useHistory();
-  function logout(s) {
+  function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     history.push("/login");
   }
   return (
-    <div className="bg-white w-full shadow-md sticky top-0 z-50">
-      <div className="flex justify-center">
-        <div className="h-14 w-full flex justify-center lg:justify-between items-center max-w-screen-xl">
+    <div className="bg-white shadow-md sticky top-0 z-50">
+      <div className="container m-auto">
+        <div className="h-14 flex justify-center lg:justify-between items-center ">
           <div className="hidden lg:block">
-            <img
-              src="http://localhost:3000/favicon.png"
-              alt=""
-              className="w-10"
-            />
+            <Link to="/">
+              <img
+                src="http://localhost:3000/favicon.png"
+                alt="logo"
+                className="w-10"
+              />
+            </Link>
           </div>
           <div className="flex lg:space-x-24 space-x-2">
             <NavLink
@@ -47,8 +48,9 @@ function Navbar() {
               <AcademicCapIcon className="w-8 text-gray-500" />
             </NavLink>
           </div>
-          <NavLink to="/profile"></NavLink>
-          <UserCircleIcon className="w-8 text-gray-500" onClick={logout} />
+          <NavLink to="/profile">
+            <UserCircleIcon className="w-8 text-gray-500" onClick={logout} />
+          </NavLink>
         </div>
       </div>
     </div>

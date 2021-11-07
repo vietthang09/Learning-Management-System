@@ -49,10 +49,6 @@ function CreateNewCourse() {
       });
     }
   }
-  function showImage() {
-    let output = document.getElementById("output");
-    // let file = document.getElementById("file").files[0];
-  }
 
   return (
     <>
@@ -129,7 +125,10 @@ function CreateNewCourse() {
                   setFileName(e.target.files[0].name);
                 }}
               />
-              <img id="output" className="my-5 w-72 h-36 object-cover border-2 rounded-lg"/>
+              <img
+                id="output"
+                className="my-5 w-72 h-36 object-cover border-2 rounded-lg"
+              />
             </div>
           </div>
         </div>

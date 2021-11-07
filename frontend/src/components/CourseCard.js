@@ -4,6 +4,7 @@ import {
   AcademicCapIcon,
   BookOpenIcon,
   FlagIcon,
+  SparklesIcon,
 } from "@heroicons/react/outline";
 function CourseCard(props) {
   let temp;
@@ -29,12 +30,14 @@ function CourseCard_Primary(props) {
             <span className="text-3xl mr-1">{props.numberOfAssignments}</span>
             <AcademicCapIcon className="w-6 font-base" />
           </div>
-          <span>Assignments</span>
+          <span className="font-medium">Assignments</span>
         </div>
       </div>
-      <div className="px-5 py-3 bg-white rounded-3xl shadow group-hover:shadow-md">
-        <span className="text-lg font-medium">{props.data.course_title}</span>
-        <div className="pt-4">
+      <div className="px-5 py-3 bg-white rounded-3xl shadow-md group-hover:shadow">
+        <span className="text-gray-600 text-lg font-medium">
+          {props.data.course_title}
+        </span>
+        <div className="pt-2">
           <div className="flex items-center">
             <img
               src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
@@ -63,34 +66,21 @@ function CourseCard_Primary(props) {
 
 function CourseCard_Enroll(props) {
   return (
-    <div className="relative group">
-      <img
-        src={"http://localhost:8000/" + props.data.course_cover}
-        alt=""
-        className="h-44 w-full object-cover overflow-hidden rounded-3xl"
-      />
-      <div className="absolute -top-5 right-5 bg-red-400 text-white rounded-xl">
-        <div className="px-7 py-1">
-          <FlagIcon />
-          <span>New</span>
-        </div>
-      </div>
-      <div className="px-5 py-3 bg-white rounded-3xl shadow group-hover:shadow-md">
-        <span className="text-lg font-medium">{props.data.course_title}</span>
-        <div className="pt-4">
-          <div className="flex items-center">
-            <img
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-              alt=""
-              className="w-8 mr-2"
-            />
-            <span className="text-base font-medium text-gray-500">
-              {props.teacherName}
-            </span>
-          </div>
-          <div className="mt-2 flex items-center text-gray-400 text-sm">
-            <UserGroupIcon className="w-5 mr-1" />
-            {props.numberOfStudents} students have enrolled
+    <div className="group">
+      <div className="flex items-center rounded-lg shadow-md group-hover:shadow">
+        <img
+          src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+          alt=""
+          className="py-2 w-24 mr-2"
+        />
+        <div>
+          <span className="text-gray-600 text-lg font-medium">{props.data.course_title}</span>
+          <div>
+            <div className="text-gray-500 font-medium text-sm">by {props.teacherName}</div>
+            <div className="mt-2 flex text-gray-400 items-center text-xs">
+              <UserGroupIcon className="w-5 mr-1" />
+              {props.numberOfStudents}
+            </div>
           </div>
         </div>
       </div>
