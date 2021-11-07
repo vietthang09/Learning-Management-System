@@ -15,6 +15,7 @@ import CreateMaterial from "./components/CreateMaterial";
 import MaterialAdjustments from "./components/MaterialAdjustments";
 import CreateNewCourse from "./pages/CreateNewCourse";
 import NewCourse from "./pages/NewCourse";
+import PostDetail from "./pages/PostDetail";
 function App() {
   return (
     <>
@@ -47,6 +48,7 @@ function App() {
           <RouteWithNav exact path="/new/:id" component={NewCourse} />
           <RouteWithNav exact path="/courses" component={Courses} />
           <RouteWithNav exact path="/forum" component={Forum} />
+          <RouteWithNav exact path="/forum/:id" component={PostDetail} />
           <RouteWithNav exact path="/profile" component={Profile} />
           <RouteWithNav exact path="/" component={Home} />
         </Switch>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Student\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
+use App\Http\Controllers\Student\CoursesController as StudentCoursesController;
 use App\Http\Controllers\Teacher\CourseController as TeacherCourseController;
 use App\Http\Controllers\Teacher\CoursesController as TeacherCoursesController;
 use App\Http\Controllers\Teacher\HomeController as TeacherHomeController;
@@ -29,10 +30,10 @@ Route::group([
     'prefix' => 'student'
 ], function () {
     Route::post('/home', [HomeController::class, 'index']);
-    Route::post('/courses', [CoursesController::class, 'index']);
+    Route::post('/courses', [StudentCoursesController::class, 'index']);
+    Route::post('/courses/search', [StudentCoursesController::class, 'search']);
     Route::post('/enroll', [CoursesController::class, 'enroll']);
     Route::post('/check-enroll', [CoursesController::class, 'checkEnroll']);
-
     Route::post('/get-out', [CoursesController::class, 'getOut']);
     Route::get('/course/{id}', [StudentCourseController::class, 'index']);
     Route::post('/submit/upload', [StudentCourseController::class, 'store']);
@@ -45,6 +46,8 @@ Route::group([
     'prefix' => 'teacher'
 ], function () {
     Route::post('/home', [TeacherHomeController::class, 'index']);
+    Route::post('/courses', [TeacherCoursesController::class, 'index']);
+    Route::post('/courses/search', [TeacherCoursesController::class, 'search']);
     Route::post('/create-course', [CoursesController::class, 'createCourse']);
     Route::post('/cancel-request', [CoursesController::class, 'cancelRequest']);
     Route::get('/course/{id}', [TeacherCourseController::class, 'index']);
@@ -58,11 +61,15 @@ Route::group([
     Route::post('/material/delete', [TeacherCourseController::class, 'deleteMaterial']);
     Route::post('/material/update', [TeacherCourseController::class, 'updateMaterial']);
 });
+
 Route::post('/enrolled-list', [CoursesController::class, 'getEnrolledList']);
 Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
 Route::get('/material/download/{id}', [DownloadController::class, 'getMaterial']);
 Route::get('/posts', [PostController::class, 'getPosts']);
 Route::post('/posts/new', [PostController::class, 'newPost']);
+Route::post('/posts/comments', [PostController::class, 'getComments']);
+Route::post('/posts/post-comment', [PostController::class, 'postComment']);
+Route::post('/posts/delete-comment', [PostController::class, 'deleteComment']);
 Route::get('/posts/{id}', [PostController::class, 'getPost']);
 Route::group([
     'middleware' => 'api',

@@ -2,15 +2,16 @@ import React, { Fragment, useEffect, useState } from "react";
 import { AnnotationIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import { Transition } from "@headlessui/react";
+import { NavLink } from "react-router-dom";
+
 function PostCard(props) {
   const [post, setPost] = useState([]);
-  const [userName, setUserName] = useState();
   const [createdAt, setCreatedAt] = useState();
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/posts/" + props.id).then((res) => {
       setPost(res.data.post);
-      setUserName(res.data.userName);
       setCreatedAt(res.data.createdAt);
+      console.log(res.data.post);
     });
   }, []);
   return (
@@ -33,7 +34,7 @@ function PostCard(props) {
             className="w-10"
           />
           <div className="grid">
-            <span className="text-xl font-medium">{userName}</span>
+            <span className="text-xl font-medium">{post.name}</span>
             <span className="text-sm text-gray-400">{createdAt}</span>
           </div>
         </div>
@@ -50,7 +51,19 @@ function PostCard(props) {
         {/* Footer */}
         <div className="flex space-x-5 justify-between items-center">
           <p className="text-gray-800 w-full truncate">{post.content}</p>
-          <AnnotationIcon className="w-7 text-gray-400" />
+          <NavLink
+            to={{
+              pathname: "/forum/" + props.id,
+              state: {
+                author: post.name,
+                createdAt: createdAt,
+                image: post.image_path,
+                content: post.content,
+              },
+            }}
+          >
+            <AnnotationIcon className="w-7 text-gray-400" />
+          </NavLink>
         </div>
         {/* End Footer */}
       </div>

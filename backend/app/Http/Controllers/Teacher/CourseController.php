@@ -16,6 +16,11 @@ class CourseController extends Controller
         $courseInfo = DB::table('courses')
             ->where('id', $courseId)
             ->first();
+        DB::table('courses')
+            ->where('id', $courseId)
+            ->update([
+                'updated_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+            ]);
         return response()->json([
             'courseInfo' => $courseInfo,
             'teacher' => ControllerMaster::getUserNameById($courseInfo->user_id),

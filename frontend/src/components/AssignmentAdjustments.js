@@ -50,7 +50,7 @@ function AssignmentAdjustments(props) {
     }
   };
 
-  const deleteAssignment = async (e) => {
+  async function deleteAssignment(e) {
     axios({
       method: "post",
       url: "http://127.0.0.1:8000/api/teacher/assignment/delete",
@@ -69,7 +69,7 @@ function AssignmentAdjustments(props) {
         toast.error("Something went wrong, please try again!");
       }
     });
-  };
+  }
 
   const loadSubmissions = async (e) => {
     axios({

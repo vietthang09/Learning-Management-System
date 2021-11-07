@@ -21,6 +21,7 @@ class ControllerMaster extends Controller
                 ->join('registered_students', 'registered_students.course_id', '=', 'courses.id')
                 ->where('public', 1)
                 ->where('registered_students.user_id', $userId)
+                ->orderBy('registered_students.updated_at', 'desc')
                 ->get();
         } else {
             $courses = DB::table('courses')
@@ -29,6 +30,7 @@ class ControllerMaster extends Controller
                 ->where('public', 1)
                 ->where('registered_students.user_id', $userId)
                 ->limit($limit)
+                ->orderBy('registered_students.updated_at', 'desc')
                 ->get();
         }
         $collectionOfCourses = collect();
@@ -57,6 +59,7 @@ class ControllerMaster extends Controller
                 ->select('id as course_id', 'course_title', 'course_cover', 'introduction', 'public', 'user_id')
                 ->where('user_id', $teacherId)
                 ->where('public', 1)
+                ->orderBy('updated_at', 'desc')
                 ->get();
         } else {
             $courses = DB::table('courses')
@@ -64,6 +67,7 @@ class ControllerMaster extends Controller
                 ->where('user_id', $teacherId)
                 ->where('public', 1)
                 ->limit($limit)
+                ->orderBy('updated_at', 'desc')
                 ->get();
         }
         $collectionOfCourses = collect();

@@ -1,7 +1,13 @@
 import React from "react";
 import PostCard from "../components/PostCard";
-
+import { useHistory } from "react-router";
 function Profile() {
+  let history = useHistory();
+  function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    history.push("/login");
+  }
   return (
     <div className="container m-auto mt-5 px-24">
       <div className="flex flex-wrap">
@@ -29,7 +35,10 @@ function Profile() {
             <button className="px-5 py-2 text-green-500 bg-green-100 rounded-lg">
               Save
             </button>
-            <button className="px-5 py-2 text-red-500 rounded-lg">
+            <button
+              className="px-5 py-2 text-red-500 rounded-lg"
+              onClick={logout}
+            >
               Log out
             </button>
           </div>

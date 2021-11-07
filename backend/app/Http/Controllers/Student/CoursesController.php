@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Teacher;
+namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ControllerMaster;
@@ -14,18 +14,19 @@ class CoursesController extends Controller
         $userId = $request->input('userId');
         return response()->json([
             'status' => 200,
-            'listOfCourses' => ControllerMaster::getCoursesIsBeingTaught($userId, 0),
+            'listOfCourses' => ControllerMaster::getAllCoursesEnrolled($userId, 0),
         ]);
     }
 
     public function search(Request $request)
     {
         $searchInput = $request->input('searchInput');
-        $teacherId = $request->input('teacherId');
+        $userId = $request->input('studentId');
         $courses = DB::table('courses')
-            ->select('id as course_id', 'course_title', 'course_cover', 'introduction', 'public', 'user_id')
-            ->where('user_id', $teacherId)
+            ->select('course_id', 'course_title', 'course_cover', 'public', 'courses.user_id')
+            ->join('registered_students', 'registered_students.course_id', '=', 'courses.id')
             ->where('public', 1)
+            ->where('registered_students.user_id', $userId)
             ->where('course_title', 'LIKE', "%{$searchInput}%")
             ->get();
         $collectionOfCourses = collect();
@@ -43,7 +44,7 @@ class CoursesController extends Controller
             ]);
         }
         return response()->json([
-            'status' => 200,
+            'status' => 201,
             'listOfCourses' => $collectionOfCourses,
         ]);
     }

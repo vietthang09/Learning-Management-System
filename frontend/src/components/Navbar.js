@@ -6,14 +6,7 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/outline";
 import { Link, NavLink } from "react-router-dom";
-import { useHistory } from "react-router";
 function Navbar() {
-  let history = useHistory();
-  function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    history.push("/login");
-  }
   return (
     <div className="bg-white shadow-md sticky top-0 z-50">
       <div className="container m-auto">
@@ -49,7 +42,7 @@ function Navbar() {
             </NavLink>
           </div>
           <NavLink to="/profile">
-            <UserCircleIcon className="w-8 text-gray-500" onClick={logout} />
+            <UserCircleIcon className="w-8 text-gray-500" />
           </NavLink>
         </div>
       </div>
