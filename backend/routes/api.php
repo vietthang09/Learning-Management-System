@@ -69,7 +69,9 @@ Route::get('/posts', [PostController::class, 'getPosts']);
 Route::post('/posts/new', [PostController::class, 'newPost']);
 Route::post('/posts/comments', [PostController::class, 'getComments']);
 Route::post('/posts/post-comment', [PostController::class, 'postComment']);
+Route::post('/posts/update-comment', [PostController::class, 'updateComment']);
 Route::post('/posts/delete-comment', [PostController::class, 'deleteComment']);
+Route::post('/posts/delete-post', [PostController::class, 'deletePost']);
 Route::get('/posts/{id}', [PostController::class, 'getPost']);
 Route::group([
     'middleware' => 'api',

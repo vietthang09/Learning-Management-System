@@ -42,6 +42,22 @@ function PostDetail(props) {
       }
     });
   }
+  function updateComment(commentId) {
+    let content = document.getElementById("newContent").value;
+    let formData = new FormData();
+    formData.append("commentId", commentId);
+    formData.append("content", content);
+    axios({
+      method: "POST",
+      url: "http://localhost:8000/api/posts/update-comment",
+      headers: { "Content-Type": "multipart/form-data" },
+      data: formData,
+    }).then((response) => {
+      if (response.data.status == 201) {
+        loadComment();
+      }
+    });
+  }
   function deleteComment(e) {
     let commentId = e.target.id;
     let formData = new FormData();
@@ -76,13 +92,27 @@ function PostDetail(props) {
             <span>{comment.content}</span>
             <span>{comment.created_at}</span>
             {comment.user_id == user.id ? (
-              <button
-                className="text-red-400"
-                id={comment.commentId}
-                onClick={(e) => deleteComment(e)}
-              >
-                Delete
-              </button>
+              <div>
+                <button
+                  className="text-red-400"
+                  id={comment.commentId}
+                  onClick={(e) => deleteComment(e)}
+                >
+                  Delete
+                </button>
+                <input
+                  type="text"
+                  className="border"
+                  id="newContent"
+                  defaultValue={comment.content}
+                />
+                <button
+                  className="text-green-400"
+                  onClick={() => updateComment(comment.commentId)}
+                >
+                  Update
+                </button>
+              </div>
             ) : (
               ""
             )}

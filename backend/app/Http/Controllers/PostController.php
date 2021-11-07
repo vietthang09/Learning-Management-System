@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Dflydev\DotAccessData\Exception\DataException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -44,6 +45,23 @@ class PostController extends Controller
         ]);
     }
 
+    public function deletePost(Request $request)
+    {
+        $postId = $request->input('postId');
+        try {
+            DB::table('posts')
+                ->where('id', $postId)
+                ->delete();
+            return response()->json([
+                'status' => 201,
+            ]);
+        } catch (DataException $de) {
+            return response()->json([
+                'status' => $de,
+            ]);
+        }
+    }
+
     public function getComments(Request $request)
     {
         $postId = $request->input('postId');
@@ -80,6 +98,20 @@ class PostController extends Controller
         DB::table('comments')
             ->where('id', $commentId)
             ->delete();
+        return response()->json([
+            'status' => 201,
+        ]);
+    }
+
+    public function updateComment(Request $request)
+    {
+        $commentId = $request->input('commentId');
+        $content = $request->input('content');
+        DB::table('comments')
+            ->where('id', $commentId)
+            ->update([
+                'content' => $content,
+            ]);
         return response()->json([
             'status' => 201,
         ]);
