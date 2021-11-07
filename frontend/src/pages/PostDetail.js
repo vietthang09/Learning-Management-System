@@ -74,17 +74,81 @@ function PostDetail(props) {
     });
   }
   return (
-    <div>
-      <img
+    <div className="flex justify-center">
+      <div className="mt-5 w-2/3 flex">
+        <div className="flex-1">
+          <img
+            src={"http://127.0.0.1:8000/" + location.state.image}
+            className="object-cover"
+          />
+        </div>
+        <div className="flex-1 p-3 divide-y divide-gray-300 border">
+          <div className="flex items-center">
+            <img
+              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+              alt=""
+              className="py-2 w-10 mr-2"
+            />
+            <span className="text-gray-500 font-medium">
+              {location.state.author}
+            </span>
+          </div>
+          <div className="relative h-96">
+            <p>{location.state.content}</p>
+            <div>
+              {comments.map((comment) => {
+                return (
+                  <div>
+                    <span>
+                      {comment.user_id == user.id ? "You" : comment.name}
+                    </span>
+                    <span>{comment.content}</span>
+                    <span>{comment.created_at}</span>
+                    {comment.user_id == user.id ? (
+                      <div>
+                        <button
+                          className="text-red-400"
+                          id={comment.commentId}
+                          onClick={(e) => deleteComment(e)}
+                        >
+                          Delete
+                        </button>
+                        {/* <input
+                          type="text"
+                          className="border"
+                          id="newContent"
+                          defaultValue={comment.content}
+                        />
+                        <button
+                          className="text-green-400"
+                          onClick={() => updateComment(comment.commentId)}
+                        >
+                          Update
+                        </button> */}
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <div className="absolute bottom-0">
+              <input type="text" id="content" />
+              <input type="file" />
+              <button onClick={postComment}>Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <img
         src={"http://127.0.0.1:8000/" + location.state.image}
         className="w-64"
       />
       <span>Created at {location.state.createdAt}</span>
       <span>{location.state.author}</span>
-      <p>{location.state.content}</p>
-      <input type="text" id="content" />
-      <input type="file" />
-      <button onClick={postComment}>Post</button>
+      
+      
       {comments.map((comment) => {
         return (
           <div>
@@ -118,7 +182,7 @@ function PostDetail(props) {
             )}
           </div>
         );
-      })}
+      })} */}
     </div>
   );
 }

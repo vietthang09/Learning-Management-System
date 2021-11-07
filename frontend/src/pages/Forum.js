@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import PostCard from "../components/PostCard";
-import { PhotographIcon, DocumentIcon } from "@heroicons/react/outline";
+import { PhotographIcon, XCircleIcon } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import { useState, Fragment } from "react";
 import axios from "axios";
 import { Link, NavLink, useHistory } from "react-router-dom";
 function Forum() {
   const [isOpen, setIsOpen] = useState(false);
-  const [posts, setPosts] = useState([]);
-  const [postContent, setPostContent] = useState();
-  const [selectedFile, setSelectedFile] = useState();
+  var [posts, setPosts] = useState([]);
+  var [postContent, setPostContent] = useState();
+  var [selectedFile, setSelectedFile] = useState();
+  var [url, setUrl] = useState();
   const history = useHistory();
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -45,6 +46,14 @@ function Forum() {
       closeModal();
     });
   }
+  function setURL(file) {
+    setUrl(URL.createObjectURL(file));
+  }
+
+  function removeImage() {
+    setSelectedFile();
+    setUrl();
+  }
   return (
     <div className="container m-auto mt-5">
       <div className="flex justify-center flex-wrap">
@@ -60,7 +69,7 @@ function Forum() {
                 />
                 <button
                   type="text"
-                  className="w-full h-10 px-5 text-left bg-gray-100 text-xl text-gray-400 outline-none rounded-3xl shadow-inner hover:bg-gray-200"
+                  className="w-full h-10 px-5 text-left bg-gray-50 text-xl text-gray-400 outline-none rounded-3xl shadow-inner hover:bg-gray-100"
                   onClick={openModal}
                 >
                   What's on your mind, Stark?
@@ -83,7 +92,7 @@ function Forum() {
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 z-10 overflow-y-auto backdrop-filter backdrop-blur-sm"
+          className="fixed inset-0 z-10 overflow-y-auto"
           onClose={closeModal}
         >
           <div className="min-h-screen px-4 text-center">
@@ -107,20 +116,14 @@ function Forum() {
             </span>
             <Transition.Child
               as={Fragment}
-              enter="ease-out duration-300"
+              enter="ease-out duration-100"
               enterFrom="opacity-0 scale-95"
               enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
+              leave="ease-in duration-100"
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg text-center font-medium leading-6 text-gray-900"
-                >
-                  Create post
-                </Dialog.Title>
                 <div className="mt-2">
                   <textarea
                     className="w-full outline-none resize-none text-lg text-gray-900"
@@ -136,26 +139,45 @@ function Forum() {
                     <span className="text-sm text-gray-400 ">
                       Add to your Post
                     </span>
-                    <PhotographIcon className="w-7 text-green-400" />
+                    <label htmlFor="file">
+                      <PhotographIcon className="w-7 text-green-400 cursor-pointer" />
+                    </label>
                     <input
                       type="file"
+                      id="file"
+                      className="hidden"
                       accept="image/*"
                       onChange={(e) => {
                         setSelectedFile(e.target.files[0]);
+                        setURL(e.target.files[0]);
                       }}
                     />
                   </div>
+                  {selectedFile ? (
+                    <div className="relative w-24 h-24">
+                      <img
+                        src={url}
+                        className="mt-2 w-24 h-24 object-cover rounded-lg"
+                      />
+                      <XCircleIcon
+                        className="absolute -top-2 -right-2 w-7 text-red-400 cursor-pointer"
+                        onClick={removeImage}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                   <div className="mt-4 flex justify-between">
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-green-400 border border-transparent rounded-md hover:bg-green-200"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-400 border border-transparent rounded-md hover:bg-red-400 hover:text-white"
                       onClick={closeModal}
                     >
                       Cancel
                     </button>
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-green-500 bg-green-100 border border-transparent rounded-md hover:bg-green-200"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-green-400 bg-white shadow-md hover:shadow-inner rounded-md hover:bg-gray-50"
                       onClick={handleSubmit}
                     >
                       Post
