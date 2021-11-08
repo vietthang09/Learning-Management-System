@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\ControllerMaster;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\Student\HomeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
 use App\Http\Controllers\Student\CoursesController as StudentCoursesController;
@@ -65,14 +67,26 @@ Route::group([
 Route::post('/enrolled-list', [CoursesController::class, 'getEnrolledList']);
 Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
 Route::get('/material/download/{id}', [DownloadController::class, 'getMaterial']);
-Route::get('/posts', [PostController::class, 'getPosts']);
-Route::post('/posts/new', [PostController::class, 'newPost']);
-Route::post('/posts/comments', [PostController::class, 'getComments']);
-Route::post('/posts/post-comment', [PostController::class, 'postComment']);
-Route::post('/posts/update-comment', [PostController::class, 'updateComment']);
-Route::post('/posts/delete-comment', [PostController::class, 'deleteComment']);
-Route::post('/posts/delete-post', [PostController::class, 'deletePost']);
-Route::get('/posts/{id}', [PostController::class, 'getPost']);
+
+Route::group([
+    'prefix' => 'posts'
+], function () {
+    Route::get('/', [PostController::class, 'getPosts']);
+    Route::post('/new', [PostController::class, 'newPost']);
+    Route::post('/comments', [PostController::class, 'getComments']);
+    Route::post('/post-comment', [PostController::class, 'postComment']);
+    Route::post('/update-comment', [PostController::class, 'updateComment']);
+    Route::post('/delete-comment', [PostController::class, 'deleteComment']);
+    Route::post('/delete-post', [PostController::class, 'deletePost']);
+    Route::get('/{id}', [PostController::class, 'getPost']);
+});
+
+Route::group([
+    'prefix' => 'profile'
+], function () {
+    Route::post('/view', [ProfileController::class, 'getUser']);
+    Route::post('/edit', [ProfileController::class, 'editUser']);
+});
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'

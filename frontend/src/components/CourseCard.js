@@ -3,8 +3,6 @@ import {
   UserGroupIcon,
   AcademicCapIcon,
   BookOpenIcon,
-  FlagIcon,
-  SparklesIcon,
 } from "@heroicons/react/outline";
 function CourseCard(props) {
   let temp;
@@ -33,14 +31,14 @@ function CourseCard_Primary(props) {
           <span className="font-medium">Assignments</span>
         </div>
       </div>
-      <div className="px-5 py-3 bg-white rounded-3xl shadow-md group-hover:shadow">
+      <div className="px-5 py-3 bg-white rounded-3xl shadow group-hover:shadow-sm">
         <span className="text-gray-600 text-lg font-medium">
           {props.data.course_title}
         </span>
         <div className="pt-2">
           <div className="flex items-center">
             <img
-              src={"http://localhost:8000/" + props.teacherAvatar}
+              src={`http://localhost:8000/${props.teacherAvatar}`}
               className="w-10 h-10 mr-2 object-cover rounded-full shadow"
             />
             <span className="text-base font-medium text-gray-500">
@@ -66,7 +64,7 @@ function CourseCard_Primary(props) {
 function CourseCard_Enroll(props) {
   return (
     <div className="group">
-      <div className="flex items-center rounded-lg shadow-md group-hover:shadow">
+      <div className="flex items-center rounded-lg shadow group-hover:shadow-sm">
         <img
           src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
           alt=""

@@ -20,7 +20,7 @@ function AssignmentAdjustments(props) {
   function openModal() {
     setIsOpen(true);
   }
-  const confirm = async () => {
+  async function confirm() {
     let title = document.getElementById("title").value;
     let content = document.getElementById("content").value;
     let deadline = document.getElementById("deadline").value;
@@ -48,7 +48,7 @@ function AssignmentAdjustments(props) {
         }
       });
     }
-  };
+  }
 
   async function deleteAssignment(e) {
     axios({

@@ -75,9 +75,9 @@ function CourseDetail(props) {
     setIsOpen(true);
   }
 
-  const onInputChange_Material = (e) => {
+  function onInputChange_Material(e) {
     setNewMaterial({ ...newMaterial, [e.target.name]: e.target.value });
-  };
+  }
 
   const confirm_Material = async (e) => {
     const formData = new FormData();

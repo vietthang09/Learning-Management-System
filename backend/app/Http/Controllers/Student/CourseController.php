@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ControllerMaster;
+use App\Models\Course;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -89,11 +90,13 @@ class CourseController extends Controller
         if (strtotime($assignment->deadline) >= strtotime($today) && $submission != null) {
             $submissionStatus = "border-green-400";
         }
+        $course = Course::find($assignment->course_id);
         return response()->json([
             'assignment' => $assignment,
             'course_title' => CourseController::getCourseTitleById($assignment->course_id),
             'submission' => $submission,
             'submissionStatus' => $submissionStatus,
+            'teacherAvatar' => ControllerMaster::getUserAvatar($course->user_id),
         ]);
     }
     static function getSubmission($assignmentID, $userId)

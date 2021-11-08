@@ -1,55 +1,49 @@
 import React from "react";
 import PostCard from "../components/PostCard";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
+
 function Profile() {
   let history = useHistory();
+  const user = JSON.parse(localStorage.getItem("user"));
   function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     history.push("/login");
   }
   return (
-    <div className="container m-auto mt-5 px-24">
-      <div className="flex flex-wrap">
-        <div className="w-full lg:w-1/2 px-10">
-          <div className="sticky top-28 bg-white">
-            <div className="flex justify-center items-center">
-              <img
-                src="https://i.pravatar.cc"
-                alt=""
-                className="w-56 rounded-full"
-              />
-            </div>
-            <div>
-              <label htmlFor="name">Full name:</label>
-              <input type="text" id="name" />
-            </div>
-            <div>
-              <label htmlFor="email">Email:</label>
-              <input type="text" id="email" />
-            </div>
-            <div>
-              <label htmlFor="address">From:</label>
-              <input type="text" id="address" />
-            </div>
-            <button className="px-5 py-2 text-green-500 bg-green-100 rounded-lg">
-              Save
-            </button>
-            <button
-              className="px-5 py-2 text-red-500 rounded-lg"
-              onClick={logout}
+    <div className="container m-auto mt-5 px-24 divide-y">
+      <div className="flex p-5 space-x-10">
+        <img
+          src={`http://localhost:8000/${user.avatar}`}
+          className="w-40 h-40 object-cover rounded-full"
+        />
+        <div className="space-y-3">
+          <div className="flex items-center space-x-3">
+            <span className="text-3xl text-gray-600 font-light">
+              {user.name}
+            </span>
+            <Link
+              to="/profile/edit"
+              className="p-2 border rounded-lg text-sm text-gray-600 font-medium"
             >
-              Log out
-            </button>
+              Edit Profile
+            </Link>
+          </div>
+          <div className="flex justify-between">
+            <p className="font-medium text-gray-600">
+              1<span className="font-normal"> posts</span>
+            </p>
+            <p className="font-medium text-gray-600">
+              1<span className="font-normal"> courses</span>
+            </p>
           </div>
         </div>
-        <div className="w-full lg:w-1/2">
-          <div>
-            <PostCard />
-            <PostCard />
-            <PostCard />
-          </div>
-        </div>
+      </div>
+      <div>
+        <p className="my-5 font-semibold text-xl lg:text-3xl text-gray-600 uppercase tracking-widest">
+          posts
+        </p>
       </div>
     </div>
   );

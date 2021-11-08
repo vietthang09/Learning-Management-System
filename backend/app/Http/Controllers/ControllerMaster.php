@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Submission;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -90,7 +91,7 @@ class ControllerMaster extends Controller
     }
 
     // Get all assignments
-    static function getAssignments($userId)
+    static function getAssignments()
     {
         $assignments = DB::table('assignments')
             ->join('courses', 'courses.id', '=', 'assignments.course_id')

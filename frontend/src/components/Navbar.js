@@ -42,13 +42,13 @@ function Navbar() {
               <AcademicCapIcon className="w-8 text-gray-500" />
             </NavLink>
           </div>
-          <NavLink to="/profile">
+          <Link to="/profile">
             <img
               src={"http://localhost:8000/" + user.avatar}
               alt="logo"
-              className="w-10 h-10 object-cover rounded-full"
+              className="w-10 h-10 object-cover rounded-full shadow"
             />
-          </NavLink>
+          </Link>
         </div>
       </div>
     </div>
