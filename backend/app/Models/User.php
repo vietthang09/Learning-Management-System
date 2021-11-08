@@ -17,7 +17,6 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var string[]
      */
-
     protected $guarded = [];
 
     /**
