@@ -16,12 +16,14 @@ import MaterialAdjustments from "./components/MaterialAdjustments";
 import CreateNewCourse from "./pages/CreateNewCourse";
 import NewCourse from "./pages/NewCourse";
 import PostDetail from "./pages/PostDetail";
+import Register from "./pages/Register";
 function App() {
   return (
     <>
       <Router>
         <Switch>
           <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
           <RouteWithNav exact path="/" component={Home} />
           <RouteWithNav exact path="/new-course" component={CreateNewCourse} />
           <RouteWithNav

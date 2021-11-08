@@ -19,9 +19,9 @@ class CreateCoursesTable extends Migration
             $table->string('course_cover');
             $table->string('course_title');
             $table->string('introduction');
-            $table->integer('maximum');
-            $table->string('online_class_link');
-            $table->date('registration_deadline');
+            $table->integer('maximum')->nullable();
+            $table->string('online_class_link')->nullable();
+            $table->date('registration_deadline')->nullable();
             $table->boolean('public');
             $table->timestamps();
         });
