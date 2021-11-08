@@ -17,7 +17,7 @@ class CreateRegisteredStudentsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             // $table->foreignId('user_id')->constrained();
-            $table->foreignId('course_id')->constrained();
+            // $table->foreignId('course_id')->constrained();
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
