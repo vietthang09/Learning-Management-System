@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/outline";
 import { Link, NavLink } from "react-router-dom";
 function Navbar() {
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <div className="bg-white shadow-md sticky top-0 z-50">
       <div className="container m-auto">
@@ -42,7 +43,11 @@ function Navbar() {
             </NavLink>
           </div>
           <NavLink to="/profile">
-            <UserCircleIcon className="w-8 text-gray-500" />
+            <img
+              src={"http://localhost:8000/" + user.avatar}
+              alt="logo"
+              className="w-10 h-10 object-cover rounded-full"
+            />
           </NavLink>
         </div>
       </div>

@@ -2,6 +2,9 @@
 html::-webkit-scrollbar {
   display: none;
 }
+.hidescroll::-webkit-scrollbar {
+  display: none;
+}
 .active::after {
   content: "";
   display: block;
@@ -26,4 +29,8 @@ html::-webkit-scrollbar {
   100% {
     opacity: 1;
   }
+}
+
+.comment:hover .button {
+  display: block;
 }

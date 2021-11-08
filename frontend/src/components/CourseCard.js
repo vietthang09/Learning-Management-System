@@ -40,9 +40,8 @@ function CourseCard_Primary(props) {
         <div className="pt-2">
           <div className="flex items-center">
             <img
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-              alt=""
-              className="w-8 mr-2"
+              src={"http://localhost:8000/" + props.teacherAvatar}
+              className="w-10 h-10 mr-2 object-cover rounded-full shadow"
             />
             <span className="text-base font-medium text-gray-500">
               {props.teacherName}
@@ -74,9 +73,13 @@ function CourseCard_Enroll(props) {
           className="py-2 w-24 mr-2"
         />
         <div>
-          <span className="text-gray-600 text-lg font-medium">{props.data.course_title}</span>
+          <span className="text-gray-600 text-lg font-medium">
+            {props.data.course_title}
+          </span>
           <div>
-            <div className="text-gray-500 font-medium text-sm">by {props.teacherName}</div>
+            <div className="text-gray-500 font-medium text-sm">
+              by {props.teacherName}
+            </div>
             <div className="mt-2 flex text-gray-400 items-center text-xs">
               <UserGroupIcon className="w-5 mr-1" />
               {props.numberOfStudents}

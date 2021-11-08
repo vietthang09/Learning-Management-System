@@ -61,6 +61,7 @@ function Home() {
             numberOfMaterials={item.numberOfMaterials}
             numberOfAssignments={item.numberOfAssignments}
             teacherName={item.teacherName}
+            teacherAvatar={item.teacherAvatar}
           />
         </NavLink>
       );

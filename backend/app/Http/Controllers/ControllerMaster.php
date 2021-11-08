@@ -42,6 +42,7 @@ class ControllerMaster extends Controller
             $collectionOfCourses->push([
                 'course' => $course,
                 'teacherName' => $teacherName,
+                'teacherAvatar' => ControllerMaster::getUserAvatar($course->user_id),
                 'numberOfStudents' => $numberOfStudents,
                 'numberOfMaterials' => $numberOfMaterials,
                 'numberOfAssignments' => $numberOfAssignments,
@@ -79,6 +80,7 @@ class ControllerMaster extends Controller
             $collectionOfCourses->push([
                 'course' => $course,
                 'teacherName' => $teacherName,
+                'teacherAvatar' => ControllerMaster::getUserAvatar($course->user_id),
                 'numberOfStudents' => $numberOfStudents,
                 'numberOfMaterials' => $numberOfMaterials,
                 'numberOfAssignments' => $numberOfAssignments,
@@ -158,5 +160,14 @@ class ControllerMaster extends Controller
             ->where('id', $userId)
             ->first();
         return $user->name;
+    }
+
+    static function getUserAvatar($userId)
+    {
+        $user = DB::table('users')
+            ->select('avatar')
+            ->where('id', $userId)
+            ->first();
+        return $user->avatar;
     }
 }

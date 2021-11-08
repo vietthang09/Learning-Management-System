@@ -5,7 +5,7 @@ import {
   PencilIcon,
 } from "@heroicons/react/outline";
 import axios from "axios";
-import { Popover, Transition } from "@headlessui/react";
+import { Popover } from "@headlessui/react";
 import { NavLink } from "react-router-dom";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useHistory } from "react-router-dom";
@@ -109,6 +109,7 @@ function PostCard(props) {
           to={{
             pathname: "/forum/" + props.id,
             state: {
+              authorId: post.user_id,
               author: post.name,
               createdAt: createdAt,
               image: post.image_path,

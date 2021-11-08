@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Dflydev\DotAccessData\Exception\DataException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -66,7 +67,7 @@ class PostController extends Controller
     {
         $postId = $request->input('postId');
         $comments = DB::table('comments')
-            ->select('comments.id as commentId', 'comments.content', 'comments.user_id', 'comments.created_at', 'users.id', 'users.name',)
+            ->select('comments.id as commentId', 'comments.content', 'comments.user_id', 'comments.image_link', 'comments.created_at', 'users.id', 'users.name',)
             ->join('users', 'users.id', 'comments.user_id')
             ->where('post_id', $postId)
             ->get();
@@ -81,12 +82,28 @@ class PostController extends Controller
         $userId = $request->input('userId');
         $postId = $request->input('postId');
         $content = $request->input('content');
-        DB::table('comments')
-            ->insert([
-                'user_id' => $userId,
-                'post_id' => $postId,
-                'content' => $content,
-            ]);
+        $file = $request->file('image');
+        $filePath = null;
+        if ($file == null) {
+            DB::table('comments')
+                ->insert([
+                    'user_id' => $userId,
+                    'post_id' => $postId,
+                    'content' => $content,
+                    'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+                ]);
+        } else {
+            $filePath = $request->file('image')->store('forum');
+            DB::table('comments')
+                ->insert([
+                    'user_id' => $userId,
+                    'post_id' => $postId,
+                    'content' => $content,
+                    'image_link' => $filePath,
+                    'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+                ]);
+        }
+
         return response()->json([
             'status' => 201,
         ]);
@@ -95,23 +112,13 @@ class PostController extends Controller
     public function deleteComment(Request $request)
     {
         $commentId = $request->input('commentId');
+        $comment = DB::table('comments')
+            ->where('id', $commentId)
+            ->first();
+        Storage::delete($comment->image_link);
         DB::table('comments')
             ->where('id', $commentId)
             ->delete();
-        return response()->json([
-            'status' => 201,
-        ]);
-    }
-
-    public function updateComment(Request $request)
-    {
-        $commentId = $request->input('commentId');
-        $content = $request->input('content');
-        DB::table('comments')
-            ->where('id', $commentId)
-            ->update([
-                'content' => $content,
-            ]);
         return response()->json([
             'status' => 201,
         ]);
