@@ -63,9 +63,9 @@ function Forum() {
             <div className="bg-white rounded-xl shadow">
               <div className="p-3 flex space-x-1 items-center">
                 <img
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                  src={"http://localhost:8000/" + user.avatar}
                   alt=""
-                  className="w-10 mr-5"
+                  className="w-10 h-10 object-cover rounded-full shadow mr-5"
                 />
                 <button
                   type="text"

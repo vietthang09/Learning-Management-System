@@ -15,9 +15,9 @@ function classNames(...classes) {
 }
 
 function CourseDetail(props) {
-  var location = useLocation();
   const [course, setCourse] = useState([]);
   const [teacher, setTeacher] = useState();
+  const [teacherAvatar, setTeacherAvatar] = useState();
   const [materials, setMaterials] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [newMaterial, setNewMaterial] = useState({
@@ -38,6 +38,7 @@ function CourseDetail(props) {
       setTeacher(res.data.teacher);
       setMaterials(res.data.materials);
       setAssignments(res.data.assignments);
+      setTeacherAvatar(res.data.teacherAvatar);
     });
   }
   useEffect(() => {
@@ -79,7 +80,7 @@ function CourseDetail(props) {
     setNewMaterial({ ...newMaterial, [e.target.name]: e.target.value });
   }
 
-  const confirm_Material = async (e) => {
+  async function confirm_Material(e) {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("courseId", courseId);
@@ -93,7 +94,7 @@ function CourseDetail(props) {
       loadData();
       closeModal();
     });
-  };
+  }
 
   return (
     <>
@@ -283,7 +284,7 @@ function CourseDetail(props) {
               </Tab.Group>
             </div>
           </div>
-          <div className="w-full lg:w-1/3 order-1 lg:order-2">
+          <div className="w-full lg:w-1/3 order-1 lg:order-2 bg-white">
             <div className="p-3 shadow rounded-xl">
               <img
                 src={"http://localhost:8000/" + course.course_cover}
@@ -296,9 +297,9 @@ function CourseDetail(props) {
                 </p>
                 <div className="flex items-center">
                   <img
-                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                    src={"http://localhost:8000/" + teacherAvatar}
                     alt=""
-                    className="w-10 h-10 rounded-full mr-2"
+                    className="w-10 h-10 object-cover rounded-full shadow mr-2"
                   />
                   <span className="text-gray-500 text-lg font-medium">
                     {teacher}

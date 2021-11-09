@@ -26,22 +26,6 @@ function Courses() {
       }
     });
   }, []);
-
-  var courses_HTMLLIST = "";
-  courses_HTMLLIST = courses.map((item) => {
-    return (
-      <Link to={"/courses/" + item.course.course_id}>
-        <CourseCard
-          type="primary"
-          data={item.course}
-          numberOfStudents={item.numberOfStudents}
-          numberOfMaterials={item.numberOfMaterials}
-          numberOfAssignments={item.numberOfAssignments}
-          teacherName={item.teacherName}
-        />
-      </Link>
-    );
-  });
   function searchItems(searchValue) {
     setSearchInput(searchValue);
     let URL_SEARCH = "http://127.0.0.1:8000/api/student/courses/search";
@@ -91,6 +75,7 @@ function Courses() {
                       numberOfMaterials={item.numberOfMaterials}
                       numberOfAssignments={item.numberOfAssignments}
                       teacherName={item.teacherName}
+                      teacherAvatar={item.teacherAvatar}
                     />
                   </Link>
                 );
@@ -105,6 +90,7 @@ function Courses() {
                       numberOfMaterials={item.numberOfMaterials}
                       numberOfAssignments={item.numberOfAssignments}
                       teacherName={item.teacherName}
+                      teacherAvatar={item.teacherAvatar}
                     />
                   </Link>
                 );

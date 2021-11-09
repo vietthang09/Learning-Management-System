@@ -92,7 +92,7 @@ function PostDetail(props) {
   }
   return (
     <div className="flex justify-center">
-      <div className="mt-5 w-2/3 flex border">
+      <div className="mt-5 w-2/3 flex border bg-white">
         <div className="flex-1 flex items-center bg-gray-50">
           <img
             src={"http://127.0.0.1:8000/" + location.state.image}
@@ -101,11 +101,11 @@ function PostDetail(props) {
         </div>
         <div className="flex-1 p-3 divide-y divide-gray-300">
           <div className="flex justify-between items-center">
-            <div className="flex items-center">
+            <div className="flex items-center p-2">
               <img
-                src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                src={`http://127.0.0.1:8000/${location.state.authorAvatar}`}
                 alt=""
-                className="py-2 w-10 mr-2"
+                className="w-10 h-10 object-cover rounded-full shadow mr-2"
               />
               <span className="text-gray-500 font-medium">
                 {location.state.author}
@@ -149,14 +149,14 @@ function PostDetail(props) {
                 )}
               </Popover>
             ) : (
-              "a"
+              ""
             )}
           </div>
           <div className="relative h-96">
             <div className="overflow-y-scroll h-72 hidescroll">
               <p className="text-gray-500">{location.state.content}</p>
               <span className="text-sm text-gray-400">
-                {location.state.createdAt}
+                {moment(location.state.createdAt, "YYYYMMDD").fromNow()}
               </span>
               <div className="mt-5 space-y-5">
                 {comments.map((comment) => {
@@ -164,9 +164,9 @@ function PostDetail(props) {
                     <>
                       <div className="flex items-center space-x-5 comment">
                         <img
-                          src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                          src={`http://127.0.0.1:8000/${comment.avatar}`}
                           alt=""
-                          className="w-7"
+                          className="w-8 h-8 object-cover rounded-full shadow"
                         />
                         <div>
                           <p className="space-x-2 text-gray-500">

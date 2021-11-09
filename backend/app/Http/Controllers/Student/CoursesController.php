@@ -38,6 +38,7 @@ class CoursesController extends Controller
             $collectionOfCourses->push([
                 'course' => $course,
                 'teacherName' => $teacherName,
+                'teacherAvatar' => ControllerMaster::getUserAvatar($course->user_id),
                 'numberOfStudents' => $numberOfStudents,
                 'numberOfMaterials' => $numberOfMaterials,
                 'numberOfAssignments' => $numberOfAssignments,

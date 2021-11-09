@@ -27,10 +27,8 @@ class PostController extends Controller
             ->join('users', 'users.id', 'posts.user_id')
             ->where('posts.id', $postId)
             ->first();
-        $created_at = Carbon::create($post->created_at, 'Asia/Ho_Chi_Minh');
         return response()->json([
             'post' => $post,
-            'createdAt' => $created_at->diffForHumans(),
         ]);
     }
 
@@ -67,7 +65,7 @@ class PostController extends Controller
     {
         $postId = $request->input('postId');
         $comments = DB::table('comments')
-            ->select('comments.id as commentId', 'comments.content', 'comments.user_id', 'comments.image_link', 'comments.created_at', 'users.id', 'users.name',)
+            ->select('comments.id as commentId', 'comments.content', 'comments.user_id', 'comments.image_link', 'comments.created_at', 'users.id', 'users.name', 'users.avatar')
             ->join('users', 'users.id', 'comments.user_id')
             ->where('post_id', $postId)
             ->get();

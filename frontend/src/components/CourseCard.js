@@ -20,9 +20,9 @@ function CourseCard_Primary(props) {
       <img
         src={"http://localhost:8000/" + props.data.course_cover}
         alt=""
-        className="h-44 w-full object-cover overflow-hidden rounded-3xl"
+        className="h-44 w-full object-cover overflow-hidden rounded-3xl shadow group-hover:shadow-sm"
       />
-      <div className="absolute -top-5 right-5 bg-green-400 text-white rounded-3xl">
+      <div className="absolute -top-5 right-5 bg-green-400 text-white rounded-3xl shadow-md">
         <div className="px-5 py-1">
           <div className="flex items-center">
             <span className="text-3xl mr-1">{props.numberOfAssignments}</span>
@@ -63,12 +63,12 @@ function CourseCard_Primary(props) {
 
 function CourseCard_Enroll(props) {
   return (
-    <div className="group">
-      <div className="flex items-center rounded-lg shadow group-hover:shadow-sm">
+    <div className="group bg-white">
+      <div className="flex items-center p-2 rounded-lg shadow group-hover:shadow-sm">
         <img
-          src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-          alt=""
-          className="py-2 w-24 mr-2"
+          src={"http://localhost:8000/" + props.teacherAvatar}
+          alt={"http://localhost:8000/" + props.data.teacherAvatar}
+          className="w-24 h-24 object-cover mr-2 rounded-full shadow"
         />
         <div>
           <span className="text-gray-600 text-lg font-medium">

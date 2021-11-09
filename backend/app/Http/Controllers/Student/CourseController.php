@@ -14,9 +14,7 @@ class CourseController extends Controller
 {
     public function index($courseId)
     {
-        $courseInfo = DB::table('courses')
-            ->where('id', $courseId)
-            ->first();
+        $courseInfo = Course::find($courseId);
         DB::table('registered_students')
             ->where('course_id', $courseId)
             ->update([
@@ -25,6 +23,7 @@ class CourseController extends Controller
         return response()->json([
             'courseInfo' => $courseInfo,
             'teacher' => ControllerMaster::getUserNameById($courseInfo->user_id),
+            'teacherAvatar' => ControllerMaster::getUserAvatar($courseInfo->user_id),
             'materials' => ControllerMaster::getMaterialsByCourseId($courseId),
             'assignments' => ControllerMaster::getAssginmentsByCourseId($courseId),
         ]);

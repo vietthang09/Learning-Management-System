@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AnnotationIcon,
   TrashIcon,
@@ -9,15 +9,14 @@ import { Popover } from "@headlessui/react";
 import { NavLink } from "react-router-dom";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useHistory } from "react-router-dom";
+import moment from "moment";
 function PostCard(props) {
   const user = JSON.parse(localStorage.getItem("user"));
   const [post, setPost] = useState([]);
-  const [createdAt, setCreatedAt] = useState();
   let history = useHistory();
   async function loadDPost() {
     axios.get("http://127.0.0.1:8000/api/posts/" + props.id).then((res) => {
       setPost(res.data.post);
-      setCreatedAt(res.data.createdAt);
     });
   }
   useEffect(() => {
@@ -43,16 +42,16 @@ function PostCard(props) {
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <img
-            src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+            src={"http://127.0.0.1:8000/" + post.avatar}
             alt=""
-            className="w-10"
+            className="w-10 h-10 object-cover rounded-full shadow"
           />
           <div className="grid">
             <span className="text-xl text-gray-600 font-medium">
               {post.name}
             </span>
             <span className="text-xs font-medium text-gray-400">
-              {createdAt}
+              {moment(post.created_at, "YYYYMMDD").fromNow()}
             </span>
           </div>
         </div>
@@ -100,18 +99,19 @@ function PostCard(props) {
       <div className="mt-2 mb-2">
         <img
           src={"http://127.0.0.1:8000/" + post.image_path}
-          className="rounded-md"
+          className="rounded-md border"
         />
       </div>
       <div className="flex space-x-5 justify-between items-center">
         <p className="text-gray-600 w-full truncate">{post.content}</p>
         <NavLink
           to={{
-            pathname: "/forum/" + props.id,
+            pathname: `/forum/${props.id}`,
             state: {
               authorId: post.user_id,
               author: post.name,
-              createdAt: createdAt,
+              authorAvatar: post.avatar,
+              createdAt: post.created_at,
               image: post.image_path,
               content: post.content,
             },

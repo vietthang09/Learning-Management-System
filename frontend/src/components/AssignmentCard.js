@@ -79,7 +79,7 @@ function AssignmentCard(props) {
       await fetch("http://localhost:8000/api/student/submit/upload", {
         method: "POST",
         body: formData,
-      }).then((result) => {
+      }).then(() => {
         loadListForStudent();
         thisClicked.innerText = "Update";
         closeModal();

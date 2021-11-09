@@ -31,6 +31,7 @@ function Home() {
       if (res.status == 200) {
         setCourses(res.data.listOfCourses);
         setNewCourses(res.data.listOfNewCourses);
+        console.log(res.data.listOfNewCourses);
         setNumberToday(res.data.numberOfAssigmentsToday);
         setAssignments(res.data.listOfAssignments);
         setLoading(false);
@@ -91,6 +92,7 @@ function Home() {
                 cover: item.course.course_cover,
                 title: item.course.course_title,
                 teacherName: item.teacherName,
+                teacherAvatar: item.teacherAvatar,
                 introduction: item.course.introduction,
               },
             }}
@@ -100,6 +102,7 @@ function Home() {
               data={item.course}
               numberOfStudents={item.numberOfStudents}
               teacherName={item.teacherName}
+              teacherAvatar={item.teacherAvatar}
             />
           </NavLink>
         );
@@ -154,7 +157,7 @@ function Home() {
           </div>
         </div>
         <div class="flex-none w-full px-5 lg:px-0 lg:flex-1 my-5 lg:my-0">
-          <span className="text-lg text-gray-600 font-medium">Up Comming</span>
+          <span className="text-lg text-gray-600 font-medium">Timeline</span>
           {assignments_HTMLLIST}
         </div>
       </div>

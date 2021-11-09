@@ -54,6 +54,7 @@ class HomeController extends Controller
             $collectionOfNewCourses->push([
                 'course' => $course,
                 'teacherName' => $teacherName,
+                'teacherAvatar' => ControllerMaster::getUserAvatar($course->user_id),
                 'numberOfStudents' => $numberOfStudents,
             ]);
         }

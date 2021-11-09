@@ -6,11 +6,6 @@ import { Link } from "react-router-dom";
 function Profile() {
   let history = useHistory();
   const user = JSON.parse(localStorage.getItem("user"));
-  function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    history.push("/login");
-  }
   return (
     <div className="container m-auto mt-5 px-24 divide-y">
       <div className="flex p-5 space-x-10">
