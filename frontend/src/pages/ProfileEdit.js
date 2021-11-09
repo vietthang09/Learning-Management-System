@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import ProfileForm from "../components/ProfileForm";
-import { update } from "../functions/FT_Profile";
+import { update } from "../api/API_Profile";
 function ProfileEdit() {
   const userInLocal = JSON.parse(localStorage.getItem("user"));
   const [user, setUser] = useState([]);

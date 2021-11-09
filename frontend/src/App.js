@@ -18,6 +18,7 @@ import NewCourse from "./pages/NewCourse";
 import PostDetail from "./pages/PostDetail";
 import Register from "./pages/Register";
 import ProfileEdit from "./pages/ProfileEdit";
+import PostEdit from "./pages/PostEdit";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
           <RouteWithNav exact path="/courses" component={Courses} />
           <RouteWithNav exact path="/forum" component={Forum} />
           <RouteWithNav exact path="/forum/:id" component={PostDetail} />
+          <RouteWithNav exact path="/forum/edit/:id" component={PostEdit} />
           <RouteWithNav exact path="/profile" component={Profile} />
           <RouteWithNav exact path="/profile/edit" component={ProfileEdit} />
           <RouteWithNav exact path="/" component={Home} />

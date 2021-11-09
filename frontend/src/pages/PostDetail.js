@@ -10,7 +10,7 @@ import {
   PencilIcon,
 } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 function PostDetail(props) {
   var [comments, setComments] = useState([]);
   var location = useLocation();
@@ -128,12 +128,15 @@ function PostDetail(props) {
                     </Popover.Button>
                     <Popover.Panel className="absolute z-10 w-48 px-4 mt-3 transform -translate-x-1/2 left-1/2">
                       <div className="bg-white p-3 space-y-5 shadow-xl rounded-xl">
-                        <button className="flex items-center space-x-10 group">
+                        <Link
+                          to={"/forum/edit/" + postId}
+                          className="flex items-center space-x-10 group"
+                        >
                           <PencilIcon className="w-5 text-gray-400 group-hover:text-green-400" />
                           <span className="text-gray-500 font-medium group-hover:text-green-400">
                             Edit
                           </span>
-                        </button>
+                        </Link>
                         <button
                           className="flex items-center space-x-10 group"
                           onClick={deletePost}
@@ -156,7 +159,7 @@ function PostDetail(props) {
             <div className="overflow-y-scroll h-72 hidescroll">
               <p className="text-gray-500">{location.state.content}</p>
               <span className="text-sm text-gray-400">
-                {moment(location.state.createdAt, "YYYYMMDD").fromNow()}
+                {moment(location.state.createdAt).utcOffset(420).fromNow()}
               </span>
               <div className="mt-5 space-y-5">
                 {comments.map((comment) => {
@@ -179,7 +182,9 @@ function PostDetail(props) {
                           </p>
                           <div className="space-x-5 flex items-center">
                             <span className="text-gray-400 text-xs">
-                              {moment(comment.created_at, "YYYYMMDD").fromNow()}
+                              {moment(comment.created_at)
+                                .utcOffset(420)
+                                .fromNow()}
                             </span>
                             {comment.user_id == user.id ? (
                               <button

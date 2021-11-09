@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { update } from "../functions/FT_Profile";
+import { update } from "../api/API_Profile";
 
 function ProfileForm(props) {
   var [user, setUser] = useState({

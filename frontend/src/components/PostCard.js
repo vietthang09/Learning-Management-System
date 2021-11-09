@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/outline";
 import axios from "axios";
 import { Popover } from "@headlessui/react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
@@ -38,7 +38,7 @@ function PostCard(props) {
     });
   }
   return (
-    <div className="mt-4 p-3 bg-white rounded-xl shadow">
+    <div className="mt-4 p-3 bg-white border">
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <img
@@ -51,7 +51,7 @@ function PostCard(props) {
               {post.name}
             </span>
             <span className="text-xs font-medium text-gray-400">
-              {moment(post.created_at, "YYYYMMDD").fromNow()}
+              {moment(post.created_at).utcOffset(420).fromNow()}
             </span>
           </div>
         </div>
@@ -72,12 +72,15 @@ function PostCard(props) {
                 </Popover.Button>
                 <Popover.Panel className="absolute z-10 w-48 px-4 mt-3 transform -translate-x-1/2 left-1/2">
                   <div className="bg-white p-3 space-y-5 shadow-xl rounded-xl">
-                    <button className="flex items-center space-x-10 group">
+                    <Link
+                      to={"/forum/edit/" + props.id}
+                      className="flex items-center space-x-10 group"
+                    >
                       <PencilIcon className="w-5 text-gray-400 group-hover:text-green-400" />
                       <span className="text-gray-500 font-medium group-hover:text-green-400">
                         Edit
                       </span>
-                    </button>
+                    </Link>
                     <button
                       className="flex items-center space-x-10 group"
                       onClick={deletePost}
