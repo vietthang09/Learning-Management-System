@@ -122,7 +122,7 @@ function AssignmentCard(props) {
           <img
             src={"http://localhost:8000/" + teacherAvatar}
             alt=""
-            className="w-10 h-10 mr-3 object-cover rounded-full"
+            className="w-10 h-10 mr-3 object-cover rounded-full shadow"
           />
           <div>
             <span className="block text-lg text-gray-600 font-medium">

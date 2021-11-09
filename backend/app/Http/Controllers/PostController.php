@@ -43,6 +43,35 @@ class PostController extends Controller
             'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
         ]);
     }
+    public function updatePost(Request $request)
+    {
+        $postId = $request->input('id');
+        $content = $request->input('content');
+        $file = $request->input('image');
+        $filePath = "";
+        $post = DB::table('posts')
+            ->where('id', $postId);
+        if ($file) {
+            Storage::delete($post->image_path);
+            $filePath = $file->store('forum');
+        }
+        try {
+            DB::table('posts')
+                ->where('id', $postId)
+                ->update([
+                    'content' => $content,
+                    'image_path' => $filePath,
+                    'updated_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+                ]);
+            return response()->json([
+                'status' => true,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => $th,
+            ]);
+        }
+    }
 
     public function deletePost(Request $request)
     {

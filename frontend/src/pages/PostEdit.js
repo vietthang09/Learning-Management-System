@@ -4,7 +4,7 @@ import { getPost, editPost } from "../api/API_Forum";
 
 function PostEdit(props) {
   const postId = props.match.params.id;
-  var [post, setPost] = useState();
+  var [post, setPost] = useState([]);
   var [newPost, setNewPost] = useState({
     content: "",
   });
@@ -14,6 +14,7 @@ function PostEdit(props) {
   useEffect(() => {
     getPost(postId, setPost);
   }, []);
+
   function setURL(file) {
     setURLImage(URL.createObjectURL(file));
   }

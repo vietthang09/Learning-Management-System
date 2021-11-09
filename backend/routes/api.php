@@ -72,6 +72,7 @@ Route::group([
     'prefix' => 'posts'
 ], function () {
     Route::get('/', [PostController::class, 'getPosts']);
+    Route::post('/update', [PostController::class, 'updatePost']);
     Route::post('/new', [PostController::class, 'newPost']);
     Route::post('/comments', [PostController::class, 'getComments']);
     Route::post('/post-comment', [PostController::class, 'postComment']);
