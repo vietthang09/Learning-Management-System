@@ -1,17 +1,20 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../api/API_User";
+
 function Login() {
   var [loginInfo, setLoginInfo] = useState({
     email: "",
     password: "",
   });
   var [errors, setErrors] = useState();
+  const history = useHistory();
   function handleInput(e) {
     setLoginInfo({ ...loginInfo, [e.target.name]: [e.target.value] });
   }
   function handleSubmit() {
-    login(loginInfo, setErrors);
+    login(loginInfo, setErrors, history);
   }
   return (
     <div className="bg-gray-100 w-screen h-screen flex justify-center items-center">

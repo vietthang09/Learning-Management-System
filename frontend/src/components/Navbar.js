@@ -59,7 +59,7 @@ function Navbar() {
               <>
                 <Popover.Button className={`${open ? "" : "text-opacity-90"}`}>
                   <img
-                    src={"http://localhost:8000/" + user.avatar}
+                    // src={"http://localhost:8000/" + user.avatar}
                     alt="logo"
                     className="w-10 h-10 object-cover rounded-full shadow"
                   />

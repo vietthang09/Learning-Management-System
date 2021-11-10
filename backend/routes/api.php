@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\ControllerMaster;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CoursesController;
@@ -28,6 +29,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/recently-courses', [CoursesController::class, 'getRecentlyCourses']);
+Route::post('/number-assignments-today', [AssignmentController::class, 'getNumberToday']);
+Route::post('/timeline-assignments', [AssignmentController::class, 'getAllAssignments']);
 Route::group([
     'prefix' => 'student'
 ], function () {

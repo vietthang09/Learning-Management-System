@@ -1,5 +1,4 @@
 import axios from "axios";
-const userInLocal = JSON.parse(localStorage.getItem("user"));
 export function getPost(id, setPost) {
   let formData = new FormData();
   formData.append("id", id);

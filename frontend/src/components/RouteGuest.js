@@ -1,14 +1,7 @@
 import { Redirect, Route } from "react-router";
 import { getToken } from "../api/Session";
-import Navbar from "./Navbar";
 
-export const RouteWithNav = ({
-  exact,
-  path,
-  type,
-  component: Component,
-  ...rest
-}) => {
+function RouteGuest({ exact, path, type, component: Component, ...rest }) {
   return (
     <Route
       exact={exact}
@@ -16,14 +9,15 @@ export const RouteWithNav = ({
       {...rest}
       render={(routeProps) => {
         return getToken() ? (
+          <Redirect to={{ pathname: "/" }} />
+        ) : (
           <>
-            <Navbar />
             <Component {...routeProps} />
           </>
-        ) : (
-          <Redirect to={{ pathname: "/login" }} />
         );
       }}
     />
   );
-};
+}
+
+export default RouteGuest;

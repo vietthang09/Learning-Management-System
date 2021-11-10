@@ -120,7 +120,7 @@ function AssignmentCard(props) {
       >
         <div className="flex items-center">
           <img
-            src={"http://localhost:8000/" + teacherAvatar}
+            src={"http://localhost:8000/" + props.teacherAvatar}
             alt=""
             className="w-10 h-10 mr-3 object-cover rounded-full shadow"
           />

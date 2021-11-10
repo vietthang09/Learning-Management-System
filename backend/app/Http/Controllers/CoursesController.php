@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Storage;
 
 class CoursesController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     public function index(Request $request)
     {
         $userId = $request->input('userId');
@@ -137,5 +142,18 @@ class CoursesController extends Controller
                 'status' => $ex,
             ]);
         }
+    }
+
+    public function getRecentlyCourses()
+    {
+        $courses;
+        if (auth()->user()->role == 0) {
+            $courses = ControllerMaster::getAllCoursesEnrolled(auth()->id(), 3);
+        } else {
+            $courses = ControllerMaster::getCoursesIsBeingTaught(auth()->id(), 3);
+        }
+        return response()->json([
+            'recentlyCourses' => $courses,
+        ]);
     }
 }

@@ -41,6 +41,11 @@ class SessionController extends Controller
 
         return $this->createNewToken($token);
     }
+    public function logout()
+    {
+        auth()->logout();
+        return response()->json(['message' => 'User successfully signed out']);
+    }
 
     /**
      * Register a User.

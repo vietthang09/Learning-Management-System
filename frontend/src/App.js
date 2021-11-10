@@ -1,12 +1,10 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/Navbar";
 import CourseDetail from "./pages/CourseDetail";
 import Courses from "./pages/Courses";
 import Forum from "./pages/Forum";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
-// import ForumTest from "./pages/ForumTest";
 import Login from "./pages/Login";
 import { RouteWithNav } from "./components/RouteWithNav";
 import CreateAssignment from "./components/CreateAssignment";
@@ -19,13 +17,15 @@ import PostDetail from "./pages/PostDetail";
 import Register from "./pages/Register";
 import ProfileEdit from "./pages/ProfileEdit";
 import PostEdit from "./pages/PostEdit";
+import RouteGuest from "./components/RouteGuest";
 
 function App() {
   return (
     <>
       <Router>
         <Switch>
-          <Route path="/login" component={Login} />
+          {/* <Route path="/login" component={Login} /> */}
+          <RouteGuest exact path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <RouteWithNav exact path="/" component={Home} />
           <RouteWithNav exact path="/new-course" component={CreateNewCourse} />
