@@ -17,25 +17,18 @@ function RecentlyVisited() {
         </div>
         <div className="px-5 lg:px-0 grid grid-cols-1 lg:grid-cols-3 gap-2 gap-y-8">
           {recentlyCourses.map((item, index) => {
+            console.log(item);
             return (
               <NavLink
                 key={index}
                 to={{
-                  pathname: "/courses/" + item.course.course_id,
+                  pathname: "/courses/" + item.course_id,
                   state: {
                     new: false,
                   },
                 }}
               >
-                <CourseCard
-                  type="primary"
-                  data={item.course}
-                  numberOfStudents={item.numberOfStudents}
-                  numberOfMaterials={item.numberOfMaterials}
-                  numberOfAssignments={item.numberOfAssignments}
-                  teacherName={item.teacherName}
-                  teacherAvatar={item.teacherAvatar}
-                />
+                <CourseCard data={item} />
               </NavLink>
             );
           })}
