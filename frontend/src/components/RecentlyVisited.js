@@ -16,9 +16,10 @@ function RecentlyVisited() {
           </span>
         </div>
         <div className="px-5 lg:px-0 grid grid-cols-1 lg:grid-cols-3 gap-2 gap-y-8">
-          {recentlyCourses.map((item) => {
+          {recentlyCourses.map((item, index) => {
             return (
               <NavLink
+                key={index}
                 to={{
                   pathname: "/courses/" + item.course.course_id,
                   state: {

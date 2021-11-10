@@ -6,59 +6,59 @@ import {
   AdjustmentsIcon,
 } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
-import axios from "axios";
 import { NavLink } from "react-router-dom";
-function AssignmentCard(props) {
-  var [assignment, setAssignment] = useState([]);
-  var [submission, setSubmission] = useState([]);
-  var [submissionStatus, setSubmissionStatus] = useState();
-  var [courseTitle, setCourseTitle] = useState();
-  var [teacherAvatar, setTeacherAvatar] = useState();
-  const [selectedFile, setSelectedFile] = useState();
+import UserAvatar from "./UserAvatar";
+import moment from "moment";
+function AssignmentCardMini(props) {
+  // var [assignment, setAssignment] = useState([]);
+  // var [submission, setSubmission] = useState([]);
+  // var [submissionStatus, setSubmissionStatus] = useState();
+  // var [courseTitle, setCourseTitle] = useState();
+  // var [teacherAvatar, setTeacherAvatar] = useState();
+  // const [selectedFile, setSelectedFile] = useState();
   let [isOpen, setIsOpen] = useState(false);
-  let [label, setLabel] = useState("Choose a file");
-  var submissionId = "";
-  if (submission) submissionId = submission.id;
-  var deadline = new Date(assignment.deadline);
-  var deadlineToString = deadline.toLocaleDateString("en-US");
-  const user = JSON.parse(localStorage.getItem("user"));
+  // let [label, setLabel] = useState("Choose a file");
+  // var submissionId = "";
+  // if (submission) submissionId = submission.id;
+  // var deadline = new Date(assignment.deadline);
+  // var deadlineToString = deadline.toLocaleDateString("en-US");
 
-  function loadListForStudent() {
-    axios({
-      method: "post",
-      url: "http://127.0.0.1:8000/api/student/assignment/",
-      headers: { "Content-Type": "application/json" },
-      data: {
-        assignmentId: props.id,
-        userId: user.id,
-      },
-    }).then((res) => {
-      setAssignment(res.data.assignment);
-      setSubmission(res.data.submission);
-      setSubmissionStatus(res.data.submissionStatus);
-      setCourseTitle(res.data.course_title);
-      setTeacherAvatar(res.data.teacherAvatar);
-    });
-  }
-  function loadListForTeacher() {
-    axios({
-      method: "post",
-      url: "http://127.0.0.1:8000/api/teacher/assignment/",
-      headers: { "Content-Type": "application/json" },
-      data: {
-        assignmentId: props.id,
-      },
-    }).then((res) => {
-      setAssignment(res.data.assignment);
-      setSubmissionStatus(res.data.submissionStatus);
-      setCourseTitle(res.data.course_title);
-      setTeacherAvatar(res.data.teacherAvatar);
-    });
-  }
-  useEffect(() => {
-    if (user.role == 1) loadListForTeacher();
-    else loadListForStudent();
-  }, []);
+  // function loadListForStudent() {
+  //   axios({
+  //     method: "post",
+  //     url: "http://127.0.0.1:8000/api/student/assignment/",
+  //     headers: { "Content-Type": "application/json" },
+  //     data: {
+  //       assignmentId: props.id,
+  //       userId: user.id,
+  //     },
+  //   }).then((res) => {
+  //     setAssignment(res.data.assignment);
+  //     setSubmission(res.data.submission);
+  //     setSubmissionStatus(res.data.submissionStatus);
+  //     setCourseTitle(res.data.course_title);
+  //     setTeacherAvatar(res.data.teacherAvatar);
+  //   });
+  // }
+  // function loadListForTeacher() {
+  //   axios({
+  //     method: "post",
+  //     url: "http://127.0.0.1:8000/api/teacher/assignment/",
+  //     headers: { "Content-Type": "application/json" },
+  //     data: {
+  //       assignmentId: props.id,
+  //     },
+  //   }).then((res) => {
+  //     setAssignment(res.data.assignment);
+  //     setSubmissionStatus(res.data.submissionStatus);
+  //     setCourseTitle(res.data.course_title);
+  //     setTeacherAvatar(res.data.teacherAvatar);
+  //   });
+  // }
+  // useEffect(() => {
+  //   if (user.role == 1) loadListForTeacher();
+  //   else loadListForStudent();
+  // }, []);
   function closeModal() {
     setIsOpen(false);
   }
@@ -66,94 +66,90 @@ function AssignmentCard(props) {
   function openModal() {
     setIsOpen(true);
   }
-  async function handleSubmission(e) {
-    const thisClicked = e.currentTarget;
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("assignment_id", props.id);
-    formData.append("user_id", user.id);
-    formData.append("fileName", selectedFile.name);
-    formData.append("submissionId", submissionId);
-    if (submissionStatus == "border-yellow-400") {
-      thisClicked.innerText = "Uploading";
-      await fetch("http://localhost:8000/api/student/submit/upload", {
-        method: "POST",
-        body: formData,
-      }).then(() => {
-        loadListForStudent();
-        thisClicked.innerText = "Update";
-        closeModal();
-      });
-    }
-    if (submissionStatus == "border-green-400") {
-      thisClicked.innerText = "Updating";
-      await fetch("http://localhost:8000/api/student/submit/update", {
-        method: "POST",
-        body: formData,
-      }).then((result) => {
-        loadListForStudent();
-        thisClicked.innerText = "Update";
-        closeModal();
-      });
-    }
-  }
+  // async function handleSubmission(e) {
+  //   const thisClicked = e.currentTarget;
+  //   const formData = new FormData();
+  //   formData.append("file", selectedFile);
+  //   formData.append("assignment_id", props.id);
+  //   formData.append("user_id", user.id);
+  //   formData.append("fileName", selectedFile.name);
+  //   formData.append("submissionId", submissionId);
+  //   if (submissionStatus == "border-yellow-400") {
+  //     thisClicked.innerText = "Uploading";
+  //     await fetch("http://localhost:8000/api/student/submit/upload", {
+  //       method: "POST",
+  //       body: formData,
+  //     }).then(() => {
+  //       loadListForStudent();
+  //       thisClicked.innerText = "Update";
+  //       closeModal();
+  //     });
+  //   }
+  //   if (submissionStatus == "border-green-400") {
+  //     thisClicked.innerText = "Updating";
+  //     await fetch("http://localhost:8000/api/student/submit/update", {
+  //       method: "POST",
+  //       body: formData,
+  //     }).then((result) => {
+  //       loadListForStudent();
+  //       thisClicked.innerText = "Update";
+  //       closeModal();
+  //     });
+  //   }
+  // }
 
-  async function handleDeletion(e) {
-    const formData = new FormData();
-    formData.append("submissionId", submissionId);
-    await fetch("http://localhost:8000/api/student/submit/delete", {
-      method: "POST",
-      body: formData,
-    }).then(() => {
-      loadListForStudent();
-      closeModal();
-    });
-  }
+  // async function handleDeletion(e) {
+  //   const formData = new FormData();
+  //   formData.append("submissionId", submissionId);
+  //   await fetch("http://localhost:8000/api/student/submit/delete", {
+  //     method: "POST",
+  //     body: formData,
+  //   }).then(() => {
+  //     loadListForStudent();
+  //     closeModal();
+  //   });
+  // }
 
   return (
     <>
       <div
         className={
-          "p-2 mb-5 flex justify-between items-center bg-white text-gray-600 border-r-2 rounded-md shadow hover:shadow-sm relative " +
-          submissionStatus
+          "p-2 mb-5 flex justify-between items-center bg-white text-gray-600 border-r-2 rounded-md shadow hover:shadow-sm relative"
         }
       >
         <div className="flex items-center">
-          <img
-            src={"http://localhost:8000/" + props.teacherAvatar}
-            alt=""
-            className="w-10 h-10 mr-3 object-cover rounded-full shadow"
-          />
+          <UserAvatar link={props.teacherAvatar} />
           <div>
             <span className="block text-lg text-gray-600 font-medium">
-              {assignment.assignment_title}
+              {props.assignmentTitle}
             </span>
             <div className="mb-2 text-xs font-medium text-gray-400">
-              <span className={props.type ? "hidden" : "block"}>
-                In: {courseTitle}
+              <span className="block">In: {props.courseTitle}</span>
+              <span>
+                Deadline: {moment(props.deadline).format("DD/MM/YYYY")}
               </span>
-              <span>Deadline: {deadlineToString}</span>
             </div>
           </div>
         </div>
         <div className={props.type ? "block flex space-x-10" : "hidden"}>
           <div>
-            {user.role == 1 ? (
-              <NavLink
-                to={{
-                  pathname: "/update-assignment/" + assignment.id,
-                  state: {
-                    courseId: props.courseId,
-                    courseTitle: courseTitle,
-                    assignmentTitle: assignment.assignment_title,
-                    assignmentContent: assignment.assignment_content,
-                    assignmentDeadline: assignment.deadline,
-                  },
-                }}
-              >
-                <AdjustmentsIcon className="w-5" />
-              </NavLink>
+            {1 ? (
+              ""
             ) : (
+              // <NavLink
+              //   to={{
+              //     pathname: "/update-assignment/" + assignment.id,
+              //     state: {
+              //       courseId: props.courseId,
+              //       courseTitle: courseTitle,
+              //       assignmentTitle: assignment.assignment_title,
+              //       assignmentContent: assignment.assignment_content,
+              //       assignmentDeadline: assignment.deadline,
+              //     },
+              //   }}
+              // >
+              //   <AdjustmentsIcon className="w-5" />
+              // </NavLink>
               <>
                 <button
                   type="button"
@@ -162,7 +158,7 @@ function AssignmentCard(props) {
                 >
                   View
                 </button>
-                <Transition appear show={isOpen} as={Fragment}>
+                {/* <Transition appear show={isOpen} as={Fragment}>
                   <Dialog
                     as="div"
                     className="fixed inset-0 z-10 overflow-y-auto"
@@ -240,8 +236,8 @@ function AssignmentCard(props) {
                                       : "flex items-center"
                                   }
                                   onClick={() => {
-                                    setSelectedFile();
-                                    setLabel("Choose a file");
+                                    // setSelectedFile();
+                                    // setLabel("Choose a file");
                                   }}
                                 >
                                   <FolderRemoveIcon className="w-6 text-red-400" />
@@ -251,8 +247,8 @@ function AssignmentCard(props) {
                                   id="file"
                                   className="inputfile"
                                   onChange={(e) => {
-                                    setLabel(e.target.files[0].name);
-                                    setSelectedFile(e.target.files[0]);
+                                    // setLabel(e.target.files[0].name);
+                                    // setSelectedFile(e.target.files[0]);
                                   }}
                                 />
                                 <label
@@ -268,7 +264,7 @@ function AssignmentCard(props) {
                                 className={
                                   "flex items-center relative px-4 py-2 text-sm font-medium text-white bg-green-400 rounded-md bg-opacity-75 hover:bg-opacity-100 "
                                 }
-                                onClick={(e) => handleSubmission(e)}
+                                // onClick={(e) => handleSubmission(e)}
                               >
                                 {submissionStatus == "border-yellow-400"
                                   ? " Submit"
@@ -290,7 +286,7 @@ function AssignmentCard(props) {
                       </div>
                     </div>
                   </Dialog>
-                </Transition>
+                </Transition> */}
               </>
             )}
           </div>
@@ -299,4 +295,4 @@ function AssignmentCard(props) {
     </>
   );
 }
-export default AssignmentCard;
+export default AssignmentCardMini;

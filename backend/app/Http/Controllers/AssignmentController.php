@@ -34,7 +34,7 @@ class AssignmentController extends Controller
     public function getAllAssignments()
     {
         $assigments = DB::table('assignments')
-            ->select('assignments.course_id', 'users.avatar', 'assignments.deadline', 'courses.course_title')
+            ->select('assignments.course_id', 'users.avatar', 'assignments.deadline', 'assignments.assignment_title', 'courses.course_title')
             ->join('courses', 'courses.id', 'assignments.course_id')
             ->join('registered_students', 'registered_students.course_id', 'courses.id')
             ->join('users', 'users.id', 'courses.user_id')

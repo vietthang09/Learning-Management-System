@@ -20,7 +20,7 @@ class CreateSubmissionsTable extends Migration
             $table->string('fileName');
             $table->string('filePath');
             $table->double('mark')->nullable();
-            $table->timestamps();
+            $table->timestamp('submitted_at');
         });
     }
 

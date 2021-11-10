@@ -10,6 +10,8 @@ import { Link, NavLink } from "react-router-dom";
 import { Popover } from "@headlessui/react";
 import { logout } from "../api/API_User";
 import { useHistory } from "react-router";
+import { getUser } from "../api/Session";
+import UserAvatar from "./UserAvatar";
 function Navbar() {
   const user = JSON.parse(localStorage.getItem("user"));
   const history = useHistory();
@@ -58,11 +60,7 @@ function Navbar() {
             {({ open }) => (
               <>
                 <Popover.Button className={`${open ? "" : "text-opacity-90"}`}>
-                  <img
-                    // src={"http://localhost:8000/" + user.avatar}
-                    alt="logo"
-                    className="w-10 h-10 object-cover rounded-full shadow"
-                  />
+                  <UserAvatar link={getUser().avatar} />
                 </Popover.Button>
                 <Popover.Panel className="absolute z-10 w-48 px-4 mt-3 transform top-7 -right-3">
                   <div className="bg-white p-3 space-y-5 shadow-xl rounded-xl">

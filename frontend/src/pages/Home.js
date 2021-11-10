@@ -4,7 +4,8 @@ import { Link, NavLink } from "react-router-dom";
 import { useHistory } from "react-router";
 import RecentlyVisited from "../components/RecentlyVisited";
 import Greeting from "../components/Greeting";
-import Timeline from "../components/Timeline";
+import AssignmentListMini from "../components/AssignmentListMini";
+import NewCoursesList from "../components/NewCoursesList";
 function Home() {
   const [newCourses, setNewCourses] = useState([]);
   // var newCourses_HTMLLIST = "";
@@ -49,7 +50,7 @@ function Home() {
           </div>
         </div>
         <div class="flex-none w-full px-5 lg:px-0 lg:flex-1 my-5 lg:my-0">
-          <Timeline />
+          <AssignmentListMini />
         </div>
       </div>
       <div className="my-5">
@@ -72,7 +73,7 @@ function Home() {
           )} */}
         </div>
         <div className="mt-5 lg:px-0 grid grid-cols-1 lg:grid-cols-4 gap-4 gap-y-8">
-          {/* {newCourses_HTMLLIST} */}
+          <NewCoursesList />
         </div>
       </div>
     </div>

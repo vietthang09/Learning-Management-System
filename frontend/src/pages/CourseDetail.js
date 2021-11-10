@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition, Tab } from "@headlessui/react";
-import AssignmentCard from "../components/AssignmentCard";
+// import AssignmentCard from "../components/AssignmentCard";
 import {
   AcademicCapIcon,
   BookOpenIcon,
@@ -149,11 +149,12 @@ function CourseDetail(props) {
                     )}
                     {assignments.map((item, index) => {
                       return (
-                        <AssignmentCard
-                          type={true}
-                          id={item.id}
-                          courseId={courseId}
-                        />
+                        // <AssignmentCard
+                        //   type={true}
+                        //   id={item.id}
+                        //   courseId={courseId}
+                        // />
+                        <></>
                       );
                     })}
                   </Tab.Panel>
