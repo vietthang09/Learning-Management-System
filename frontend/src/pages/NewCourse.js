@@ -7,6 +7,7 @@ import { useHistory } from "react-router";
 import EnrolledList from "../components/EnrolledList";
 import { Dialog, Transition } from "@headlessui/react";
 import CourseInfo from "../components/CourseInfo";
+import ResgisteredList from "../components/lists/ResgisteredList";
 
 function NewCourse(props) {
   const courseId = props.match.params.id;
@@ -109,6 +110,7 @@ function NewCourse(props) {
           <div className="w-full lg:w-2/3 order-2 lg:order-1">
             <div className="p-5">
               {/* <EnrolledList courseId={courseId} /> */}
+              <ResgisteredList id={courseId} />
             </div>
           </div>
           <div className="w-full lg:w-1/3 order-1 lg:order-2">

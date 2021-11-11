@@ -15,111 +15,6 @@ class CoursesController extends Controller
     {
         $this->middleware('auth:api');
     }
-    // public function index(Request $request)
-    // {
-    //     $userId = $request->input('userId');
-    //     return response()->json([
-    //         'status' => 200,
-    //         'listOfCourses' => ControllerMaster::getAllCoursesEnrolled($userId, 0),
-    //     ]);
-    // }
-
-    // public function cancelRequest(Request $request)
-    // {
-    //     $courseId = $request->input('courseId');
-    //     try {
-    //         DB::table('courses')
-    //             ->where('id', $courseId)
-    //             ->delete();
-    //         return response()->json([
-    //             'status' => 201,
-    //         ]);
-    //     } catch (DataException $ex) {
-    //         return response()->json([
-    //             'status' => $ex,
-    //         ]);
-    //     }
-    // }
-
-    // public function enroll(Request $request)
-    // {
-    //     $studentId = $request->input('userId');
-    //     $courseId =  $request->input('courseId');
-    //     try {
-    //         DB::table('registered_students')
-    //             ->insert([
-    //                 'user_id' => $studentId,
-    //                 'course_id' => $courseId,
-    //                 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
-    //             ]);
-    //         return response()->json([
-    //             'status' => 201,
-    //         ]);
-    //     } catch (DataException $ex) {
-    //         return response()->json([
-    //             'status' => $ex,
-    //         ]);
-    //     }
-    // }
-
-    // public function checkEnroll(Request $request)
-    // {
-    //     $studentId = $request->input('userId');
-    //     $courseId =  $request->input('courseId');
-    //     try {
-    //         $registration = DB::table('registered_students')
-    //             ->where('user_id', $studentId)
-    //             ->where('course_id', $courseId)
-    //             ->first();
-    //         if ($registration) {
-    //             return response()->json([
-    //                 'status' => 1,
-    //             ]);
-    //         }
-    //     } catch (DataException $ex) {
-    //         return response()->json([
-    //             'status' => $ex,
-    //         ]);
-    //     }
-    // }
-
-    // public function getOut(Request $request)
-    // {
-    //     $studentId = $request->input('userId');
-    //     $courseId =  $request->input('courseId');
-    //     try {
-    //         DB::table('registered_students')
-    //             ->where('user_id', $studentId)
-    //             ->where('course_id', $courseId)
-    //             ->delete();
-    //         return response()->json([
-    //             'status' => 201,
-    //         ]);
-    //     } catch (DataException $ex) {
-    //         return response()->json([
-    //             'status' => $ex,
-    //         ]);
-    //     }
-    // }
-
-    // public function getEnrolledList(Request $request)
-    // {
-    //     $courseId = $request->input('courseId');
-    //     try {
-    //         $students = DB::table('users')
-    //             ->join('registered_students', 'registered_students.user_id', 'users.id')
-    //             ->where('course_id', $courseId)
-    //             ->get();
-    //         return response()->json([
-    //             'status' => 201,
-    //             'students' => $students,
-    //         ]);
-    //     } catch (DataException $ex) {
-    //         return response()->json([
-    //             'status' => $ex,
-    //         ]);
-    //     }
-    // }
 
     public function getRecentlyCourses()
     {
@@ -175,9 +70,44 @@ class CoursesController extends Controller
     {
         $courses = null;
         if (auth()->user()->role == 0) {
-            $courses = ControllerMaster::getAllCoursesEnrolled(auth()->id(), 0);
+            $courses = DB::table('courses')
+                ->select(
+                    'courses.id as course_id',
+                    'courses.title as courseTitle',
+                    'courses.cover as courseCover',
+                    'courses.public',
+                    'courses.user_id',
+                    'users.name as teacherName',
+                    'users.avatar as teacherAvatar',
+                    DB::raw("(SELECT COUNT(id) FROM registered_students WHERE registered_students.course_id = courses.id) as numberOfStudents"),
+                    DB::raw("(SELECT COUNT(id) FROM materials WHERE materials.course_id = courses.id) as numberOfMaterials"),
+                    DB::raw("(SELECT COUNT(id) FROM assignments WHERE assignments.course_id = courses.id) as numberOfAssignments"),
+                )
+                ->join('registered_students', 'registered_students.course_id', '=', 'courses.id')
+                ->join('users', 'users.id', 'courses.user_id')
+                ->where('public', 1)
+                ->where('registered_students.user_id', auth()->id())
+                ->orderBy('registered_students.visited_at', 'desc')
+                ->get();
         } else {
-            $courses = ControllerMaster::getCoursesIsBeingTaught(auth()->id(), 0);
+            $courses = DB::table('courses')
+                ->select(
+                    'courses.id as course_id',
+                    'courses.title as courseTitle',
+                    'courses.cover as courseCover',
+                    'courses.public',
+                    'courses.user_id',
+                    'users.name as teacherName',
+                    'users.avatar as teacherAvatar',
+                    DB::raw("(SELECT COUNT(id) FROM registered_students WHERE registered_students.course_id = courses.id) as numberOfStudents"),
+                    DB::raw("(SELECT COUNT(id) FROM materials WHERE materials.course_id = courses.id) as numberOfMaterials"),
+                    DB::raw("(SELECT COUNT(id) FROM assignments WHERE assignments.course_id = courses.id) as numberOfAssignments"),
+                )
+                ->join('users', 'users.id', 'courses.user_id')
+                ->where('courses.user_id', auth()->id())
+                ->where('courses.public', 1)
+                ->orderBy('courses.accessed_at', 'desc')
+                ->get();
         }
         return response()->json([
             'courses' => $courses,
@@ -243,22 +173,78 @@ class CoursesController extends Controller
             ]);
     }
 
+    public function enrollCourse(Request $request)
+    {
+        $courseId = $request->input('id');
+        DB::table('registered_students')
+            ->insert([
+                'user_id' => auth()->id(),
+                'course_id' => $courseId,
+            ]);
+    }
+
+    public function cancelRequest(Request $request)
+    {
+        $courseId = $request->input('id');
+        if (auth()->user()->role == 0) {
+            DB::table('registered_students')
+                ->where('user_id', auth()->id())
+                ->where('course_id', $courseId)
+                ->delete();
+        } else {
+            $course = DB::table('courses')
+                ->where('id', $courseId)
+                ->first();
+            Storage::delete($course->cover);
+            DB::table('courses')
+                ->where('id', $courseId)
+                ->delete();
+        }
+    }
+
     public function getCourseInfo(Request $request)
     {
         $courseId = $request->input("id");
         $course = DB::table('courses')
             ->select(
+                'courses.user_id as teacherId',
                 'courses.cover as courseCover',
                 'courses.title as courseTitle',
                 'courses.introduction as courseIntroduction',
                 'users.avatar as teacherAvatar',
                 'users.name as teacherName',
             )
-            ->join('users', 'users.id', 'courses.user_id')
+            ->join(
+                'users',
+                'users.id',
+                'courses.user_id'
+            )
             ->where('courses.id', $courseId)
             ->first();
         return response()->json([
             'course' => $course,
+        ]);
+    }
+
+    public function getRegisteredList(Request $request)
+    {
+        $courseId = $request->input('id');
+        $students = DB::table('registered_students')
+            ->select(
+                'users.id as studentId',
+                'users.avatar as studentAvatar',
+                'users.name as studentName',
+                'users.email as studentEmail',
+            )
+            ->join(
+                'users',
+                'users.id',
+                'registered_students.user_id'
+            )
+            ->where('registered_students.course_id', $courseId)
+            ->get();
+        return response()->json([
+            'students' => $students,
         ]);
     }
 }

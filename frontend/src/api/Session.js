@@ -17,3 +17,10 @@ export function getUser() {
 export function removeUser() {
   sessionStorage.removeItem("user_info");
 }
+
+export function isStudent() {
+  return getUser().role == 0;
+}
+export function isTeacher() {
+  return getUser().role == 1;
+}

@@ -17,12 +17,7 @@ function AssignmentListMini() {
           {assignments.map((item, index) => {
             return (
               <Link key={index} to={"/courses/" + item.course_id}>
-                <AssignmentCardMini
-                  teacherAvatar={item.avatar}
-                  assignmentTitle={item.assignment_title}
-                  courseTitle={item.course_title}
-                  deadline={item.deadline}
-                />
+                <AssignmentCardMini data={item} />
               </Link>
             );
           })}

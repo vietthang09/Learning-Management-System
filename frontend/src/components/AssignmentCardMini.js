@@ -118,15 +118,16 @@ function AssignmentCardMini(props) {
         }
       >
         <div className="flex items-center">
-          <UserAvatar link={props.teacherAvatar} />
+          <UserAvatar link={props.data.teacherAvatar} />
           <div>
             <span className="block text-lg text-gray-600 font-medium">
-              {props.assignmentTitle}
+              {props.data.assignmentTitle}
             </span>
             <div className="mb-2 text-xs font-medium text-gray-400">
-              <span className="block">In: {props.courseTitle}</span>
+              <span className="block">In: {props.data.courseTitle}</span>
               <span>
-                Deadline: {moment(props.deadline).format("DD/MM/YYYY")}
+                Deadline:{" "}
+                {moment(props.data.deadline).format("HH:mm DD/MM/YYYY")}
               </span>
             </div>
           </div>

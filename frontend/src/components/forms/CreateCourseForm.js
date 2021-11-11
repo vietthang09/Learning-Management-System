@@ -44,7 +44,7 @@ function CreateCourseForm() {
             <label className="text-sm text-gray-500">Introduction</label>
             <textarea
               type="text"
-              className="p-2 text-xl bg-gray-100 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="p-2 text-xl bg-gray-100 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 resize-none"
               name="introduction"
               onChange={(e) => handleInput(e)}
             ></textarea>

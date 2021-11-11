@@ -18,6 +18,9 @@ import Register from "./pages/Register";
 import ProfileEdit from "./pages/ProfileEdit";
 import PostEdit from "./pages/PostEdit";
 import RouteGuest from "./components/RouteGuest";
+import RouteForTeacher from "./components/middlewares/RouteForTeacher";
+import RouteForStudent from "./components/middlewares/RouteForStudent";
+import Toast from "./components/Toast";
 
 function App() {
   return (
@@ -27,10 +30,14 @@ function App() {
           <RouteGuest exact path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <RouteWithNav exact path="/" component={Home} />
-          <RouteWithNav exact path="/new-course" component={CreateNewCourse} />
-          <RouteWithNav
+          <RouteForTeacher
             exact
-            path="/create-assignment/:id"
+            path="/new-course"
+            component={CreateNewCourse}
+          />
+          <RouteForTeacher
+            exact
+            path="/assignment/create/:id"
             component={CreateAssignment}
           />
           <RouteWithNav
@@ -59,6 +66,7 @@ function App() {
           <RouteWithNav exact path="/" component={Home} />
         </Switch>
       </Router>
+      <Toast />
     </>
   );
 }

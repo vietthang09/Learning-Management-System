@@ -70,3 +70,40 @@ export function getCourseInfo(id, setCourse) {
     setCourse(response.data.course);
   });
 }
+
+export function cancelRequest(courseId) {
+  var formData = new FormData();
+  formData.append("id", courseId);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Course}cancel?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}
+
+// For students
+export function enroll(courseId) {
+  var formData = new FormData();
+  formData.append("id", courseId);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Course}enroll?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}
+
+export function getRegisteredList(courseId, setStudents) {
+  var formData = new FormData();
+  formData.append("id", courseId);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Course}registered-list?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  }).then((response) => {
+    setStudents(response.data.students);
+  });
+}
+

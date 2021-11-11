@@ -68,7 +68,7 @@ class AssignmentController extends Controller
             $assigments = DB::table('assignments')
                 ->select(
                     'assignments.course_id',
-                    'users.avatar',
+                    'users.avatar as teacherAvatar',
                     'assignments.deadline',
                     'assignments.title as assignmentTitle',
                     'courses.title as courseTitle'
@@ -84,7 +84,7 @@ class AssignmentController extends Controller
             $assigments = DB::table('assignments')
                 ->select(
                     'assignments.course_id',
-                    'users.avatar',
+                    'users.avatar as teacherAvatar',
                     'assignments.deadline',
                     'assignments.title as assignmentTitle',
                     'courses.title as courseTitle'
@@ -100,29 +100,37 @@ class AssignmentController extends Controller
             'assignments' => $assigments,
         ]);
     }
-    public function getAllAssignments()
+    public function getAssignmentsOfCourse(Request $request)
     {
-        $assigments = null;
-        if (auth()->user()->role == 0) {
-            $assigments = DB::table('assignments')
-                ->select('assignments.course_id', 'users.avatar', 'assignments.deadline', 'assignments.assignment_title', 'courses.course_title')
-                ->join('courses', 'courses.id', 'assignments.course_id')
-                ->join('registered_students', 'registered_students.course_id', 'courses.id')
-                ->join('users', 'users.id', 'courses.user_id')
-                ->where('registered_students.user_id', auth()->id())
-                ->orderBy('deadline', 'desc')
-                ->get();
-        } else {
-            $assigments = DB::table('assignments')
-                ->select('assignments.course_id', 'users.avatar', 'assignments.deadline', 'assignments.assignment_title', 'courses.course_title')
-                ->join('courses', 'courses.id', 'assignments.course_id')
-                ->join('users', 'users.id', 'courses.user_id')
-                ->where('courses.user_id', auth()->id())
-                ->orderBy('deadline', 'desc')
-                ->get();
-        }
+        $courseId = $request->input('id');
+        $assigments = DB::table('assignments')
+            ->select(
+                'users.avatar as teacherAvatar',
+                'assignments.title as assignmentTitle',
+                'assignments.deadline',
+            )
+            ->join('courses', 'courses.id', 'assignments.course_id')
+            ->join('users', 'users.id', 'courses.user_id')
+            ->orderBy('deadline', 'desc')
+            ->get();
+
         return response()->json([
             'assignments' => $assigments,
         ]);
+    }
+
+    public function createAssignment(Request $request)
+    {
+        $courseId = $request->input('id');
+        $title = $request->input('title');
+        $content = $request->input('content');
+        $deadline = $request->input('deadline');
+        DB::table('assignments')
+            ->insert([
+                'course_id' => $courseId,
+                'title' => $title,
+                'content' => $content,
+                'deadline' => $deadline,
+            ]);
     }
 }

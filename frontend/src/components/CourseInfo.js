@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { getCourseInfo } from "../api/API_Courses";
+import { getUser } from "../api/Session";
+import CancleButton from "./buttons/CancleButton";
 import UserAvatar from "./UserAvatar";
+
 function CourseInfo(props) {
   const [course, setCourse] = useState([]);
   useEffect(() => {
@@ -22,7 +25,9 @@ function CourseInfo(props) {
         </div>
         <p className="text-gray-400">{course.courseIntroduction}</p>
       </div>
-      <div className="flex justify-center"></div>
+      <div className="flex justify-center">
+        {getUser().id == course.teacherId ? <CancleButton id={props.id} /> : ""}
+      </div>
     </div>
   );
 }
