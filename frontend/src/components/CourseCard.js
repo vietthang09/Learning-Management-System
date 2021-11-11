@@ -9,7 +9,7 @@ function CourseCard(props) {
   return (
     <div className="relative group">
       <img
-        src={"http://localhost:8000/" + props.data.course_cover}
+        src={"http://localhost:8000/" + props.data.courseCover}
         alt=""
         className="h-44 w-full object-cover overflow-hidden rounded-3xl shadow group-hover:shadow-sm"
       />
@@ -26,7 +26,7 @@ function CourseCard(props) {
       </div>
       <div className="px-5 py-3 bg-white rounded-3xl shadow group-hover:shadow-sm">
         <span className="text-gray-600 text-lg font-medium">
-          {props.data.course_title}
+          {props.data.courseTitle}
         </span>
         <div className="pt-2">
           <div className="flex items-center">

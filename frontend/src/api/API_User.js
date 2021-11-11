@@ -23,7 +23,7 @@ export function login(loginInfo, setErrors, history) {
       history.push("/");
     })
     .catch((error) => {
-      setErrors(error.response.data);
+      setErrors(error.response);
     });
 }
 export function logout() {

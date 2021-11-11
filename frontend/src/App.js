@@ -24,7 +24,6 @@ function App() {
     <>
       <Router>
         <Switch>
-          {/* <Route path="/login" component={Login} /> */}
           <RouteGuest exact path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <RouteWithNav exact path="/" component={Home} />
@@ -50,7 +49,7 @@ function App() {
             component={MaterialAdjustments}
           />
           <RouteWithNav exact path="/courses/:id" component={CourseDetail} />
-          <RouteWithNav exact path="/new/:id" component={NewCourse} />
+          <RouteWithNav exact path="/courses/new/:id" component={NewCourse} />
           <RouteWithNav exact path="/courses" component={Courses} />
           <RouteWithNav exact path="/forum" component={Forum} />
           <RouteWithNav exact path="/forum/:id" component={PostDetail} />

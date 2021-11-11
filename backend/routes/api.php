@@ -35,14 +35,16 @@ Route::group([
     Route::post('/recently', [CoursesController::class, 'getRecentlyCourses']);
     Route::post('/all', [CoursesController::class, 'getAllCourses']);
     Route::post('/find', [CoursesController::class, 'findCourses']);
+    Route::post('/getInfo', [CoursesController::class, 'getCourseInfo']);
     Route::post('/get-new', [CoursesController::class, 'getNewCourses']);
     Route::post('/number-enrolled', [CoursesController::class, 'getNumberEnrolled']);
+    Route::post('/create', [CoursesController::class, 'createCourse']);
 });
 Route::group([
     'prefix' => 'assignment'
 ], function () {
     Route::post('/number-today', [AssignmentController::class, 'getNumberToday']);
-    Route::post('/timeline', [AssignmentController::class, 'getAllAssignments']);
+    Route::post('/timeline', [AssignmentController::class, 'getAllAssignmentsMini']);
 });
 
 // Route::group([

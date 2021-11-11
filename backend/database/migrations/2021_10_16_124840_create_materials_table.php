@@ -20,7 +20,6 @@ class CreateMaterialsTable extends Migration
             $table->string('content');
             $table->string('fileName');
             $table->string('filePath');
-            $table->timestamps();
         });
     }
 

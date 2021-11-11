@@ -9,7 +9,6 @@ export function getRecentlyCourses(setRecentlyCourses) {
     headers: { "Content-Type": "application/json" },
   }).then((response) => {
     setRecentlyCourses(response.data.recentlyCourses);
-    console.log(response.data.recentlyCourses);
   });
 }
 
@@ -46,15 +45,28 @@ export function getNewCourses(setNewCourses) {
   });
 }
 
-export function getNumberEnrolled(courseId, setNumberEnrolled) {
+export function createCourse(courseInfo, seletedImage) {
   var formData = new FormData();
-  formData.append("courseId", courseId);
+  formData.append("title", courseInfo.title);
+  formData.append("introduction", courseInfo.introduction);
+  formData.append("cover", seletedImage);
   axios({
     method: "POST",
-    url: `${Master_URL_API_Course}number-enrolled?token=${getToken()}`,
+    url: `${Master_URL_API_Course}create?token=${getToken()}`,
+    headers: { "Content-Type": "multipart/form-data" },
+    data: formData,
+  });
+}
+
+export function getCourseInfo(id, setCourse) {
+  var formData = new FormData();
+  formData.append("id", id);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Course}getInfo?token=${getToken()}`,
     headers: { "Content-Type": "application/json" },
     data: formData,
   }).then((response) => {
-    setNumberEnrolled(response.data.numberEnrolled);
+    setCourse(response.data.course);
   });
 }

@@ -19,11 +19,12 @@ class CreateCoursesTable extends Migration
             $table->string('cover');
             $table->string('title');
             $table->string('introduction');
+            $table->integer('minimum')->nullable();
             $table->integer('maximum')->nullable();
             $table->string('class_link')->nullable();
-            $table->date('registration_deadline')->nullable();
             $table->boolean('public');
-            $table->timestamp('visited_at');
+            $table->timestamp('deadline');
+            $table->timestamp('accessed_at')->nullable();
         });
     }
 

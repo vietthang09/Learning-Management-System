@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NewCourseCard from "./NewCourseCard";
 import { getNewCourses } from "../api/API_Courses";
 import { getUser } from "../api/Session";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { PlusCircleIcon } from "@heroicons/react/outline";
 function NewCoursesList() {
   var [newCourses, setNewCourses] = useState([]);
@@ -27,17 +27,15 @@ function NewCoursesList() {
           </NavLink>
         </div>
       )}
-      {newCourses.map((item, index) => {
-        return (
-          <NewCourseCard
-            key={index}
-            id={item.id}
-            teacherAvatar={item.avatar}
-            teacherName={item.name}
-            title={item.course_title}
-          />
-        );
-      })}
+      <div className="mt-5 lg:px-0 grid grid-cols-1 lg:grid-cols-4 gap-4 gap-y-8">
+        {newCourses.map((item, index) => {
+          return (
+            <Link to={"/courses/new/" + item.id}>
+              <NewCourseCard key={index} data={item} />
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }

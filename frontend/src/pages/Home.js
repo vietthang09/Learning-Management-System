@@ -18,9 +18,7 @@ function Home() {
         </div>
       </div>
       <div className="my-5">
-        <div className="mt-5 lg:px-0 grid grid-cols-1 lg:grid-cols-4 gap-4 gap-y-8">
-          <NewCoursesList />
-        </div>
+        <NewCoursesList />
       </div>
     </div>
   );

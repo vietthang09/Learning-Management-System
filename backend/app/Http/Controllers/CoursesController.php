@@ -24,29 +24,6 @@ class CoursesController extends Controller
     //     ]);
     // }
 
-    // public function createCourse(Request $request)
-    // {
-    //     try {
-    //         $filePath = $request->file('file')->store('courses');
-    //         DB::table('courses')
-    //             ->insert([
-    //                 'user_id' => $request->input('teacherId'),
-    //                 'course_cover' => $filePath,
-    //                 'course_title' => $request->input('title'),
-    //                 'introduction' => $request->input('introduction'),
-    //                 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
-    //                 'public' => 0,
-    //             ]);
-    //         return response()->json([
-    //             'status' => 201,
-    //         ]);
-    //     } catch (DataException $th) {
-    //         return response()->json([
-    //             'status' => $th,
-    //         ]);
-    //     }
-    // }
-
     // public function cancelRequest(Request $request)
     // {
     //     $courseId = $request->input('courseId');
@@ -146,11 +123,48 @@ class CoursesController extends Controller
 
     public function getRecentlyCourses()
     {
-        $courses;
+        $courses = null;
         if (auth()->user()->role == 0) {
-            $courses = ControllerMaster::getAllCoursesEnrolled(auth()->id(), 3);
+            $courses = DB::table('courses')
+                ->select(
+                    'courses.id as course_id',
+                    'courses.title as courseTitle',
+                    'courses.cover as courseCover',
+                    'courses.public',
+                    'courses.user_id',
+                    'users.name as teacherName',
+                    'users.avatar as teacherAvatar',
+                    DB::raw("(SELECT COUNT(id) FROM registered_students WHERE registered_students.course_id = courses.id) as numberOfStudents"),
+                    DB::raw("(SELECT COUNT(id) FROM materials WHERE materials.course_id = courses.id) as numberOfMaterials"),
+                    DB::raw("(SELECT COUNT(id) FROM assignments WHERE assignments.course_id = courses.id) as numberOfAssignments"),
+                )
+                ->join('registered_students', 'registered_students.course_id', '=', 'courses.id')
+                ->join('users', 'users.id', 'courses.user_id')
+                ->where('public', 1)
+                ->where('registered_students.user_id', auth()->id())
+                ->limit(3)
+                ->orderBy('registered_students.visited_at', 'desc')
+                ->get();
         } else {
-            $courses = ControllerMaster::getCoursesIsBeingTaught(auth()->id(), 3);
+            $courses = DB::table('courses')
+                ->select(
+                    'courses.id as course_id',
+                    'courses.title as courseTitle',
+                    'courses.cover as courseCover',
+                    'courses.public',
+                    'courses.user_id',
+                    'users.name as teacherName',
+                    'users.avatar as teacherAvatar',
+                    DB::raw("(SELECT COUNT(id) FROM registered_students WHERE registered_students.course_id = courses.id) as numberOfStudents"),
+                    DB::raw("(SELECT COUNT(id) FROM materials WHERE materials.course_id = courses.id) as numberOfMaterials"),
+                    DB::raw("(SELECT COUNT(id) FROM assignments WHERE assignments.course_id = courses.id) as numberOfAssignments"),
+                )
+                ->join('users', 'users.id', 'courses.user_id')
+                ->where('courses.user_id', auth()->id())
+                ->where('courses.public', 1)
+                ->limit(3)
+                ->orderBy('courses.accessed_at', 'desc')
+                ->get();
         }
         return response()->json([
             'recentlyCourses' => $courses,
@@ -159,7 +173,7 @@ class CoursesController extends Controller
 
     public function getAllCourses()
     {
-        $courses;
+        $courses = null;
         if (auth()->user()->role == 0) {
             $courses = ControllerMaster::getAllCoursesEnrolled(auth()->id(), 0);
         } else {
@@ -189,21 +203,6 @@ class CoursesController extends Controller
             ->where('registered_students.user_id', auth()->id())
             ->where('course_title', 'LIKE', "%{$searchInput}%")
             ->get();
-        // $collectionOfCourses = collect();
-        // foreach ($courses as $course) {
-        //     $teacherName = ControllerMaster::getUserNameById($course->user_id);
-        //     $numberOfStudents = ControllerMaster::countStudentsOfCourse($course->course_id);
-        //     $numberOfMaterials = ControllerMaster::countMaterialsOfCourse($course->course_id);
-        //     $numberOfAssignments = ControllerMaster::countAssginmentsOfCourse($course->course_id);
-        //     $collectionOfCourses->push([
-        //         'course' => $course,
-        //         'teacherName' => $teacherName,
-        //         'teacherAvatar' => ControllerMaster::getUserAvatar($course->user_id),
-        //         'numberOfStudents' => $numberOfStudents,
-        //         'numberOfMaterials' => $numberOfMaterials,
-        //         'numberOfAssignments' => $numberOfAssignments,
-        //     ]);
-        // }
         return response()->json([
             'status' => 201,
             'courses' => $courses,
@@ -213,7 +212,13 @@ class CoursesController extends Controller
     public function getNewCourses()
     {
         $courses = DB::table('courses')
-            ->select('users.id', 'users.avatar', 'users.name', 'courses.course_title')
+            ->select(
+                'courses.id',
+                'users.avatar as teacherAvatar',
+                'users.name as teacherName',
+                'courses.title as courseTitle',
+                DB::raw("(select COUNT(*) from registered_students where registered_students.course_id = courses.id) as numberOfStudents"),
+            )
             ->join('users', 'users.id', 'courses.user_id')
             ->where('public', 0)
             ->get();
@@ -222,14 +227,38 @@ class CoursesController extends Controller
         ]);
     }
 
-    public function getNumberEnrolled(Request $request)
+    public function createCourse(Request $request)
     {
-        $courseId = $request->input('courseId');
-        $numberEnrolled = DB::table('courses')
-            ->where('id', $courseId)
-            ->count();
+        $title = $request->input('title');
+        $introduction = $request->input('introduction');
+        $filePath = $request->file('cover')->store('courses');
+        DB::table('courses')
+            ->insert([
+                'user_id' => auth()->id(),
+                'cover' => $filePath,
+                'title' => $title,
+                'introduction' => $introduction,
+                'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+                'public' => 0,
+            ]);
+    }
+
+    public function getCourseInfo(Request $request)
+    {
+        $courseId = $request->input("id");
+        $course = DB::table('courses')
+            ->select(
+                'courses.cover as courseCover',
+                'courses.title as courseTitle',
+                'courses.introduction as courseIntroduction',
+                'users.avatar as teacherAvatar',
+                'users.name as teacherName',
+            )
+            ->join('users', 'users.id', 'courses.user_id')
+            ->where('courses.id', $courseId)
+            ->first();
         return response()->json([
-            'numberEnrolled' => $numberEnrolled,
+            'course' => $course,
         ]);
     }
 }
