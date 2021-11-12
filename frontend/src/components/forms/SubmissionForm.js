@@ -5,7 +5,6 @@ import moment from "moment";
 import { TrashIcon } from "@heroicons/react/outline";
 import { getAssignmentInfo } from "../../api/API_Assignments";
 import { checkSubmission } from "../../api/API_Submissions";
-import DownloadButton from "../buttons/DownloadButton";
 import DisabledButton from "../buttons/DisabledButton";
 function SubmissionForm(props) {
   var [selectedFile, setSelectedFile] = useState([]);
@@ -15,6 +14,8 @@ function SubmissionForm(props) {
     getAssignmentInfo(props.id, setAssignmentInfo);
     checkSubmission(props.id, setSubmissionInfo);
   }, []);
+  const today = moment().format("YYYYMMDD");
+  const deadline = moment(assignmentInfo.assignmentDeadline).format("YYYYMMDD");
   return (
     <div className="space-y-5 m-auto">
       <div className="py-5 flex space-x-10">
@@ -93,31 +94,37 @@ function SubmissionForm(props) {
                 ) : (
                   ""
                 )}
-                <label
-                  htmlFor="file"
-                  className="text-green-400 font-semibold rounded-lg cursor-pointer hover:text-green-500"
-                >
-                  {selectedFile.name ? selectedFile.name : "Choose file"}
-                </label>
-                <input
-                  type="file"
-                  className="hidden"
-                  id="file"
-                  name="file"
-                  onChange={(e) => {
-                    setSelectedFile(e.target.files[0]);
-                  }}
-                />
-                {selectedFile.name ? (
-                  <TrashIcon
-                    className="w-7 text-red-400 border-2 border-red-400 rounded-full cursor-pointer hover:text-red-500 hover:border-red-500"
-                    onClickCapture={(e) => {
-                      e.preventDefault();
-                      setSelectedFile([]);
-                    }}
-                  />
-                ) : (
+                {today > deadline && submissionInfo == null ? (
                   ""
+                ) : (
+                  <div>
+                    <label
+                      htmlFor="file"
+                      className="text-green-400 font-semibold rounded-lg cursor-pointer hover:text-green-500"
+                    >
+                      {selectedFile.name ? selectedFile.name : "Choose file"}
+                    </label>
+                    <input
+                      type="file"
+                      className="hidden"
+                      id="file"
+                      name="file"
+                      onChange={(e) => {
+                        setSelectedFile(e.target.files[0]);
+                      }}
+                    />
+                    {selectedFile.name ? (
+                      <TrashIcon
+                        className="w-7 text-red-400 border-2 border-red-400 rounded-full cursor-pointer hover:text-red-500 hover:border-red-500"
+                        onClickCapture={(e) => {
+                          e.preventDefault();
+                          setSelectedFile([]);
+                        }}
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 )}
               </div>
             </div>

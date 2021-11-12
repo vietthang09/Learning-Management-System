@@ -5,6 +5,7 @@ use App\Http\Controllers\ControllerMaster;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\Student\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
@@ -65,6 +66,17 @@ Route::group([
     Route::post('/check', [SubmissionController::class, 'check']);
     Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
     Route::post('/update', [SubmissionController::class, 'update']);
+});
+
+// For material controller
+Route::group([
+    'prefix' => 'material'
+], function () {
+    Route::post('/create', [MaterialController::class, 'create']);
+    Route::post('/in-course', [MaterialController::class, 'getMaterialsInCourse']);
+    Route::post('/get-info', [MaterialController::class, 'getInfo']);
+    Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
+    Route::post('/delete', [SubmissionController::class, 'destroy']);
 });
 
 

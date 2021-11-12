@@ -13,6 +13,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import CourseInfo from "../components/CourseInfo";
 import AssignmentList from "../components/lists/AssignmentList";
 import { isTeacher } from "../api/Session";
+import MaterialList from "../components/lists/MaterialList";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -70,127 +71,20 @@ function CourseDetail(props) {
                     <AssignmentList id={courseId} />
                   </Tab.Panel>
                   <Tab.Panel className="mt-5 px-10">
-                    {/* {user.role == 0 ? (
-                      ""
-                    ) : (
+                    {isTeacher() ? (
                       <div className="flex justify-end">
-                        <NavLink
-                          to={{
-                            pathname: "/create-material/" + courseId,
-                            state: {
-                              courseTitle: course.course_title,
-                            },
-                          }}
+                        <Link
+                          to={"/material/create/" + courseId}
                           className="p-2 mb-5 w-72 flex justify-center items-center bg-white text-gray-500 text-lg font-medium border-r-2 rounded-md shadow-md hover:shadow relative"
                         >
                           <PlusCircleIcon className="animate-pulse w-5 mr-2 text-green-400" />
                           New material
-                        </NavLink>
+                        </Link>
                       </div>
-                    )} */}
-                    {/* <div className={user.role == 0 ? "hidden" : ""}>
-                      <Transition appear show={isOpen} as={Fragment}>
-                        <Dialog
-                          as="div"
-                          className="fixed inset-0 z-10 overflow-y-auto"
-                          onClose={closeModal}
-                        >
-                          <div className="min-h-screen px-4 text-center">
-                            <Transition.Child
-                              as={Fragment}
-                              enter="ease-out duration-300"
-                              enterFrom="opacity-0"
-                              enterTo="opacity-100"
-                              leave="ease-in duration-200"
-                              leaveFrom="opacity-100"
-                              leaveTo="opacity-0"
-                            >
-                              <Dialog.Overlay className="fixed inset-0" />
-                            </Transition.Child>
-
-                            <span
-                              className="inline-block h-screen align-middle"
-                              aria-hidden="true"
-                            >
-                              &#8203;
-                            </span>
-                            <Transition.Child
-                              as={Fragment}
-                              enter="ease-out duration-300"
-                              enterFrom="opacity-0 scale-95"
-                              enterTo="opacity-100 scale-100"
-                              leave="ease-in duration-200"
-                              leaveFrom="opacity-100 scale-100"
-                              leaveTo="opacity-0 scale-95"
-                            >
-                              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                                <Dialog.Title
-                                  as="h3"
-                                  className="text-lg font-medium leading-6 text-gray-900"
-                                >
-                                  Create a new material
-                                </Dialog.Title>
-                                <div className="mt-2">
-                                  <div>
-                                    <span>Title</span>
-                                    <input
-                                      type="text"
-                                      name="title"
-                                      className="border"
-                                      onChange={onInputChange_Material}
-                                    />
-                                  </div>
-                                  <div>
-                                    <span>Content</span>
-                                    <textarea
-                                      name="content"
-                                      className="border"
-                                      onChange={onInputChange_Material}
-                                    ></textarea>
-                                  </div>
-                                  <div>
-                                    <span>File</span>
-                                    <input
-                                      type="file"
-                                      id="file"
-                                      className="inputfile"
-                                      onChange={(e) => {
-                                        setLabel(e.target.files[0].name);
-                                        setSelectedFile(e.target.files[0]);
-                                      }}
-                                    />
-                                    <label
-                                      htmlFor="file"
-                                      id="label"
-                                      className="py-2 font-medium text-green-400"
-                                    >
-                                      {label}
-                                    </label>
-                                  </div>
-                                  <button
-                                    className="bg-green-400 p-5 rounded-xl"
-                                    onClick={confirm_Material}
-                                  >
-                                    Confirm
-                                  </button>
-                                </div>
-
-                                <div className="mt-4">
-                                  <button
-                                    type="button"
-                                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                                    onClick={closeModal}
-                                  >
-                                    Got it, thanks!
-                                  </button>
-                                </div>
-                              </div>
-                            </Transition.Child>
-                          </div>
-                        </Dialog>
-                      </Transition>
-                    </div> */}
-                    {/* {materials_HTMLLIST} */}
+                    ) : (
+                      ""
+                    )}
+                    <MaterialList id={courseId} />
                   </Tab.Panel>
                 </Tab.Panels>
               </Tab.Group>

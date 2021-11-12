@@ -73,4 +73,16 @@ class SubmissionController extends Controller
                 'submitted_at' => Carbon::now('Asia/Ho_Chi_Minh'),
             ]);
     }
+
+    public function destroy(Request $request)
+    {
+        $materialId = $request->input('id');
+        $material = DB::table('materials')
+            ->where('id', $materialId)
+            ->first();
+        Storage::delete($material->filePath);
+        DB::table('materials')
+            ->where('id', $materialId)
+            ->delete();
+    }
 }

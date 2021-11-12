@@ -9,8 +9,6 @@ import Login from "./pages/Login";
 import { RouteWithNav } from "./components/RouteWithNav";
 import CreateAssignment from "./components/CreateAssignment";
 import AssignmentAdjustments from "./components/AssignmentAdjustments";
-import CreateMaterial from "./components/CreateMaterial";
-import MaterialAdjustments from "./components/MaterialAdjustments";
 import CreateNewCourse from "./pages/CreateNewCourse";
 import NewCourse from "./pages/NewCourse";
 import PostDetail from "./pages/PostDetail";
@@ -22,6 +20,8 @@ import RouteForTeacher from "./components/middlewares/RouteForTeacher";
 import RouteForStudent from "./components/middlewares/RouteForStudent";
 import Toast from "./components/Toast";
 import Submit from "./pages/Submit";
+import MaterialLayout from "./components/layouts/MaterialLayout";
+import UpdateMaterialLayout from "./components/layouts/UpdateMaterialLayout";
 
 function App() {
   return (
@@ -47,21 +47,23 @@ function App() {
             path="/assignment/update/:id"
             component={AssignmentAdjustments}
           />
-          {/* Submissions Managerment */}
+          {/* Submissions Management */}
           <RouteForStudent
             exact
             path="/submission/submit/:id"
             component={Submit}
           />
-          <RouteWithNav
+          {/* Materials Management */}
+          <RouteForTeacher
             exact
-            path="/create-material/:id"
-            component={CreateMaterial}
+            path="/material/create/:id"
+            component={MaterialLayout}
           />
-          <RouteWithNav
+
+          <RouteForTeacher
             exact
-            path="/update-material/:id"
-            component={MaterialAdjustments}
+            path="/material/update/:id"
+            component={UpdateMaterialLayout}
           />
           <RouteWithNav exact path="/courses/:id" component={CourseDetail} />
           <RouteWithNav exact path="/courses/new/:id" component={NewCourse} />

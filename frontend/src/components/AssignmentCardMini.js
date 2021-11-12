@@ -46,9 +46,6 @@ function AssignmentCardMini(props) {
               </div>
             </div>
           </div>
-          <span className="text-xs font-medium text-gray-400">
-            {props.data.submission ? "Submitted" : ""}
-          </span>
         </div>
       </div>
     </>

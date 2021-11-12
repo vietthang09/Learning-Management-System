@@ -1,27 +1,25 @@
 import { Disclosure } from "@headlessui/react";
 import { ChevronRightIcon, AdjustmentsIcon } from "@heroicons/react/outline";
-import { Menu, Transition, Dialog } from "@headlessui/react";
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router";
-import { NavLink } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
+import { isTeacher } from "../api/Session";
 function MaterialCard(props) {
-  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <Disclosure>
       {({ open }) => (
         <>
           <Disclosure.Button className="px-5 py-2 w-full flex justify-between items-center bg-green-100 text-green-600 font-medium rounded-xl">
-            <span>{props.data.material_title}</span>
+            <span>{props.data.materialTitle}</span>
             <div className="w-5">
               <ChevronRightIcon
                 className={`${open ? "transform rotate-90" : ""}`}
               />
             </div>
           </Disclosure.Button>
-          <Disclosure.Panel className="text-gray-500">
+          <Disclosure.Panel className="text-gray-500 bg-white">
             <div className="p-2 flex justify-between items-center shadow rounded-xl">
               <div>
-                <p>{props.data.material_content}</p>
+                <p>{props.data.materialContent}</p>
                 Attachment:{" "}
                 <a
                   className="underline"
@@ -33,21 +31,10 @@ function MaterialCard(props) {
                   {props.data.fileName}
                 </a>
               </div>
-              {user.role == 1 ? (
-                <NavLink
-                  to={{
-                    pathname: "/update-material/" + props.data.id,
-                    state: {
-                      courseId: props.courseId,
-                      courseTitle: props.courseTitle,
-                      title: props.data.material_title,
-                      content: props.data.material_content,
-                      fileName: props.data.fileName,
-                    },
-                  }}
-                >
-                  <AdjustmentsIcon className="w-5" />
-                </NavLink>
+              {isTeacher() ? (
+                <Link to={"/material/update/" + props.data.materialId}>
+                  <AdjustmentsIcon className="w-7 text-green-400 hover:text-green-500" />
+                </Link>
               ) : (
                 ""
               )}
