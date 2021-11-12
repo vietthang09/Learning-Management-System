@@ -19,7 +19,9 @@ function AssignmentList(props) {
                 <AssignmentCardMini data={item} />
               </Link>
             ) : (
-              <AssignmentCardMini data={item} />
+              <Link to={"/submission/submit/" + item.assignmentId}>
+                <AssignmentCardMini data={item} />
+              </Link>
             )}
           </>
         );

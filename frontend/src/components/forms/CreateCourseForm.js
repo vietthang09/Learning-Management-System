@@ -109,16 +109,6 @@ function CreateCourseForm() {
           </div>
         </div>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable={false}
-      />
     </div>
   );
 }

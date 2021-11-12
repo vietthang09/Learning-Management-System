@@ -1,18 +1,21 @@
 import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { getAssignmentInfo } from "../../api/API_Assignments";
+import ConfirmButton from "../buttons/ConfirmButton";
 import DeleteButton from "../buttons/DeleteButton";
 
 function AdjustAssignmentForm(props) {
   var [assignmentInfo, setAssignmentInfo] = useState({
-    title: "",
-    content: "",
-    deadline: "",
+    assignmentTitle: "",
+    assignmentContent: "",
+    assignmentDeadline: "",
   });
   useEffect(() => {
     getAssignmentInfo(props.id, setAssignmentInfo);
   }, []);
-
+  function handleInput(e) {
+    setAssignmentInfo({ ...assignmentInfo, [e.target.name]: [e.target.value] });
+  }
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-1 gap-1">
@@ -20,16 +23,18 @@ function AdjustAssignmentForm(props) {
         <input
           type="text"
           className="p-2 text-xl text-gray-600 bg-gray-100 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
-          name="title"
+          name="assignmentTitle"
           defaultValue={assignmentInfo.assignmentTitle}
+          onChange={(e) => handleInput(e)}
         />
       </div>
       <div className="grid grid-cols-1 gap-1">
         <label className="text-sm text-gray-500">Content</label>
         <textarea
           className="p-2 text-xl text-gray-600 bg-gray-100 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
-          name="content"
+          name="assignmentContent"
           defaultValue={assignmentInfo.assignmentContent}
+          onChange={(e) => handleInput(e)}
         ></textarea>
       </div>
       <div className="grid grid-cols-1 gap-1">
@@ -37,15 +42,18 @@ function AdjustAssignmentForm(props) {
         <input
           type="date"
           className="p-2 text-xl text-gray-600 bg-gray-100 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
-          name="deadline"
+          name="assignmentDeadline"
           defaultValue={assignmentInfo.assignmentDeadline}
+          onChange={(e) => handleInput(e)}
         />
       </div>
       <div className="flex justify-between items-center">
         <DeleteButton type="delete-assignment" id={props.id} />
-        <button className="p-2  bg-green-400 text-white font-semibold rounded-md hover:bg-green-500">
-          Confirm
-        </button>
+        <ConfirmButton
+          type="update-assignment"
+          id={props.id}
+          data={assignmentInfo}
+        />
       </div>
     </div>
   );

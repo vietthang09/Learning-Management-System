@@ -21,6 +21,7 @@ import RouteGuest from "./components/RouteGuest";
 import RouteForTeacher from "./components/middlewares/RouteForTeacher";
 import RouteForStudent from "./components/middlewares/RouteForStudent";
 import Toast from "./components/Toast";
+import Submit from "./pages/Submit";
 
 function App() {
   return (
@@ -35,15 +36,22 @@ function App() {
             path="/new-course"
             component={CreateNewCourse}
           />
+          {/* Assignment Management */}
           <RouteForTeacher
             exact
             path="/assignment/create/:id"
             component={CreateAssignment}
           />
-          <RouteWithNav
+          <RouteForTeacher
             exact
             path="/assignment/update/:id"
             component={AssignmentAdjustments}
+          />
+          {/* Submissions Managerment */}
+          <RouteForStudent
+            exact
+            path="/submission/submit/:id"
+            component={Submit}
           />
           <RouteWithNav
             exact

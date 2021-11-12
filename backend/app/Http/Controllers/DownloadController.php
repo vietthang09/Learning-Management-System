@@ -11,6 +11,10 @@ class DownloadController extends Controller
     public function getSubmission($submissionId)
     {
         $submission = DB::table('submissions')
+            ->select(
+                'fileName',
+                'filePath'
+            )
             ->where('id', $submissionId)
             ->first();
         $download = Storage::download($submission->filePath, $submission->fileName, ['Content-Type: docx/pdf/zip/rar']);

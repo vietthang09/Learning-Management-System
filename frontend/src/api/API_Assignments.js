@@ -70,3 +70,16 @@ export function deleteAssignment(id) {
     data: formData,
   });
 }
+export function updateAssignment(id, assignmentInfo) {
+  var formData = new FormData();
+  formData.append("id", id);
+  formData.append("title", assignmentInfo.assignmentTitle);
+  formData.append("content", assignmentInfo.assignmentContent);
+  formData.append("deadline", assignmentInfo.assignmentDeadline);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Assignment}update?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}

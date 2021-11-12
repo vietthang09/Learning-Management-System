@@ -71,7 +71,8 @@ class AssignmentController extends Controller
                     'users.avatar as teacherAvatar',
                     'assignments.deadline',
                     'assignments.title as assignmentTitle',
-                    'courses.title as courseTitle'
+                    'courses.title as courseTitle',
+                    DB::raw("(SELECT COUNT(id) FROM submissions WHERE submissions.assignment_id = assignments.id) as submission"),
                 )
                 ->join('courses', 'courses.id', 'assignments.course_id')
                 ->join('registered_students', 'registered_students.course_id', 'courses.id')
@@ -110,6 +111,7 @@ class AssignmentController extends Controller
                 'assignments.title as assignmentTitle',
                 'assignments.deadline',
                 'courses.title as courseTitle',
+                DB::raw("(SELECT COUNT(id) FROM submissions WHERE submissions.assignment_id = assignments.id) as submission"),
             )
             ->join('courses', 'courses.id', 'assignments.course_id')
             ->join('users', 'users.id', 'courses.user_id')
@@ -160,5 +162,21 @@ class AssignmentController extends Controller
         DB::table('assignments')
             ->where('id', $assignmentId)
             ->delete();
+    }
+
+    // for teacher
+    public function update(Request $request)
+    {
+        $assignmentId = $request->input('id');
+        $title = $request->input('title');
+        $content = $request->input('content');
+        $deadline = $request->input('deadline');
+        DB::table('assignments')
+            ->where('id', $assignmentId)
+            ->update([
+                'title' => $title,
+                'content' => $content,
+                'deadline' => $deadline,
+            ]);
     }
 }
