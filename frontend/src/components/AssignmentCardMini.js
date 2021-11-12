@@ -10,55 +10,7 @@ import { NavLink } from "react-router-dom";
 import UserAvatar from "./UserAvatar";
 import moment from "moment";
 function AssignmentCardMini(props) {
-  // var [assignment, setAssignment] = useState([]);
-  // var [submission, setSubmission] = useState([]);
-  // var [submissionStatus, setSubmissionStatus] = useState();
-  // var [courseTitle, setCourseTitle] = useState();
-  // var [teacherAvatar, setTeacherAvatar] = useState();
-  // const [selectedFile, setSelectedFile] = useState();
   let [isOpen, setIsOpen] = useState(false);
-  // let [label, setLabel] = useState("Choose a file");
-  // var submissionId = "";
-  // if (submission) submissionId = submission.id;
-  // var deadline = new Date(assignment.deadline);
-  // var deadlineToString = deadline.toLocaleDateString("en-US");
-
-  // function loadListForStudent() {
-  //   axios({
-  //     method: "post",
-  //     url: "http://127.0.0.1:8000/api/student/assignment/",
-  //     headers: { "Content-Type": "application/json" },
-  //     data: {
-  //       assignmentId: props.id,
-  //       userId: user.id,
-  //     },
-  //   }).then((res) => {
-  //     setAssignment(res.data.assignment);
-  //     setSubmission(res.data.submission);
-  //     setSubmissionStatus(res.data.submissionStatus);
-  //     setCourseTitle(res.data.course_title);
-  //     setTeacherAvatar(res.data.teacherAvatar);
-  //   });
-  // }
-  // function loadListForTeacher() {
-  //   axios({
-  //     method: "post",
-  //     url: "http://127.0.0.1:8000/api/teacher/assignment/",
-  //     headers: { "Content-Type": "application/json" },
-  //     data: {
-  //       assignmentId: props.id,
-  //     },
-  //   }).then((res) => {
-  //     setAssignment(res.data.assignment);
-  //     setSubmissionStatus(res.data.submissionStatus);
-  //     setCourseTitle(res.data.course_title);
-  //     setTeacherAvatar(res.data.teacherAvatar);
-  //   });
-  // }
-  // useEffect(() => {
-  //   if (user.role == 1) loadListForTeacher();
-  //   else loadListForStudent();
-  // }, []);
   function closeModal() {
     setIsOpen(false);
   }
@@ -66,49 +18,6 @@ function AssignmentCardMini(props) {
   function openModal() {
     setIsOpen(true);
   }
-  // async function handleSubmission(e) {
-  //   const thisClicked = e.currentTarget;
-  //   const formData = new FormData();
-  //   formData.append("file", selectedFile);
-  //   formData.append("assignment_id", props.id);
-  //   formData.append("user_id", user.id);
-  //   formData.append("fileName", selectedFile.name);
-  //   formData.append("submissionId", submissionId);
-  //   if (submissionStatus == "border-yellow-400") {
-  //     thisClicked.innerText = "Uploading";
-  //     await fetch("http://localhost:8000/api/student/submit/upload", {
-  //       method: "POST",
-  //       body: formData,
-  //     }).then(() => {
-  //       loadListForStudent();
-  //       thisClicked.innerText = "Update";
-  //       closeModal();
-  //     });
-  //   }
-  //   if (submissionStatus == "border-green-400") {
-  //     thisClicked.innerText = "Updating";
-  //     await fetch("http://localhost:8000/api/student/submit/update", {
-  //       method: "POST",
-  //       body: formData,
-  //     }).then((result) => {
-  //       loadListForStudent();
-  //       thisClicked.innerText = "Update";
-  //       closeModal();
-  //     });
-  //   }
-  // }
-
-  // async function handleDeletion(e) {
-  //   const formData = new FormData();
-  //   formData.append("submissionId", submissionId);
-  //   await fetch("http://localhost:8000/api/student/submit/delete", {
-  //     method: "POST",
-  //     body: formData,
-  //   }).then(() => {
-  //     loadListForStudent();
-  //     closeModal();
-  //   });
-  // }
 
   return (
     <>
@@ -126,39 +35,28 @@ function AssignmentCardMini(props) {
             <div className="mb-2 text-xs font-medium text-gray-400">
               <span className="block">In: {props.data.courseTitle}</span>
               <span>
-                Deadline:{" "}
-                {moment(props.data.deadline).format("HH:mm DD/MM/YYYY")}
+                Deadline: {moment(props.data.deadline).format("DD/MM/YYYY")}
               </span>
             </div>
           </div>
         </div>
-        <div className={props.type ? "block flex space-x-10" : "hidden"}>
+        <div className="">
           <div>
             {1 ? (
-              ""
+              <NavLink
+                to={{
+                  pathname: "/update-assignment/",
+                }}
+              ></NavLink>
             ) : (
-              // <NavLink
-              //   to={{
-              //     pathname: "/update-assignment/" + assignment.id,
-              //     state: {
-              //       courseId: props.courseId,
-              //       courseTitle: courseTitle,
-              //       assignmentTitle: assignment.assignment_title,
-              //       assignmentContent: assignment.assignment_content,
-              //       assignmentDeadline: assignment.deadline,
-              //     },
-              //   }}
-              // >
-              //   <AdjustmentsIcon className="w-5" />
-              // </NavLink>
               <>
-                <button
+                {/* <button
                   type="button"
                   onClick={openModal}
                   className="px-4 py-2 text-sm font-medium text-green-400 border border-green-400 rounded-lg"
                 >
                   View
-                </button>
+                </button> */}
                 {/* <Transition appear show={isOpen} as={Fragment}>
                   <Dialog
                     as="div"

@@ -106,8 +106,10 @@ class AssignmentController extends Controller
         $assigments = DB::table('assignments')
             ->select(
                 'users.avatar as teacherAvatar',
+                'assignments.id as assignmentId',
                 'assignments.title as assignmentTitle',
                 'assignments.deadline',
+                'courses.title as courseTitle',
             )
             ->join('courses', 'courses.id', 'assignments.course_id')
             ->join('users', 'users.id', 'courses.user_id')
@@ -132,5 +134,31 @@ class AssignmentController extends Controller
                 'content' => $content,
                 'deadline' => $deadline,
             ]);
+    }
+
+    // For teacher 
+    public function getInfo(Request $request)
+    {
+        $assignmentId = $request->input('id');
+        $assignment = DB::table('assignments')
+            ->select(
+                'title as assignmentTitle',
+                'content as assignmentContent',
+                'deadline as assignmentDeadline',
+            )
+            ->where('id', $assignmentId)
+            ->first();
+        return response()->json([
+            'assignment' => $assignment,
+        ]);
+    }
+
+    // for teachers
+    public function delete(Request $request)
+    {
+        $assignmentId = $request->input('id');
+        DB::table('assignments')
+            ->where('id', $assignmentId)
+            ->delete();
     }
 }

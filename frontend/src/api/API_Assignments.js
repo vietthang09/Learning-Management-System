@@ -46,3 +46,27 @@ export function createAssignment(id, assignmentInfo) {
     data: formData,
   });
 }
+
+export function getAssignmentInfo(id, setAssignmentInfo) {
+  var formData = new FormData();
+  formData.append("id", id);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Assignment}info?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  }).then((response) => {
+    setAssignmentInfo(response.data.assignment);
+  });
+}
+
+export function deleteAssignment(id) {
+  var formData = new FormData();
+  formData.append("id", id);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Assignment}delete?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}

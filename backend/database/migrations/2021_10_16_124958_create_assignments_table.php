@@ -18,7 +18,7 @@ class CreateAssignmentsTable extends Migration
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('content');
-            $table->timestamp('deadline');
+            $table->date('deadline');
         });
     }
 

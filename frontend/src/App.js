@@ -42,7 +42,7 @@ function App() {
           />
           <RouteWithNav
             exact
-            path="/update-assignment/:id"
+            path="/assignment/update/:id"
             component={AssignmentAdjustments}
           />
           <RouteWithNav

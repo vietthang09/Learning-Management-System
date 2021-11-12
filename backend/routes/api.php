@@ -42,6 +42,8 @@ Route::group([
     Route::post('/registered-list', [CoursesController::class, 'getRegisteredList']);
     Route::post('/cancel', [CoursesController::class, 'cancelRequest']);
 });
+
+// For assignment controller
 Route::group([
     'prefix' => 'assignment'
 ], function () {
@@ -49,6 +51,8 @@ Route::group([
     Route::post('/timeline', [AssignmentController::class, 'getAllAssignmentsMini']);
     Route::post('/in-course', [AssignmentController::class, 'getAssignmentsOfCourse']);
     Route::post('/create', [AssignmentController::class, 'createAssignment']);
+    Route::post('/info', [AssignmentController::class, 'getInfo']);
+    Route::post('/delete', [AssignmentController::class, 'delete']);
 });
 
 // Route::group([

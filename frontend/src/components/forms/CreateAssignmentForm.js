@@ -39,7 +39,7 @@ function CreateAssignmentForm(props) {
       <div className="grid grid-cols-1 gap-1">
         <label className="text-sm text-gray-500">Deadline</label>
         <input
-          type="datetime-local"
+          type="date"
           className="p-2 text-xl bg-gray-100 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
           name="deadline"
           onChange={(e) => handleInput(e)}
