@@ -74,15 +74,23 @@ class SubmissionController extends Controller
             ]);
     }
 
-    public function destroy(Request $request)
+    public function getSubmissions(Request $request)
     {
-        $materialId = $request->input('id');
-        $material = DB::table('materials')
-            ->where('id', $materialId)
-            ->first();
-        Storage::delete($material->filePath);
-        DB::table('materials')
-            ->where('id', $materialId)
-            ->delete();
+        $assignmentId = $request->input('id');
+        $submissions = DB::table('submissions')
+            ->select(
+                'users.id as studentId',
+                'users.name as studentName',
+                'users.avatar as studentAvatar',
+                'submissions.submitted_at as submittedAt',
+                'submissions.fileName',
+                'submissions.mark',
+            )
+            ->join('users', 'users.id', 'submissions.user_id')
+            ->where('assignment_id', $assignmentId)
+            ->get();
+        return response()->json([
+            'submissions' => $submissions,
+        ]);
     }
 }

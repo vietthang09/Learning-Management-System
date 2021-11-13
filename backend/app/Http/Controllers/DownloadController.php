@@ -23,6 +23,10 @@ class DownloadController extends Controller
     public function getMaterial($materialId)
     {
         $material = DB::table('materials')
+            ->select(
+                'fileName',
+                'filePath'
+            )
             ->where('id', $materialId)
             ->first();
         $download = Storage::download($material->filePath, $material->fileName, ['Content-Type: docx/pdf/zip/rar']);

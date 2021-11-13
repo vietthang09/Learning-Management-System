@@ -1,14 +1,20 @@
-import React from "react";
-
-function SubmissionList() {
+import React, { useState, useEffect } from "react";
+import { getSubmissions } from "../../api/API_Submissions";
+import UserAvatar from "../UserAvatar";
+import moment from "moment";
+function SubmissionList(props) {
+  var [submissions, setSubmissions] = useState([]);
+  useEffect(() => {
+    getSubmissions(props.id, setSubmissions);
+  }, []);
   return (
-    <div className="space-y-5">
-      <div className="py-5 flex justify-between items-center">
+    <div className="space-y-5 py-10">
+      <div className="flex justify-between items-center">
         <p className="px-5 lg:px-0 font-semibold text-xl lg:text-3xl text-gray-600 tracking-widest">
           SUBMISSIONS
         </p>
         <span className="text-gray-600 font-semibold">
-          {/* Quantity: {submissions ? submissions.length : 0} */}
+          Quantity: {submissions ? submissions.length : 0}
         </span>
       </div>
       <div className="hidden lg:block">
@@ -42,40 +48,21 @@ function SubmissionList() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {/* {submissions.map((item) => {
-                    return (
-                      <tr className="bg-emerald-200">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {item.name}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap flex justify-between items-center">
-                          {item.fileName}
-                          <a
-                            href={
-                              "http://127.0.0.1:8000/api/download/" + item.id
-                            }
-                          >
-                            <DownloadIcon className="w-5" />
-                          </a>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {item.created_at}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <input
-                            type="number"
-                            className="w-16 focus:outline-none focus:ring-2 focus:ring-green-400"
-                            defaultValue={item.mark}
-                            onChange={(e) => giveMark(e, item.id)}
-                          />
-                          <span
-                            id="saved"
-                            className="text-gray-400 font-medium"
-                          ></span>
-                        </td>
-                      </tr>
-                    );
-                  })} */}
+            {submissions.map((item) => {
+              return (
+                <tr className="bg-emerald-200">
+                  <td className="flex">
+                    <UserAvatar link={item.studentAvatar} />
+                    {item.studentName}
+                  </td>
+                  <td>{item.fileName}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {moment(item.submittedAt).utcOffset(420).fromNow()}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.mark}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

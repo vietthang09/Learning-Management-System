@@ -7,11 +7,11 @@ function AssignmentAdjustments(props) {
   const history = useHistory();
   return (
     <>
-      <div className="flex justify-center items-center">
-        <div className="w-full lg:w-1/2 px-5 lg:px-0">
+      <div className="container m-auto flex space-x-5">
+        <div className="flex-1">
           <div className="flex justify-between items-center py-10">
-            <p className="font-semibold text-xl lg:text-3xl text-gray-600 tracking-widest">
-              UPDATE ASSIGNMENT
+            <p className="font-semibold text-xl lg:text-3xl text-gray-600 tracking-widest uppercase">
+              assignment
             </p>
             <button
               className="text-gray-600 font-semibold"
@@ -23,7 +23,9 @@ function AssignmentAdjustments(props) {
             </button>
           </div>
           <AdjustAssignmentForm id={assignmentId} />
-          <SubmissionList />
+        </div>
+        <div className="flex-2">
+          <SubmissionList id={assignmentId} />
         </div>
       </div>
     </>

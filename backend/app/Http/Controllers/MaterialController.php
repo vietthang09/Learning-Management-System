@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class MaterialController extends Controller
 {
@@ -50,6 +51,7 @@ class MaterialController extends Controller
         $materialId = $request->input('id');
         $material = DB::table('materials')
             ->select(
+                'id as materialId',
                 'title as materialTitle',
                 'content as materialContent',
                 'fileName as fileName'
@@ -59,5 +61,46 @@ class MaterialController extends Controller
         return response()->json([
             'material' => $material,
         ]);
+    }
+
+    public function update(Request $request)
+    {
+        $materialId = $request->input('id');
+        $title = $request->input('title');
+        $content = $request->input('content');
+        $file = $request->file('file');
+        $material = DB::table('materials')
+            ->where('id', $materialId)
+            ->first();
+        if ($file) {
+            Storage::delete($material->filePath);
+            DB::table('materials')
+                ->where('id', $materialId)
+                ->update([
+                    'title' => $title,
+                    'content' => $content,
+                    'fileName' => $file->getClientOriginalName(),
+                    'filePath' => $file->store('materials'),
+                ]);
+        } else {
+            DB::table('materials')
+                ->where('id', $materialId)
+                ->update([
+                    'title' => $title,
+                    'content' => $content,
+                ]);
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        $materialId = $request->input('id');
+        $material = DB::table('materials')
+            ->where('id', $materialId)
+            ->first();
+        Storage::delete($material->filePath);
+        DB::table('materials')
+            ->where('id', $materialId)
+            ->delete();
     }
 }

@@ -66,6 +66,7 @@ Route::group([
     Route::post('/check', [SubmissionController::class, 'check']);
     Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
     Route::post('/update', [SubmissionController::class, 'update']);
+    Route::post('/get-submissions', [SubmissionController::class, 'getSubmissions']);
 });
 
 // For material controller
@@ -75,8 +76,9 @@ Route::group([
     Route::post('/create', [MaterialController::class, 'create']);
     Route::post('/in-course', [MaterialController::class, 'getMaterialsInCourse']);
     Route::post('/get-info', [MaterialController::class, 'getInfo']);
-    Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
-    Route::post('/delete', [SubmissionController::class, 'destroy']);
+    Route::get('/download/{id}', [DownloadController::class, 'getMaterial']);
+    Route::post('/update', [MaterialController::class, 'update']);
+    Route::post('/delete', [MaterialController::class, 'destroy']);
 });
 
 

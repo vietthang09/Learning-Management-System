@@ -5,12 +5,19 @@ import DeleteButton from "../buttons/DeleteButton";
 import ConfirmButton from "../buttons/ConfirmButton";
 import DisabledButton from "../buttons/DisabledButton";
 function UpdateMaterialForm(props) {
-  var [materialInfor, setMaterialInfor] = useState([]);
+  var [materialInfor, setMaterialInfor] = useState({
+    materialTitle: "",
+    materialContent: "",
+  });
   var [selectedFile, setSelectedFile] = useState([]);
+  var [changed, setChanged] = useState(false);
   useEffect(() => {
     getMaterialInfo(props.id, setMaterialInfor);
   }, []);
-  function handleInput() {}
+  function handleInput(e) {
+    setMaterialInfor({ ...materialInfor, [e.target.name]: [e.target.value] });
+    setChanged(true);
+  }
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-1 gap-1">
@@ -18,7 +25,7 @@ function UpdateMaterialForm(props) {
         <input
           type="text"
           className="p-2 text-xl text-gray-600 bg-gray-100 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
-          name="assignmentTitle"
+          name="materialTitle"
           defaultValue={materialInfor.materialTitle}
           onChange={(e) => handleInput(e)}
         />
@@ -26,8 +33,8 @@ function UpdateMaterialForm(props) {
       <div className="grid grid-cols-1 gap-1">
         <label className="text-sm text-gray-500">Content</label>
         <textarea
-          className="p-2 text-xl text-gray-600 bg-gray-100 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
-          name="assignmentContent"
+          className="p-2 text-xl text-gray-600 bg-gray-100 resize-none border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+          name="materialContent"
           defaultValue={materialInfor.materialContent}
           onChange={(e) => handleInput(e)}
         ></textarea>
@@ -36,7 +43,13 @@ function UpdateMaterialForm(props) {
         <label className="block text-sm text-gray-500">Attachment</label>
         <label className="block text-sm text-gray-500">
           You uploaded{" "}
-          <a href="" className="underline">
+          <a
+            href={
+              "http://127.0.0.1:8000/api/material/download/" +
+              materialInfor.materialId
+            }
+            className="hover:underline"
+          >
             {materialInfor.fileName}
           </a>
         </label>
@@ -45,7 +58,7 @@ function UpdateMaterialForm(props) {
             htmlFor="file"
             className="text-green-400 font-semibold rounded-lg cursor-pointer hover:text-green-500"
           >
-            {selectedFile.name ? selectedFile.name : "Choose file"}
+            {selectedFile.name ? selectedFile.name : "Choose new file"}
           </label>
           <input
             type="file"
@@ -71,11 +84,12 @@ function UpdateMaterialForm(props) {
       </div>
       <div className="flex justify-between items-center">
         <DeleteButton type="delete-material" id={props.id} />
-        {selectedFile.name ? (
+        {selectedFile.name || changed ? (
           <ConfirmButton
             type="update-material"
             id={props.id}
             data={materialInfor}
+            file={selectedFile}
           />
         ) : (
           <DisabledButton />

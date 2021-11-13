@@ -38,7 +38,7 @@ class CoursesController extends Controller
                 ->where('public', 1)
                 ->where('registered_students.user_id', auth()->id())
                 ->limit(3)
-                ->orderBy('registered_students.visited_at', 'desc')
+                ->orderBy('registered_students.accessed_at', 'desc')
                 ->get();
         } else {
             $courses = DB::table('courses')
@@ -87,7 +87,7 @@ class CoursesController extends Controller
                 ->join('users', 'users.id', 'courses.user_id')
                 ->where('public', 1)
                 ->where('registered_students.user_id', auth()->id())
-                ->orderBy('registered_students.visited_at', 'desc')
+                ->orderBy('registered_students.accessed_at', 'desc')
                 ->get();
         } else {
             $courses = DB::table('courses')
@@ -205,6 +205,19 @@ class CoursesController extends Controller
     public function getCourseInfo(Request $request)
     {
         $courseId = $request->input("id");
+        if (auth()->user()->role == 0) {
+            $course = DB::table('registered_students')
+                ->where('user_id', auth()->id())
+                ->update([
+                    'accessed_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+                ]);
+        } else {
+            $course = DB::table('courses')
+                ->where('id', $courseId)
+                ->update([
+                    'accessed_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+                ]);
+        }
         $course = DB::table('courses')
             ->select(
                 'courses.user_id as teacherId',

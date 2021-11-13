@@ -3,7 +3,7 @@ import { updateAssignment } from "../../api/API_Assignments";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 import { createSubmission, updateSubmission } from "../../api/API_Submissions";
-import { createMaterial } from "../../api/API_Materials";
+import { createMaterial, updateMaterial } from "../../api/API_Materials";
 
 function ConfirmButton(props) {
   const history = useHistory();
@@ -21,6 +21,9 @@ function ConfirmButton(props) {
         break;
       case "create-material":
         createMaterial(props.id, props.data, props.file);
+        break;
+      case "update-material":
+        updateMaterial(props.id, props.data, props.file);
         break;
       default:
         break;

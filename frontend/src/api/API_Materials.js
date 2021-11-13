@@ -44,6 +44,21 @@ export function getMaterialInfo(id, setMaterialInfo) {
 }
 
 // For teacher
+export function updateMaterial(id, materialInfo, selectedFile) {
+  const formData = new FormData();
+  formData.append("id", id);
+  formData.append("title", materialInfo.materialTitle);
+  formData.append("content", materialInfo.materialContent);
+  formData.append("file", selectedFile);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Material}update?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}
+
+// For teacher
 export function deleteMaterial(id) {
   const formData = new FormData();
   formData.append("id", id);

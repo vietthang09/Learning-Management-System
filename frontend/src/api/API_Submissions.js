@@ -48,3 +48,16 @@ export function updateSubmission(id, selectedFile) {
     data: formData,
   });
 }
+// For teachers
+export function getSubmissions(id, setSubmissions) {
+  const formData = new FormData();
+  formData.append("id", id);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Submission}get-submissions?token=${getToken()}`,
+    headers: { "Content-Type": "multipart/form-data" },
+    data: formData,
+  }).then((response) => {
+    setSubmissions(response.data.submissions);
+  });
+}

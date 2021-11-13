@@ -22,10 +22,10 @@ function MaterialCard(props) {
                 <p>{props.data.materialContent}</p>
                 Attachment:{" "}
                 <a
-                  className="underline"
+                  className="hover:underline"
                   href={
                     "http://127.0.0.1:8000/api/material/download/" +
-                    props.data.id
+                    props.data.materialId
                   }
                 >
                   {props.data.fileName}
