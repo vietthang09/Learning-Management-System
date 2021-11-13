@@ -1,22 +1,18 @@
 import React from "react";
-import PostCard from "../components/PostCard";
-import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-
+import { getUser } from "../api/Session";
 function Profile() {
-  let history = useHistory();
-  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <div className="container m-auto mt-5 px-24 divide-y">
       <div className="flex p-5 space-x-10">
         <img
-          src={`http://localhost:8000/${user.avatar}`}
+          src={"http://localhost:8000/" + getUser().avatar}
           className="w-40 h-40 object-cover rounded-full"
         />
         <div className="space-y-3">
           <div className="flex items-center space-x-3">
             <span className="text-3xl text-gray-600 font-light">
-              {user.name}
+              {getUser().name}
             </span>
             <Link
               to="/profile/edit"

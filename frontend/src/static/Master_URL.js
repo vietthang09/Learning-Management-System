@@ -5,3 +5,4 @@ export const Master_URL_API_Assignment =
 export const Master_URL_API_Submission =
   "http://localhost:8000/api/submission/";
 export const Master_URL_API_Material = "http://localhost:8000/api/material/";
+export const Master_URL_API_User = "http://localhost:8000/api/user/";

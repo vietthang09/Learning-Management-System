@@ -85,4 +85,11 @@ class SessionController extends Controller
             'user' => auth()->user()
         ]);
     }
+
+    public function getUser()
+    {
+        return response()->json([
+            'user' => auth()->user(),
+        ]);
+    }
 }

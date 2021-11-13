@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 import { createSubmission, updateSubmission } from "../../api/API_Submissions";
 import { createMaterial, updateMaterial } from "../../api/API_Materials";
+import { updateProfile } from "../../api/API_User";
 
 function ConfirmButton(props) {
   const history = useHistory();
@@ -24,6 +25,9 @@ function ConfirmButton(props) {
         break;
       case "update-material":
         updateMaterial(props.id, props.data, props.file);
+        break;
+      case "update-profile":
+        updateProfile(props.data, props.file);
         break;
       default:
         break;

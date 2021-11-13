@@ -13,7 +13,6 @@ import { useHistory } from "react-router";
 import { getUser } from "../api/Session";
 import UserAvatar from "./UserAvatar";
 function Navbar() {
-  const user = JSON.parse(localStorage.getItem("user"));
   const history = useHistory();
   function handleProfile() {
     history.push("/profile");
@@ -63,25 +62,39 @@ function Navbar() {
                   <UserAvatar link={getUser().avatar} />
                 </Popover.Button>
                 <Popover.Panel className="absolute z-10 w-48 px-4 mt-3 transform top-7 -right-3">
-                  <div className="bg-white p-3 space-y-5 shadow-xl rounded-xl">
-                    <button
-                      className="flex items-center space-x-10 group"
-                      onClick={handleProfile}
-                    >
-                      <UserIcon className="w-5 text-gray-400 group-hover:text-green-400" />
-                      <span className="text-gray-500 font-medium group-hover:text-green-400">
-                        Profile
+                  <div className="bg-white space-y-5 p-3 shadow-xl rounded-xl">
+                    <div>
+                      <span className="block text-gray-500 font-medium">
+                        Hi, {getUser().name}
                       </span>
-                    </button>
-                    <button
-                      className="flex items-center space-x-10 group"
-                      onClick={handleLogout}
-                    >
-                      <LogoutIcon className="w-5 text-gray-400 group-hover:text-red-400" />
-                      <span className="text-gray-500 font-medium group-hover:text-red-400">
-                        Logout
+                      <span className="text-gray-500 text-xs font-medium">
+                        {getUser().role == 0
+                          ? "Student"
+                          : getUser().role == 1
+                          ? "Teacher"
+                          : "Admin"}
                       </span>
-                    </button>
+                    </div>
+                    <div>
+                      <button
+                        className="flex items-center space-x-10 group hover:bg-green-50 w-full p-2 rounded-lg"
+                        onClick={handleProfile}
+                      >
+                        <UserIcon className="w-5 text-gray-400 group-hover:text-green-400" />
+                        <span className="text-gray-500 font-medium group-hover:text-green-400">
+                          Profile
+                        </span>
+                      </button>
+                      <button
+                        className="flex items-center space-x-10 group hover:bg-red-50 w-full p-2 rounded-lg"
+                        onClick={handleLogout}
+                      >
+                        <LogoutIcon className="w-5 text-gray-400 group-hover:text-red-400" />
+                        <span className="text-gray-500 font-medium group-hover:text-red-400">
+                          Logout
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </Popover.Panel>
               </>

@@ -21,7 +21,6 @@ function classNames(...classes) {
 
 function CourseDetail(props) {
   const courseId = props.match.params.id;
-
   return (
     <>
       <div className="container m-auto mt-5">

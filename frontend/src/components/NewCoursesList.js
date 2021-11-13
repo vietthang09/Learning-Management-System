@@ -20,10 +20,10 @@ function NewCoursesList() {
         <div className=" flex space-x-2 text-green-400 font-semibold">
           <NavLink
             to="/new-course"
-            className="relative p-2 border border-green-400 rounded-lg hover:text-white hover:bg-green-400"
+            className="relative p-2 bg-green-400 rounded-lg text-white hover:bg-green-500"
           >
             New course
-            <PlusCircleIcon className="absolute top-0 -right-1 w-2 animate-ping" />
+            <PlusCircleIcon className="absolute top-0 -right-1 w-2 text-green-400 animate-ping" />
           </NavLink>
         </div>
       )}

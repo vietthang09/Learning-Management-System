@@ -115,6 +115,7 @@ class AssignmentController extends Controller
             )
             ->join('courses', 'courses.id', 'assignments.course_id')
             ->join('users', 'users.id', 'courses.user_id')
+            ->where('assignments.course_id', $courseId)
             ->orderBy('deadline', 'desc')
             ->get();
 

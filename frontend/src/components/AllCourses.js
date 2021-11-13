@@ -2,18 +2,15 @@ import React, { useState, useEffect } from "react";
 import { getAllCourses, findCourse } from "../api/API_Courses";
 import CourseCard from "./CourseCard";
 import { SearchIcon } from "@heroicons/react/outline";
+import { NavLink } from "react-router-dom";
 function AllCourses() {
   var [courses, setCourses] = useState([]);
-  var [searchInput, setSearchInput] = useState("");
-  var [searchResult, setSearchResult] = useState([]);
+  // var [searchInput, setSearchInput] = useState("");
+  // var [searchResult, setSearchResult] = useState([]);
   useEffect(() => {
     getAllCourses(setCourses);
   }, []);
-  function handleInput(input) {
-    // setSearchInput(input);
-    // findCourse(searchInput, setSearchResult);
-    // console.log(searchResult);
-  }
+  function handleInput(input) {}
   return (
     <div>
       <div className="mb-10 flex justify-between items-center">
@@ -31,7 +28,11 @@ function AllCourses() {
       </div>
       <div className="px-7 lg:px-2 grid grid-cols-1 lg:grid-cols-4 gap-10 gap-y-8">
         {courses.map((item, index) => {
-          return <CourseCard key={index} data={item} />;
+          return (
+            <NavLink to={"courses/" + item.course_id}>
+              <CourseCard key={index} data={item} />
+            </NavLink>
+          );
         })}
       </div>
     </div>

@@ -1,10 +1,7 @@
 import axios from "axios";
 import React from "react";
-import { useHistory } from "react-router";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 function Register() {
-  let history = useHistory();
   function register() {
     let name = document.getElementById("name").value;
     let role = document.getElementById("role").value;
@@ -79,17 +76,6 @@ function Register() {
           </button>
         </div>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable={false}
-        pauseOnHover
-      />
     </div>
   );
 }

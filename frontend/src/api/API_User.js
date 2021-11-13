@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Master_URL_API } from "../static/Master_URL";
+import { Master_URL_API, Master_URL_API_User } from "../static/Master_URL";
 import {
   setToken,
   getToken,
@@ -26,7 +26,21 @@ export function login(loginInfo, setErrors, history) {
       setErrors(error.response);
     });
 }
+
 export function logout() {
   removeToken();
   removeUser();
+}
+
+export function updateProfile(user, selectedImage) {
+  var formData = new FormData();
+  formData.append("name", user.name);
+  formData.append("email", user.email);
+  formData.append("image", selectedImage);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}update?token=${getToken()}`,
+    headers: { "Content-Type": "multipart/form-data" },
+    data: formData,
+  });
 }

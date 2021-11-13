@@ -17,7 +17,6 @@ function RecentlyVisited() {
         </div>
         <div className="px-5 lg:px-0 grid grid-cols-1 lg:grid-cols-3 gap-2 gap-y-8">
           {recentlyCourses.map((item, index) => {
-            console.log(item);
             return (
               <NavLink
                 key={index}

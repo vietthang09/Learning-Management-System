@@ -28,6 +28,7 @@ export function getAssignmentsOfCourse(id, setAssignments) {
     method: "POST",
     url: `${Master_URL_API_Assignment}in-course?token=${getToken()}`,
     headers: { "Content-Type": "application/json" },
+    data: formData,
   }).then((response) => {
     setAssignments(response.data.assignments);
   });

@@ -16,6 +16,7 @@ use App\Http\Controllers\SubmissionController;
 use App\Http\Controllers\Teacher\CourseController as TeacherCourseController;
 use App\Http\Controllers\Teacher\CoursesController as TeacherCoursesController;
 use App\Http\Controllers\Teacher\HomeController as TeacherHomeController;
+use App\Http\Controllers\UserController;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -81,6 +82,13 @@ Route::group([
     Route::post('/delete', [MaterialController::class, 'destroy']);
 });
 
+// For user controller
+Route::group([
+    'prefix' => 'user'
+], function () {
+    Route::post('/update', [UserController::class, 'update']);
+});
+
 
 // Route::post('/enrolled-list', [CoursesController::class, 'getEnrolledList']);
 // Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
@@ -106,6 +114,7 @@ Route::group([
 //     Route::post('/view', [ProfileController::class, 'getUser']);
 //     Route::post('/edit', [ProfileController::class, 'editUser']);
 // });
+// For session controller
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
@@ -113,4 +122,5 @@ Route::group([
     Route::post('/login', [SessionController::class, 'login']);
     Route::post('/register', [SessionController::class, 'register']);
     Route::post('/logout', [SessionController::class, 'logout']);
+    Route::post('/get-user', [SessionController::class, 'getUser']);
 });

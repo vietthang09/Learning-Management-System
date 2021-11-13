@@ -10,7 +10,6 @@ function PostEdit(props) {
   });
   var [selectedFile, setSelectedFile] = useState();
   var [URLImage, setURLImage] = useState();
-  var [result, setResult] = useState();
   useEffect(() => {
     getPost(postId, setPost);
   }, []);
@@ -26,11 +25,9 @@ function PostEdit(props) {
 
   function handleInput(e) {
     setNewPost({ ...newPost, [e.target.name]: [e.target.value] });
-    console.log(newPost);
   }
   function handleSubmit() {
-    editPost(postId, post.content, selectedFile, setResult);
-    console.log(result);
+    // editPost(postId, post.content, selectedFile, setResult);
   }
   return (
     <div className="flex justify-center">
