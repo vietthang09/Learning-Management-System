@@ -8,47 +8,26 @@ use Illuminate\Support\Facades\DB;
 
 class ForumController extends Controller
 {
-    public function index()
+    public function __construct()
     {
-        return view('posting');
+        $this->middleware('auth:api');
     }
 
-    public function sendData(Request $request)
+    public function getPosts()
     {
-        $post = new Post;
-        $post->user_id = $request->user_id;
-        $post->content = $request->content;
-        $post->image_link = $request->image_link;
-        $post->file_link = $request->file_link;
-        $post->created_at = now();
-        $post->updated_at = now();
-        $post->save();
-        return redirect('posting')->with('status', 'Create Post Success!!!');
-    }
-
-    static function ForumMaster()
-    {
-        $collection = collect([]);
-        $posts = ForumController::getPost();
-        
-        foreach ($posts as $post) {
-            $comments = ForumController::getComment($post->id);
-            $collection->push([
-                'posts' => $post,
-                'comments' => $comments,
-            ]);
-        }
-        dd($collection);
-    }
-
-    static function getPost(){
-        return DB::table('posts')
-                ->get();     
-    }
-
-    static function getComment($post_id){
-        return DB::table('comments')
-                ->where('id', $post_id)
-                ->get();    
+        $posts = DB::table('posts')
+            ->select(
+                'users.id as authorId',
+                'users.avatar as authorAvatar',
+                'users.name as authorName',
+                'posts.created_at as createdAt',
+                'posts.content as content',
+                'posts.image as filePath',
+            )
+            ->join('users', 'users.id', 'posts.user_id')
+            ->get();
+        return response()->json([
+            'posts' => $posts,
+        ]);
     }
 }

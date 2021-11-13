@@ -6,6 +6,7 @@ import {
   removeToken,
   setUser,
   removeUser,
+  getUserData,
 } from "./Session";
 export function login(loginInfo, setErrors, history) {
   let formData = new FormData();
@@ -43,4 +44,5 @@ export function updateProfile(user, selectedImage) {
     headers: { "Content-Type": "multipart/form-data" },
     data: formData,
   });
+  getUserData();
 }

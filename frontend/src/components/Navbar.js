@@ -4,6 +4,7 @@ import {
   CollectionIcon,
   AcademicCapIcon,
   UserIcon,
+  AdjustmentsIcon,
   LogoutIcon,
 } from "@heroicons/react/outline";
 import { Link, NavLink } from "react-router-dom";
@@ -14,9 +15,6 @@ import { getUser } from "../api/Session";
 import UserAvatar from "./UserAvatar";
 function Navbar() {
   const history = useHistory();
-  function handleProfile() {
-    history.push("/profile");
-  }
   function handleLogout() {
     logout();
     history.push("/login");
@@ -61,7 +59,7 @@ function Navbar() {
                 <Popover.Button className={`${open ? "" : "text-opacity-90"}`}>
                   <UserAvatar link={getUser().avatar} />
                 </Popover.Button>
-                <Popover.Panel className="absolute z-10 w-48 px-4 mt-3 transform top-7 -right-3">
+                <Popover.Panel className="absolute z-10 w-56 px-4 mt-3 transform top-7 -right-3">
                   <div className="bg-white space-y-5 p-3 shadow-xl rounded-xl">
                     <div>
                       <span className="block text-gray-500 font-medium">
@@ -76,15 +74,24 @@ function Navbar() {
                       </span>
                     </div>
                     <div>
-                      <button
+                      <Link
+                        to="/profile"
                         className="flex items-center space-x-10 group hover:bg-green-50 w-full p-2 rounded-lg"
-                        onClick={handleProfile}
                       >
                         <UserIcon className="w-5 text-gray-400 group-hover:text-green-400" />
                         <span className="text-gray-500 font-medium group-hover:text-green-400">
                           Profile
                         </span>
-                      </button>
+                      </Link>
+                      <Link
+                        to="/"
+                        className="flex items-center space-x-10 group hover:bg-green-50 w-full p-2 rounded-lg"
+                      >
+                        <AdjustmentsIcon className="w-5 text-gray-400 group-hover:text-green-400" />
+                        <span className="text-gray-500 font-medium group-hover:text-green-400">
+                          Settings
+                        </span>
+                      </Link>
                       <button
                         className="flex items-center space-x-10 group hover:bg-red-50 w-full p-2 rounded-lg"
                         onClick={handleLogout}

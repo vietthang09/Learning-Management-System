@@ -1,24 +1,13 @@
 <?php
 
 use App\Http\Controllers\AssignmentController;
-use App\Http\Controllers\ControllerMaster;
-use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\MaterialController;
-use App\Http\Controllers\Student\HomeController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
-use App\Http\Controllers\Student\CourseController as StudentCourseController;
-use App\Http\Controllers\Student\CoursesController as StudentCoursesController;
 use App\Http\Controllers\SubmissionController;
-use App\Http\Controllers\Teacher\CourseController as TeacherCourseController;
-use App\Http\Controllers\Teacher\CoursesController as TeacherCoursesController;
-use App\Http\Controllers\Teacher\HomeController as TeacherHomeController;
 use App\Http\Controllers\UserController;
-use App\Models\Course;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -89,31 +78,13 @@ Route::group([
     Route::post('/update', [UserController::class, 'update']);
 });
 
+// For user controller
+Route::group([
+    'prefix' => 'forum'
+], function () {
+    Route::get('/posts', [ForumController::class, 'getPosts']);
+});
 
-// Route::post('/enrolled-list', [CoursesController::class, 'getEnrolledList']);
-// Route::get('/download/{id}', [DownloadController::class, 'getSubmission']);
-// Route::get('/material/download/{id}', [DownloadController::class, 'getMaterial']);
-
-// Route::group([
-//     'prefix' => 'posts'
-// ], function () {
-//     Route::get('/', [PostController::class, 'getPosts']);
-//     Route::post('/update', [PostController::class, 'updatePost']);
-//     Route::post('/new', [PostController::class, 'newPost']);
-//     Route::post('/comments', [PostController::class, 'getComments']);
-//     Route::post('/post-comment', [PostController::class, 'postComment']);
-//     Route::post('/update-comment', [PostController::class, 'updateComment']);
-//     Route::post('/delete-comment', [PostController::class, 'deleteComment']);
-//     Route::post('/delete-post', [PostController::class, 'deletePost']);
-//     Route::get('/{id}', [PostController::class, 'getPost']);
-// });
-
-// Route::group([
-//     'prefix' => 'profile'
-// ], function () {
-//     Route::post('/view', [ProfileController::class, 'getUser']);
-//     Route::post('/edit', [ProfileController::class, 'editUser']);
-// });
 // For session controller
 Route::group([
     'middleware' => 'api',

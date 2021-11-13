@@ -1,4 +1,15 @@
 import axios from "axios";
+import { Master_URL_API } from "../static/Master_URL";
+import { getToken } from "./Session";
+export function getPosts(setPosts) {
+  axios({
+    method: "GET",
+    url: `${Master_URL_API}forum/posts?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    setPosts(response.data.posts);
+  });
+}
 export function getPost(id, setPost) {
   let formData = new FormData();
   formData.append("id", id);

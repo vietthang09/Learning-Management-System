@@ -1,3 +1,6 @@
+import axios from "axios";
+import { Master_URL_API } from "../static/Master_URL";
+
 export function setToken(token) {
   sessionStorage.setItem("access_token", token);
 }
@@ -9,6 +12,15 @@ export function removeToken() {
 }
 export function setUser(user) {
   sessionStorage.setItem("user_info", JSON.stringify(user));
+}
+export function getUserData() {
+  axios({
+    method: "POST",
+    url: `${Master_URL_API}auth/get-user?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    setUser(response.data.user);
+  });
 }
 export function getUser() {
   const user = sessionStorage.getItem("user_info");
