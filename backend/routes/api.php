@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\ForumController;
@@ -85,6 +86,15 @@ Route::group([
     Route::get('/posts', [ForumController::class, 'getPosts']);
     Route::post('/create', [ForumController::class, 'create']);
     Route::post('/delete', [ForumController::class, 'delete']);
+    Route::post('/get-post', [ForumController::class, 'getPost']);
+});
+
+// For forum controller
+Route::group([
+    'prefix' => 'comment'
+], function () {
+    Route::post('/get-comments', [CommentController::class, 'getComments']);
+    Route::post('/create', [CommentController::class, 'create']);
 });
 
 // For session controller

@@ -1,6 +1,6 @@
 import React from "react";
 import { AnnotationIcon } from "@heroicons/react/outline";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import UserAvatar from "./UserAvatar";
 import moment from "moment";
 import PostDropdown from "./dropdowns/PostDropdown";
@@ -39,15 +39,9 @@ function PostCard(props) {
       </div>
       <div className="flex space-x-5 justify-between items-center">
         <p className="text-gray-600 w-full truncate">{props.data.content}</p>
-        <NavLink
-          to={
-            {
-              // pathname: `/forum/${props.id}`,
-            }
-          }
-        >
+        <Link to={"forum/" + props.data.postId}>
           <AnnotationIcon className="w-7 text-gray-500" />
-        </NavLink>
+        </Link>
       </div>
     </div>
   );

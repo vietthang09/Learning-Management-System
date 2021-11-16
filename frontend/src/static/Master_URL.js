@@ -7,3 +7,4 @@ export const Master_URL_API_Submission =
 export const Master_URL_API_Material = "http://localhost:8000/api/material/";
 export const Master_URL_API_User = "http://localhost:8000/api/user/";
 export const Master_URL_API_Forum = "http://localhost:8000/api/forum/";
+export const Master_URL_API_Comment = "http://localhost:8000/api/comment/";

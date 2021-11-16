@@ -67,4 +67,15 @@ class ForumController extends Controller
             ->where('id', $id)
             ->delete();
     }
+
+    public function getPost(Request $request)
+    {
+        $id = $request->input('id');
+        $post = DB::table('posts')
+            ->where('id', $id)
+            ->first();
+        return response()->json([
+            'post' => $post,
+        ]);
+    }
 }

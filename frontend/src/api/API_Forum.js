@@ -31,3 +31,15 @@ export function deletePost(id) {
     data: formData,
   });
 }
+export function getPost(id, setPost) {
+  let formData = new FormData();
+  formData.append("id", id);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Forum}get-post?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  }).then((response) => {
+    setPost(response.data.post);
+  });
+}

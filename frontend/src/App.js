@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import "./App.css";
 import CourseDetail from "./pages/CourseDetail";
 import Courses from "./pages/Courses";
@@ -11,7 +11,6 @@ import CreateAssignment from "./components/CreateAssignment";
 import AssignmentAdjustments from "./components/AssignmentAdjustments";
 import CreateNewCourse from "./pages/CreateNewCourse";
 import NewCourse from "./pages/NewCourse";
-import PostDetail from "./pages/PostDetail";
 import Register from "./pages/Register";
 import ProfileEdit from "./pages/ProfileEdit";
 import RouteGuest from "./components/RouteGuest";
@@ -21,6 +20,7 @@ import Toast from "./components/Toast";
 import Submit from "./pages/Submit";
 import MaterialLayout from "./components/layouts/MaterialLayout";
 import UpdateMaterialLayout from "./components/layouts/UpdateMaterialLayout";
+import PostDetailsLayout from "./components/layouts/PostDetailsLayout";
 
 function App() {
   return (
@@ -64,11 +64,15 @@ function App() {
             path="/material/update/:id"
             component={UpdateMaterialLayout}
           />
+
+          {/* For forum */}
+          <RouteWithNav exact path="/forum" component={Forum} />
+          <RouteWithNav exact path="/forum/:id" component={PostDetailsLayout} />
+
+          {/* For courses */}
           <RouteWithNav exact path="/courses/:id" component={CourseDetail} />
           <RouteWithNav exact path="/courses/new/:id" component={NewCourse} />
           <RouteWithNav exact path="/courses" component={Courses} />
-          <RouteWithNav exact path="/forum" component={Forum} />
-          <RouteWithNav exact path="/forum/:id" component={PostDetail} />
           <RouteWithNav exact path="/profile" component={Profile} />
           <RouteWithNav exact path="/profile/edit" component={ProfileEdit} />
           <RouteWithNav exact path="/" component={Home} />
