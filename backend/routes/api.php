@@ -78,11 +78,12 @@ Route::group([
     Route::post('/update', [UserController::class, 'update']);
 });
 
-// For user controller
+// For forum controller
 Route::group([
     'prefix' => 'forum'
 ], function () {
     Route::get('/posts', [ForumController::class, 'getPosts']);
+    Route::post('/create', [ForumController::class, 'create']);
 });
 
 // For session controller

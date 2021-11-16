@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { createCourse } from "../../api/API_Courses";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function CreateCourseForm() {
   var [courseInfo, setCourseInfo] = useState({

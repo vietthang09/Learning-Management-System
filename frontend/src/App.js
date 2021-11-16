@@ -14,7 +14,6 @@ import NewCourse from "./pages/NewCourse";
 import PostDetail from "./pages/PostDetail";
 import Register from "./pages/Register";
 import ProfileEdit from "./pages/ProfileEdit";
-import PostEdit from "./pages/PostEdit";
 import RouteGuest from "./components/RouteGuest";
 import RouteForTeacher from "./components/middlewares/RouteForTeacher";
 import RouteForStudent from "./components/middlewares/RouteForStudent";
@@ -29,7 +28,7 @@ function App() {
       <Router>
         <Switch>
           <RouteGuest exact path="/login" component={Login} />
-          <Route path="/register" component={Register} />
+          <RouteGuest path="/register" component={Register} />
           <RouteWithNav exact path="/" component={Home} />
           <RouteForTeacher
             exact
@@ -70,7 +69,6 @@ function App() {
           <RouteWithNav exact path="/courses" component={Courses} />
           <RouteWithNav exact path="/forum" component={Forum} />
           <RouteWithNav exact path="/forum/:id" component={PostDetail} />
-          <RouteWithNav exact path="/forum/edit/:id" component={PostEdit} />
           <RouteWithNav exact path="/profile" component={Profile} />
           <RouteWithNav exact path="/profile/edit" component={ProfileEdit} />
           <RouteWithNav exact path="/" component={Home} />

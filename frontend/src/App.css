@@ -37,3 +37,6 @@ body {
 .comment:hover .button {
   display: block;
 }
+.scroll-styled::-webkit-scrollbar-thumb {
+  background: rgba(52, 211, 153, 1);
+}

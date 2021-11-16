@@ -1,4 +1,3 @@
-import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { getAssignmentInfo } from "../../api/API_Assignments";
 import ConfirmButton from "../buttons/ConfirmButton";

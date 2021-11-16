@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,9 +26,31 @@ class ForumController extends Controller
                 'posts.image as filePath',
             )
             ->join('users', 'users.id', 'posts.user_id')
+            ->orderBy('posts.created_at', 'desc')
             ->get();
         return response()->json([
             'posts' => $posts,
         ]);
+    }
+    public function create(Request $request)
+    {
+        $content = $request->input('content');
+        $image = $request->file('image');
+        if ($image) {
+            DB::table('posts')
+                ->insert([
+                    'user_id' => auth()->id(),
+                    'content' => $content,
+                    'image' => $image->store('forum'),
+                    'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+                ]);
+        } else {
+            DB::table('posts')
+                ->insert([
+                    'user_id' => auth()->id(),
+                    'content' => $content,
+                    'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+                ]);
+        }
     }
 }

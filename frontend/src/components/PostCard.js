@@ -20,10 +20,14 @@ function PostCard(props) {
         </div>
       </div>
       <div className="mt-2 mb-2">
-        <img
-          // src={"http://127.0.0.1:8000/" + post.image_path}
-          className="rounded-md border"
-        />
+        {props.data.filePath ? (
+          <img
+            src={"http://127.0.0.1:8000/" + props.data.filePath}
+            className="rounded-md border w-full max-h-96 object-cover"
+          />
+        ) : (
+          ""
+        )}
       </div>
       <div className="flex space-x-5 justify-between items-center">
         <p className="text-gray-600 w-full truncate">{props.data.content}</p>
