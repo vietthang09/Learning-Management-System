@@ -21,3 +21,13 @@ export function createPost(content, image) {
     data: formData,
   });
 }
+export function deletePost(id) {
+  let formData = new FormData();
+  formData.append("id", id);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Forum}delete?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}

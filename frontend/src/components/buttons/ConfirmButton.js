@@ -30,9 +30,6 @@ function ConfirmButton(props) {
       case "update-profile":
         updateProfile(props.data, props.file);
         break;
-      case "create-post":
-        createPost(props.data, props.file);
-        break;
       default:
         break;
     }

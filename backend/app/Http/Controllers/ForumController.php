@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Carbon\Carbon;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ForumController extends Controller
 {
@@ -19,6 +21,7 @@ class ForumController extends Controller
         $posts = DB::table('posts')
             ->select(
                 'users.id as authorId',
+                'posts.id as postId',
                 'users.avatar as authorAvatar',
                 'users.name as authorName',
                 'posts.created_at as createdAt',
@@ -52,5 +55,16 @@ class ForumController extends Controller
                     'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
                 ]);
         }
+    }
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        $post = DB::table('posts')
+            ->where('id', $id)
+            ->first();
+        Storage::delete($post->image);
+        DB::table('posts')
+            ->where('id', $id)
+            ->delete();
     }
 }

@@ -3,6 +3,9 @@ import { AnnotationIcon } from "@heroicons/react/outline";
 import { NavLink } from "react-router-dom";
 import UserAvatar from "./UserAvatar";
 import moment from "moment";
+import PostDropdown from "./dropdowns/PostDropdown";
+import { getUser } from "../api/Session";
+
 function PostCard(props) {
   return (
     <div className="mt-4 p-3 bg-white border">
@@ -18,6 +21,11 @@ function PostCard(props) {
             </span>
           </div>
         </div>
+        {getUser().id == props.data.authorId ? (
+          <PostDropdown id={props.data.postId} changed={props.changed} />
+        ) : (
+          ""
+        )}
       </div>
       <div className="mt-2 mb-2">
         {props.data.filePath ? (

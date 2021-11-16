@@ -84,6 +84,7 @@ Route::group([
 ], function () {
     Route::get('/posts', [ForumController::class, 'getPosts']);
     Route::post('/create', [ForumController::class, 'create']);
+    Route::post('/delete', [ForumController::class, 'delete']);
 });
 
 // For session controller

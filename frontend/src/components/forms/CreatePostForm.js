@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import UserAvatar from "../UserAvatar";
 import { getUser } from "../../api/Session";
 import { PhotographIcon } from "@heroicons/react/outline";
-import ConfirmButton from "../buttons/ConfirmButton";
 import DisabledButton from "../buttons/DisabledButton";
-function CreatePostForm() {
+import { createPost } from "../../api/API_Forum";
+function CreatePostForm(props) {
   let [content, setContent] = useState();
   let [image, setImage] = useState([]);
+  function confirm(e) {
+    createPost(content, image);
+    props.changed(true);
+    props.open(false);
+  }
   return (
     <div>
       <UserAvatar link={getUser().avatar} />
@@ -42,7 +47,12 @@ function CreatePostForm() {
         </div>
       </div>
       {content || image.name ? (
-        <ConfirmButton type="create-post" data={content} file={image} />
+        <button
+          className="p-2 bg-green-400 text-white font-semibold rounded-md hover:bg-green-500"
+          onClick={(e) => confirm(e)}
+        >
+          Confirm
+        </button>
       ) : (
         <DisabledButton />
       )}

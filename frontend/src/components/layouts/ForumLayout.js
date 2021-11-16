@@ -7,16 +7,16 @@ import UserAvatar from "../UserAvatar";
 import { getUser } from "../../api/Session";
 
 function ForumLayout() {
-  var [posts, setPosts] = useState([]);
+  let [posts, setPosts] = useState([]);
+  let [changed, setChanged] = useState(false);
   useEffect(() => {
     getPosts(setPosts);
-  }, []);
+    setChanged(false);
+  }, [changed]);
   let [isOpen, setIsOpen] = useState(false);
-
   function closeModal() {
     setIsOpen(false);
   }
-
   function openModal() {
     setIsOpen(true);
   }
@@ -67,14 +67,14 @@ function ForumLayout() {
             >
               <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <div className="mt-2">
-                  <CreatePostForm />
+                  <CreatePostForm changed={setChanged} open={setIsOpen} />
                 </div>
               </div>
             </Transition.Child>
           </div>
         </Dialog>
       </Transition>
-      <PostList datas={posts} />
+      <PostList datas={posts} changed={setChanged} />
     </div>
   );
 }
