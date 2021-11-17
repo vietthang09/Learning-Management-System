@@ -4,6 +4,7 @@ function PostButton(props) {
   function confirm(e) {
     e.preventDefault();
     createComment(props.postId, props.content, props.image);
+    props.setAddComment(true);
   }
   return (
     <button

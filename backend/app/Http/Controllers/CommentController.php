@@ -17,6 +17,13 @@ class CommentController extends Controller
     {
         $postId = $request->input('id');
         $comments = DB::table('comments')
+            ->select(
+                'users.name as authorName',
+                'users.avatar as authorAvatar',
+                'comments.content',
+                'comments.created_at as createdAt',
+            )
+            ->join('users', 'users.id', 'comments.user_id')
             ->where('post_id', $postId)
             ->get();
         return response()->json([

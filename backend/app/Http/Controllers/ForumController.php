@@ -72,7 +72,15 @@ class ForumController extends Controller
     {
         $id = $request->input('id');
         $post = DB::table('posts')
-            ->where('id', $id)
+            ->select(
+                'users.avatar as authorAvatar',
+                'users.name as authorName',
+                'posts.image',
+                'posts.content',
+                'posts.created_at as createdAt',
+            )
+            ->join('users', 'users.id', 'posts.user_id')
+            ->where('posts.id', $id)
             ->first();
         return response()->json([
             'post' => $post,
