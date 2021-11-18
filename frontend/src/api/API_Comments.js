@@ -26,3 +26,13 @@ export function createComment(postId, content, image) {
     data: formData,
   });
 }
+export function deleteComment(commentId) {
+  let formData = new FormData();
+  formData.append("id", commentId);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Comment}delete?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}

@@ -95,6 +95,7 @@ Route::group([
 ], function () {
     Route::post('/get-comments', [CommentController::class, 'getComments']);
     Route::post('/create', [CommentController::class, 'create']);
+    Route::post('/delete', [CommentController::class, 'delete']);
 });
 
 // For session controller

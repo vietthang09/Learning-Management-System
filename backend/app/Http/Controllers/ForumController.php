@@ -73,6 +73,7 @@ class ForumController extends Controller
         $id = $request->input('id');
         $post = DB::table('posts')
             ->select(
+                'users.id as authorId',
                 'users.avatar as authorAvatar',
                 'users.name as authorName',
                 'posts.image',

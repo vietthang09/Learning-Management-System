@@ -11,7 +11,9 @@ function CommentList(props) {
   return (
     <div>
       {comments.map((item, index) => {
-        return <CommentCard key={index} data={item} />;
+        return (
+          <CommentCard key={index} data={item} setAddComment={props.setAddComment} />
+        );
       })}
     </div>
   );
