@@ -107,3 +107,22 @@ export function getRegisteredList(courseId, setStudents) {
   });
 }
 
+export function countOfUser(setNumberOfCourses) {
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Course}count-of-user?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    setNumberOfCourses(response.data.numberOfCourses);
+  });
+}
+export function confirmCourse(courseId) {
+  var formData = new FormData();
+  formData.append("id", courseId);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Course}confirm?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}

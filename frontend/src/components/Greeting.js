@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getNumberOfAssignmentsToday } from "../api/API_Assignments";
-import { getUser } from "../api/Session";
+import { getUser, isAdmin } from "../api/Session";
 
 function Greeting() {
   var [number, setNumber] = useState();
@@ -14,12 +14,20 @@ function Greeting() {
           <h1 className="mb-5 text-4xl lg:text-5xl font-bold">
             {"Hi " + getUser().name + " !"}
           </h1>
-          <p className="text-xl lg:text-2xl">
-            {number ? "There are " + number + " today" : "No assignment today"}
-          </p>
-          <p className="text-xl lg:text-2xl">
-            Have a <u>great day</u>.
-          </p>
+          {isAdmin() ? (
+            "..."
+          ) : (
+            <>
+              <p className="text-xl lg:text-2xl">
+                {number
+                  ? "There are " + number + " today"
+                  : "No assignment today"}
+              </p>
+              <p className="text-xl lg:text-2xl">
+                Have a <u>great day</u>.
+              </p>
+            </>
+          )}
         </div>
       </div>
       <div className="hidden lg:block absolute top-0 right-10">

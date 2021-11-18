@@ -40,7 +40,10 @@ function PostCard(props) {
       <div className="flex space-x-5 justify-between items-center">
         <p className="text-gray-600 w-full truncate">{props.data.content}</p>
         <Link to={"forum/" + props.data.postId}>
-          <AnnotationIcon className="w-7 text-gray-500" />
+          <span className="flex items-center text-gray-500 font-medium">
+            <span>{props.data.numberOfComments}</span>
+            <AnnotationIcon className="w-5" />
+          </span>
         </Link>
       </div>
     </div>

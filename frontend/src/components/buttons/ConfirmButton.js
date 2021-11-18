@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { createSubmission, updateSubmission } from "../../api/API_Submissions";
 import { createMaterial, updateMaterial } from "../../api/API_Materials";
 import { updateProfile } from "../../api/API_User";
-import { createPost } from "../../api/API_Forum";
+import { confirmCourse } from "../../api/API_Courses";
 
 function ConfirmButton(props) {
   const history = useHistory();
@@ -29,6 +29,9 @@ function ConfirmButton(props) {
         break;
       case "update-profile":
         updateProfile(props.data, props.file);
+        break;
+      case "confirm-course":
+        confirmCourse(props.id);
         break;
       default:
         break;

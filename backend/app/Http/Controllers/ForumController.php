@@ -27,6 +27,7 @@ class ForumController extends Controller
                 'posts.created_at as createdAt',
                 'posts.content as content',
                 'posts.image as filePath',
+                DB::raw("(SELECT COUNT(id) FROM comments WHERE comments.post_id = posts.id) as numberOfComments"),
             )
             ->join('users', 'users.id', 'posts.user_id')
             ->orderBy('posts.created_at', 'desc')
@@ -85,6 +86,16 @@ class ForumController extends Controller
             ->first();
         return response()->json([
             'post' => $post,
+        ]);
+    }
+
+    public function countPostsOfUser()
+    {
+        $count = DB::table('posts')
+            ->where('user_id', auth()->id())
+            ->count();
+        return response()->json([
+            'count' => $count,
         ]);
     }
 }

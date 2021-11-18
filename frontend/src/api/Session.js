@@ -36,3 +36,6 @@ export function isStudent() {
 export function isTeacher() {
   return getUser().role == 1;
 }
+export function isAdmin() {
+  return getUser().role == 2;
+}

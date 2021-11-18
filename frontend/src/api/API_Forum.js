@@ -43,3 +43,12 @@ export function getPost(id, setPost) {
     setPost(response.data.post);
   });
 }
+export function countOfUser(setNumberOfPosts) {
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Forum}count-of-user?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    setNumberOfPosts(response.data.count);
+  });
+}

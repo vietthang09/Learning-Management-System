@@ -23,7 +23,9 @@ function PostDetailsLayout(props) {
               className="w-full h-96 object-cover"
             />
           ) : (
-            <span className="m-auto text-gray-400 font-medium uppercase tracking-widest">No Image</span>
+            <span className="m-auto text-gray-400 font-medium uppercase tracking-widest">
+              No Image
+            </span>
           )}
         </div>
         <div className="relative flex-1 bg-white divide-y divide-gray-200">

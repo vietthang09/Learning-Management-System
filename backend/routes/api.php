@@ -34,6 +34,8 @@ Route::group([
     Route::post('/create', [CoursesController::class, 'createCourse']);
     Route::post('/registered-list', [CoursesController::class, 'getRegisteredList']);
     Route::post('/cancel', [CoursesController::class, 'cancelRequest']);
+    Route::post('/count-of-user', [CoursesController::class, 'countCoursesOfUser']);
+    Route::post('/confirm', [CoursesController::class, 'confirm']);
 });
 
 // For assignment controller
@@ -87,9 +89,10 @@ Route::group([
     Route::post('/create', [ForumController::class, 'create']);
     Route::post('/delete', [ForumController::class, 'delete']);
     Route::post('/get-post', [ForumController::class, 'getPost']);
+    Route::post('/count-of-user', [ForumController::class, 'countPostsOfUser']);
 });
 
-// For forum controller
+// For comment controller
 Route::group([
     'prefix' => 'comment'
 ], function () {
