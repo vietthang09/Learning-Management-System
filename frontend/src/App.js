@@ -22,6 +22,8 @@ import MaterialLayout from "./components/layouts/MaterialLayout";
 import UpdateMaterialLayout from "./components/layouts/UpdateMaterialLayout";
 import PostDetailsLayout from "./components/layouts/PostDetailsLayout";
 import RouteForAdmin from "./components/middlewares/RouteForAdmin";
+import StudentManagement from "./pages/StudentManagement";
+import TeacherManagement from "./pages/TeacherManagement";
 
 function App() {
   return (
@@ -30,6 +32,18 @@ function App() {
         <Switch>
           <RouteGuest exact path="/login" component={Login} />
           <RouteGuest path="/register" component={Register} />
+
+          {/* For admin */}
+          <RouteForAdmin
+            exact
+            path="/m-students"
+            component={StudentManagement}
+          />
+          <RouteForAdmin
+            exact
+            path="/m-teachers"
+            component={TeacherManagement}
+          />
 
           <RouteForTeacher
             exact

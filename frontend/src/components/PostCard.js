@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import UserAvatar from "./UserAvatar";
 import moment from "moment";
 import PostDropdown from "./dropdowns/PostDropdown";
-import { getUser } from "../api/Session";
+import { getUser, isAdmin } from "../api/Session";
 
 function PostCard(props) {
   return (
@@ -21,7 +21,7 @@ function PostCard(props) {
             </span>
           </div>
         </div>
-        {getUser().id == props.data.authorId ? (
+        {getUser().id == props.data.authorId || isAdmin() ? (
           <PostDropdown id={props.data.postId} changed={props.changed} />
         ) : (
           ""

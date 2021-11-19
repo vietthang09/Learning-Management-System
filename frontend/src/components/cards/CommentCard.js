@@ -1,7 +1,7 @@
 import React from "react";
 import UserAvatar from "../UserAvatar";
 import moment from "moment";
-import { getUser } from "../../api/Session";
+import { getUser, isAdmin } from "../../api/Session";
 import { deleteComment } from "../../api/API_Comments";
 
 function CommentCard(props) {
@@ -28,7 +28,7 @@ function CommentCard(props) {
         )}
         <span className="block flex text-gray-400 text-xs font-medium space-x-3">
           <span>{moment(props.data.createdAt).utcOffset(420).fromNow()}</span>
-          {getUser().id == props.data.authorId ? (
+          {getUser().id == props.data.authorId || isAdmin() ? (
             <button
               className="hidden button"
               onClick={(e) => {

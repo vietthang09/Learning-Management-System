@@ -79,6 +79,8 @@ Route::group([
     'prefix' => 'user'
 ], function () {
     Route::post('/update', [UserController::class, 'update']);
+    Route::post('/students', [UserController::class, 'getStudents']);
+    Route::post('/teachers', [UserController::class, 'getTeachers']);
 });
 
 // For forum controller

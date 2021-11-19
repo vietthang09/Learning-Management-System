@@ -46,3 +46,22 @@ export function updateProfile(user, selectedImage) {
   });
   getUserData();
 }
+
+export function getStudents(setStudents) {
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}students?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    setStudents(response.data.students);
+  });
+}
+export function getTeachers(setTeacher) {
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}teachers?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    setTeacher(response.data.teachers);
+  });
+}
