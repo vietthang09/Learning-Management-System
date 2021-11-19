@@ -1,7 +1,8 @@
+import { PlusCircleIcon, UserIcon } from "@heroicons/react/outline";
 import React from "react";
 import { Link } from "react-router-dom";
-import { UserIcon, PlusCircleIcon } from "@heroicons/react/outline";
-function StudentList() {
+
+function StudentManagement() {
   return (
     <div class="flex items-center justify-center">
       <div className="w-full">
@@ -35,4 +36,4 @@ function StudentList() {
   );
 }
 
-export default StudentList;
+export default StudentManagement;

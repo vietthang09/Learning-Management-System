@@ -36,4 +36,25 @@ class UserController extends Controller
                 ]);
         }
     }
+
+    // For admin
+    public function getStudents()
+    {
+        $students = DB::table('users')
+            ->where('role', 0)
+            ->get();
+        return response()->json([
+            'students' => $students,
+        ]);
+    }
+    // For admin
+    public function getTeachers()
+    {
+        $teachers = DB::table('users')
+            ->where('role', 1)
+            ->get();
+        return response()->json([
+            'teachers' => $teachers,
+        ]);
+    }
 }

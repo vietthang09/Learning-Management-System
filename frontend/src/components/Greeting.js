@@ -15,7 +15,9 @@ function Greeting() {
             {"Hi " + getUser().name + " !"}
           </h1>
           {isAdmin() ? (
-            "..."
+            <p className="text-xl lg:text-2xl">
+              Have a <u>great day</u>.
+            </p>
           ) : (
             <>
               <p className="text-xl lg:text-2xl">

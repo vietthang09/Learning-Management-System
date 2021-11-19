@@ -12,7 +12,7 @@ function ForumLayout() {
   useEffect(() => {
     getPosts(setPosts);
     setChanged(false);
-  }, [changed]);
+  }, []);
   let [isOpen, setIsOpen] = useState(false);
   function closeModal() {
     setIsOpen(false);
