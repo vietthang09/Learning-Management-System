@@ -5,6 +5,7 @@ import PostList from "../lists/PostList";
 import CreatePostForm from "../forms/CreatePostForm";
 import UserAvatar from "../UserAvatar";
 import { getUser } from "../../api/Session";
+import BoxNumberPost from "../BoxNumber/BoxNumberPost";
 
 function ForumLayout() {
   let [posts, setPosts] = useState([]);
@@ -21,16 +22,25 @@ function ForumLayout() {
     setIsOpen(true);
   }
   return (
-    <div>
-      <div className="w-1/2 mt-5 p-5 m-auto flex items-center bg-white shadow rounded-lg">
-        <UserAvatar link={getUser().avatar} />
-        <p
-          className="p-3 w-full text-lg text-gray-500 cursor-pointer hover:bg-gray-50 shadow-inner rounded-lg"
-          onClick={openModal}
-        >
-          What's on your mind, {getUser().name} ?{" "}
-        </p>
+    <div className="flex justify-center">
+      <div className="w-1/4">
+        <BoxNumberPost />
       </div>
+      <div className="w-1/2">
+        <div className="mt-5 p-5 m-auto flex items-center bg-white shadow rounded-lg">
+          <UserAvatar link={getUser().avatar} />
+          <p
+            className="p-3 w-full text-lg text-gray-500 cursor-pointer hover:bg-gray-50 shadow-inner rounded-lg"
+            onClick={openModal}
+          >
+            What's on your mind, {getUser().name} ?{" "}
+          </p>
+        </div>
+        <div>
+          <PostList datas={posts} changed={setChanged} />
+        </div>
+      </div>
+      <div className="w-1/4">b</div>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -74,7 +84,6 @@ function ForumLayout() {
           </div>
         </Dialog>
       </Transition>
-      <PostList datas={posts} changed={setChanged} />
     </div>
   );
 }
