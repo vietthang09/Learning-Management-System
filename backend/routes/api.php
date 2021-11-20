@@ -81,6 +81,10 @@ Route::group([
     Route::post('/update', [UserController::class, 'update']);
     Route::post('/students', [UserController::class, 'getStudents']);
     Route::post('/teachers', [UserController::class, 'getTeachers']);
+    Route::post('/add-student', [UserController::class, 'addStudent']);
+    Route::post('/add-teacher', [UserController::class, 'addTeacher']);
+    Route::post('/edit-user', [UserController::class, 'editUser']);
+    Route::post('/delete', [UserController::class, 'delete']);
 });
 
 // For forum controller

@@ -11,7 +11,10 @@ function PostCard(props) {
     <div className="mt-4 p-3 bg-white border">
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-2">
-          <UserAvatar link={props.data.authorAvatar} />
+          <UserAvatar
+            link={props.data.authorAvatar}
+            name={props.data.authorName}
+          />
           <div className="grid">
             <span className="text-xl text-gray-600 font-medium">
               {props.data.authorName}

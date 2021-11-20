@@ -28,7 +28,7 @@ function ForumLayout() {
       </div>
       <div className="w-1/2">
         <div className="mt-5 p-5 m-auto flex items-center bg-white shadow rounded-lg">
-          <UserAvatar link={getUser().avatar} />
+          <UserAvatar link={getUser().avatar} name={getUser().name} />
           <p
             className="p-3 w-full text-lg text-gray-500 cursor-pointer hover:bg-gray-50 shadow-inner rounded-lg"
             onClick={openModal}

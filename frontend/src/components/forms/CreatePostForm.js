@@ -14,7 +14,7 @@ function CreatePostForm(props) {
   }
   return (
     <div>
-      <UserAvatar link={getUser().avatar} />
+      <UserAvatar link={getUser().avatar} name={getUser().name} />
       <textarea
         className="w-full text-2xl resize-none focus:outline-none"
         placeholder={"What's on your mind, " + getUser().name + " ?"}

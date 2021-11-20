@@ -65,3 +65,51 @@ export function getTeachers(setTeacher) {
     setTeacher(response.data.teachers);
   });
 }
+
+export function addStudent(user) {
+  var formData = new FormData();
+  formData.append("name", user.name);
+  formData.append("email", user.email);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}add-student?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}
+
+export function addTeacher(user) {
+  var formData = new FormData();
+  formData.append("name", user.name);
+  formData.append("email", user.email);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}add-teacher?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}
+
+export function editUser(user) {
+  var formData = new FormData();
+  formData.append("id", user.id);
+  formData.append("name", user.name);
+  formData.append("email", user.email);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}edit-user?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}
+
+export function deleteUser(user) {
+  var formData = new FormData();
+  formData.append("id", user.id);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}delete?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}

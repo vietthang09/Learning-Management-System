@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { getStudents, getTeachers } from "../../api/API_User";
+import EditUserButton from "../buttons/EditUserButton";
+import Example from "../switch/Example";
+import UserStatusSwitch from "../switch/UserStatusSwitch";
 import UserAvatar from "../UserAvatar";
 function UserList(props) {
   let [users, setUsers] = useState([]);
+
   useEffect(() => {
     if (props.for == "student") {
       getStudents(setUsers);
-    } else if (props.for == "teacher") {
+      props.setRefresh(false);
+    } else {
       getTeachers(setUsers);
+      props.setRefresh(false);
     }
-  }, []);
+  }, [props.refresh]);
   return (
     <div class="flex flex-col">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -54,7 +60,7 @@ function UserList(props) {
                       <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
                           <div class="flex-shrink-0 h-10 w-10">
-                            <UserAvatar link={item.avatar} />
+                            <UserAvatar link={item.avatar} name={item.name} />
                           </div>
                           <div class="ml-4">
                             <div class="text-sm font-medium text-gray-900">
@@ -73,9 +79,7 @@ function UserList(props) {
                         <div class="text-sm text-gray-500">Optimization</div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          Active
-                        </span>
+                        <UserStatusSwitch />
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {item.role == 0
@@ -85,12 +89,10 @@ function UserList(props) {
                           : "Admin"}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a
-                          href="#"
-                          class="text-indigo-600 hover:text-indigo-900"
-                        >
-                          Edit
-                        </a>
+                        <EditUserButton
+                          data={item}
+                          setRefresh={props.setRefresh}
+                        />
                       </td>
                     </tr>
                   );

@@ -57,7 +57,7 @@ function Navbar() {
             {({ open }) => (
               <>
                 <Popover.Button className={`${open ? "" : "text-opacity-90"}`}>
-                  <UserAvatar link={getUser().avatar} />
+                  <UserAvatar link={getUser().avatar} name={getUser().name} />
                 </Popover.Button>
                 <Popover.Panel className="absolute z-10 w-56 px-4 mt-3 transform top-7 -right-3">
                   <div className="bg-white space-y-5 p-3 shadow-xl rounded-xl">

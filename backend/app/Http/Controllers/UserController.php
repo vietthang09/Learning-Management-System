@@ -57,4 +57,59 @@ class UserController extends Controller
             'teachers' => $teachers,
         ]);
     }
+
+    // For admin
+    public function addStudent(Request $request)
+    {
+        $name = $request->input('name');
+        $email = $request->input('email');
+        DB::table('users')
+            ->insert([
+                'name' => $name,
+                'email' => $email,
+                'password' => bcrypt('password'),
+                'role' => 0,
+            ]);
+    }
+
+    // For admin
+    public function addTeacher(Request $request)
+    {
+        $name = $request->input('name');
+        $email = $request->input('email');
+        DB::table('users')
+            ->insert([
+                'name' => $name,
+                'email' => $email,
+                'password' => bcrypt('password'),
+                'role' => 1,
+            ]);
+    }
+
+    // For admin
+    public function editUser(Request $request)
+    {
+        $userId = $request->input('id');
+        $name = $request->input('name');
+        $email = $request->input('email');
+        DB::table('users')
+            ->where('id', $userId)
+            ->update([
+                'name' => $name,
+                'email' => $email,
+            ]);
+    }
+
+    // For admin
+    public function delete(Request $request)
+    {
+        $userId = $request->input('id');
+        $user = DB::table('users')
+            ->where('id', $userId)
+            ->first();
+        Storage::delete($user->avatar);
+        DB::table('users')
+            ->where('id', $userId)
+            ->delete();
+    }
 }
