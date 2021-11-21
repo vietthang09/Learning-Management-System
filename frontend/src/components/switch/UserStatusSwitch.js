@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Switch } from "@headlessui/react";
-function UserStatusSwitch() {
-  const [enabled, setEnabled] = useState(false);
+import { changeUserStatus } from "../../api/API_User";
+function UserStatusSwitch(props) {
+  const [enabled, setEnabled] = useState(props.status == 0 ? false : true);
   return (
     <Switch
       checked={enabled}
-      onChange={setEnabled}
+      onChange={() => {
+        setEnabled(!enabled);
+        changeUserStatus(props.id);
+      }}
       className={`${
         enabled ? "bg-green-500" : "bg-gray-200"
       } relative inline-flex items-center h-6 rounded-full w-11`}

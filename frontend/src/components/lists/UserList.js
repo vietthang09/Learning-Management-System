@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getStudents, getTeachers } from "../../api/API_User";
 import EditUserButton from "../buttons/EditUserButton";
-import Example from "../switch/Example";
 import UserStatusSwitch from "../switch/UserStatusSwitch";
 import UserAvatar from "../UserAvatar";
 function UserList(props) {
@@ -79,7 +78,7 @@ function UserList(props) {
                         <div class="text-sm text-gray-500">Optimization</div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        <UserStatusSwitch />
+                        <UserStatusSwitch status={item.status} id={item.id} />
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {item.role == 0

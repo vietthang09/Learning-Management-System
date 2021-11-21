@@ -24,7 +24,7 @@ import PostDetailsLayout from "./components/layouts/PostDetailsLayout";
 import RouteForAdmin from "./components/middlewares/RouteForAdmin";
 import StudentManagement from "./pages/StudentManagement";
 import TeacherManagement from "./pages/TeacherManagement";
-
+import CourseManagement from "./pages/CourseManagement";
 function App() {
   return (
     <>
@@ -44,6 +44,8 @@ function App() {
             path="/m-teachers"
             component={TeacherManagement}
           />
+
+          <RouteForAdmin exact path="/m-courses" component={CourseManagement} />
 
           <RouteForTeacher
             exact

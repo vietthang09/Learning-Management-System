@@ -69,6 +69,7 @@ class UserController extends Controller
                 'email' => $email,
                 'password' => bcrypt('password'),
                 'role' => 0,
+                'status' => 1,
             ]);
     }
 
@@ -83,6 +84,7 @@ class UserController extends Controller
                 'email' => $email,
                 'password' => bcrypt('password'),
                 'role' => 1,
+                'status' => 1,
             ]);
     }
 
@@ -111,5 +113,23 @@ class UserController extends Controller
         DB::table('users')
             ->where('id', $userId)
             ->delete();
+    }
+
+    // For admin
+    public function changeStatus(Request $request)
+    {
+        $userId = $request->input('id');
+        $user = DB::table('users')
+            ->where('id', $userId)
+            ->first();
+        $status = 1;
+        if ($user->status == 1) {
+            $status = 0;
+        }
+        DB::table('users')
+            ->where('id', $userId)
+            ->update([
+                'status' => $status,
+            ]);
     }
 }

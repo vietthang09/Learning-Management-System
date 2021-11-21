@@ -36,6 +36,7 @@ Route::group([
     Route::post('/cancel', [CoursesController::class, 'cancelRequest']);
     Route::post('/count-of-user', [CoursesController::class, 'countCoursesOfUser']);
     Route::post('/confirm', [CoursesController::class, 'confirm']);
+    Route::post('/get-courses', [CoursesController::class, 'getCourses']);
 });
 
 // For assignment controller
@@ -85,6 +86,7 @@ Route::group([
     Route::post('/add-teacher', [UserController::class, 'addTeacher']);
     Route::post('/edit-user', [UserController::class, 'editUser']);
     Route::post('/delete', [UserController::class, 'delete']);
+    Route::post('/change-status', [UserController::class, 'changeStatus']);
 });
 
 // For forum controller

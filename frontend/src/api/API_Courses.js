@@ -126,3 +126,14 @@ export function confirmCourse(courseId) {
     data: formData,
   });
 }
+
+// For admin
+export function getCourses(setData, pageNumber = 1) {
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Course}get-courses?page=${pageNumber}`,
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    setData(response.data.courses);
+  });
+}

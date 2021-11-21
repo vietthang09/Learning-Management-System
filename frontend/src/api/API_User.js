@@ -113,3 +113,13 @@ export function deleteUser(user) {
     data: formData,
   });
 }
+export function changeUserStatus(id) {
+  var formData = new FormData();
+  formData.append("id", id);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}change-status?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  });
+}

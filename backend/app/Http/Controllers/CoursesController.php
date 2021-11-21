@@ -13,7 +13,7 @@ class CoursesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['getCourses']]);
     }
 
     public function getRecentlyCourses()
@@ -286,5 +286,25 @@ class CoursesController extends Controller
             ->update([
                 'public' => 1,
             ]);
+    }
+
+    // For admin
+    public function getCourses()
+    {
+        $courses = DB::table('courses')
+            ->select(
+                'users.name as teacherName',
+                'users.avatar as teacherAvatar',
+                'users.email as teacherEmail',
+                'courses.id as courseId',
+                'courses.title',
+                'courses.public',
+                DB::raw("(select COUNT(*) from registered_students where registered_students.course_id = courses.id) as numberOfStudents"),
+            )
+            ->join('users', 'users.id', 'courses.user_id')
+            ->paginate(10);
+        return  response()->json([
+            'courses' => $courses,
+        ]);
     }
 }
