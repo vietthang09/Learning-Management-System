@@ -5,7 +5,6 @@ import UserAvatar from "../UserAvatar";
 import Pagination from "react-js-pagination";
 
 function CoursesManagementList(props) {
-  let [courses, setCourses] = useState([]);
   let [data, setData] = useState([]);
   useEffect(() => {
     getCourses(setData);

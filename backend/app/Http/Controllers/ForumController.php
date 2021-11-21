@@ -57,6 +57,7 @@ class ForumController extends Controller
                 ]);
         }
     }
+
     public function delete(Request $request)
     {
         $id = $request->input('id');
@@ -96,6 +97,21 @@ class ForumController extends Controller
             ->count();
         return response()->json([
             'count' => $count,
+        ]);
+    }
+
+    // For admin 
+    public function countPostForAdmin()
+    {
+        $today = DB::table('posts')
+            ->where('created_at', '<=', Carbon::now('Asia/Ho_Chi_Minh'))
+            ->count();
+        $yesterday = DB::table('posts')
+            ->where('created_at', "<=", Carbon::yesterday('Asia/Ho_Chi_Minh'))
+            ->count();
+        return ([
+            'today' => $today,
+            'yesterday' => $yesterday,
         ]);
     }
 }

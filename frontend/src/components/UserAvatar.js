@@ -1,5 +1,5 @@
 import React from "react";
-
+import { UserIcon } from "@heroicons/react/outline";
 function UserAvatar(props) {
   return (
     <>
@@ -10,7 +10,7 @@ function UserAvatar(props) {
         />
       ) : (
         <div className="bg-green-400 text-white font-medium text-3xl h-10 w-10 rounded-full flex justify-center uppercase">
-          {props.name.charAt(0)}
+          <UserIcon className="w-5 text-white" />
         </div>
       )}
     </>

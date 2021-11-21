@@ -4,7 +4,7 @@ import { getPosts } from "../../api/API_Forum";
 import PostList from "../lists/PostList";
 import CreatePostForm from "../forms/CreatePostForm";
 import UserAvatar from "../UserAvatar";
-import { getUser } from "../../api/Session";
+import { getUser, isAdmin } from "../../api/Session";
 import BoxNumberPost from "../BoxNumber/BoxNumberPost";
 
 function ForumLayout() {
@@ -13,7 +13,7 @@ function ForumLayout() {
   useEffect(() => {
     getPosts(setPosts);
     setChanged(false);
-  }, []);
+  }, [changed]);
   let [isOpen, setIsOpen] = useState(false);
   function closeModal() {
     setIsOpen(false);
@@ -23,9 +23,13 @@ function ForumLayout() {
   }
   return (
     <div className="flex justify-center">
-      <div className="w-1/4">
-        <BoxNumberPost />
-      </div>
+      {isAdmin() ? (
+        <div className="w-1/4">
+          <BoxNumberPost />
+        </div>
+      ) : (
+        ""
+      )}
       <div className="w-1/2">
         <div className="mt-5 p-5 m-auto flex items-center bg-white shadow rounded-lg">
           <UserAvatar link={getUser().avatar} name={getUser().name} />
@@ -40,7 +44,7 @@ function ForumLayout() {
           <PostList datas={posts} changed={setChanged} />
         </div>
       </div>
-      <div className="w-1/4">b</div>
+      {isAdmin() ? <div className="w-1/4">b</div> : ""}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"

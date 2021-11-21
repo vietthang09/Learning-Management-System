@@ -52,3 +52,13 @@ export function countOfUser(setNumberOfPosts) {
     setNumberOfPosts(response.data.count);
   });
 }
+export function countOfAdmin(setToday, setYesterday) {
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Forum}count-of-admin?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    setToday(response.data.today);
+    setYesterday(response.data.yesterday);
+  });
+}

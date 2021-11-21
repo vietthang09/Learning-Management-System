@@ -31,7 +31,7 @@ function PostDetailsLayout(props) {
         <div className="relative flex-1 bg-white divide-y divide-gray-200">
           <div className="p-3 flex justify-between items-center">
             <div className="flex items-center">
-              <UserAvatar link={post.authorAvatar} />
+              <UserAvatar link={post.authorAvatar} name={post.authorName} />
               <span className="text-gray-600 font-medium">
                 {post.authorName}
               </span>

@@ -47,19 +47,19 @@ export function updateProfile(user, selectedImage) {
   getUserData();
 }
 
-export function getStudents(setStudents) {
+export function getStudents(setStudents, pageNumber = 1) {
   axios({
     method: "POST",
-    url: `${Master_URL_API_User}students?token=${getToken()}`,
+    url: `${Master_URL_API_User}students?page=${pageNumber}`,
     headers: { "Content-Type": "application/json" },
   }).then((response) => {
     setStudents(response.data.students);
   });
 }
-export function getTeachers(setTeacher) {
+export function getTeachers(setTeacher, pageNumber = 1) {
   axios({
     method: "POST",
-    url: `${Master_URL_API_User}teachers?token=${getToken()}`,
+    url: `${Master_URL_API_User}teachers?page=${pageNumber}`,
     headers: { "Content-Type": "application/json" },
   }).then((response) => {
     setTeacher(response.data.teachers);

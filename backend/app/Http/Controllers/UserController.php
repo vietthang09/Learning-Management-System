@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['getStudents', 'getTeachers']]);
     }
 
     public function update(Request $request)
@@ -42,7 +42,7 @@ class UserController extends Controller
     {
         $students = DB::table('users')
             ->where('role', 0)
-            ->get();
+            ->paginate(10);
         return response()->json([
             'students' => $students,
         ]);
@@ -52,7 +52,7 @@ class UserController extends Controller
     {
         $teachers = DB::table('users')
             ->where('role', 1)
-            ->get();
+            ->paginate(10);
         return response()->json([
             'teachers' => $teachers,
         ]);

@@ -98,6 +98,7 @@ Route::group([
     Route::post('/delete', [ForumController::class, 'delete']);
     Route::post('/get-post', [ForumController::class, 'getPost']);
     Route::post('/count-of-user', [ForumController::class, 'countPostsOfUser']);
+    Route::post('/count-of-admin', [ForumController::class, 'countPostForAdmin']);
 });
 
 // For comment controller
