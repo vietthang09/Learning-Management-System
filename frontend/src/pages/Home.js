@@ -5,6 +5,7 @@ import AssignmentListMini from "../components/AssignmentListMini";
 import NewCoursesList from "../components/NewCoursesList";
 import { isAdmin } from "../api/Session";
 import Management from "../components/Management";
+import Overview from "../components/Overview";
 
 function Home() {
   return (
@@ -21,7 +22,7 @@ function Home() {
           )}
         </div>
         <div class="flex-none w-full px-5 lg:px-0 lg:flex-1 my-5 lg:my-0">
-          <AssignmentListMini />
+          {isAdmin() ? <Overview /> : <AssignmentListMini />}
         </div>
       </div>
       <div className="my-5">{isAdmin() ? "" : <NewCoursesList />}</div>

@@ -137,3 +137,14 @@ export function getCourses(setData, pageNumber = 1) {
     setData(response.data.courses);
   });
 }
+
+// For admin
+export function getNumberCourse(setNumberCourse) {
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Course}number-course?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    setNumberCourse(response.data.numberCourse);
+  });
+}

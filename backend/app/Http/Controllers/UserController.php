@@ -10,7 +10,10 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['getStudents', 'getTeachers']]);
+        $this->middleware('auth:api', ['except' => [
+            'getStudents',
+            'getTeachers', 'getStudentsWithFilter'
+        ]]);
     }
 
     public function update(Request $request)
@@ -47,6 +50,35 @@ class UserController extends Controller
             'students' => $students,
         ]);
     }
+
+    // For admin
+    public function getStudentsWithFilter(Request $request)
+    {
+        $filter = $request->input('filter');
+        $students = null;
+        switch ($filter) {
+            case 'All':
+                $students = DB::table('users')
+                    ->where('role', 0)
+                    ->paginate(10);
+                break;
+            case 'Name desc':
+                $students = DB::table('users')
+                    ->where('role', 0)
+                    ->orderBy('name', 'desc')
+                    ->paginate(10);
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
+        return response()->json([
+            'students' => $students,
+        ]);
+    }
+
     // For admin
     public function getTeachers()
     {
@@ -131,5 +163,26 @@ class UserController extends Controller
             ->update([
                 'status' => $status,
             ]);
+    }
+
+    // For admin 
+    public function getNumberStudents()
+    {
+        $number = DB::table('users')
+            ->where('role', 0)
+            ->count();
+        return response()->json([
+            'numberStudent' => $number,
+        ]);
+    }
+    // For admin 
+    public function getNumberTeachers()
+    {
+        $number = DB::table('users')
+            ->where('role', 1)
+            ->count();
+        return response()->json([
+            'numberTeacher' => $number,
+        ]);
     }
 }

@@ -56,6 +56,19 @@ export function getStudents(setStudents, pageNumber = 1) {
     setStudents(response.data.students);
   });
 }
+export function getStudentsWithFilter(setStudents, filter, pageNumber = 1) {
+  var formData = new FormData();
+  formData.append("filter", filter.name);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}filter-students?page=${pageNumber}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  }).then((response) => {
+    setStudents(response.data.students);
+  });
+}
+
 export function getTeachers(setTeacher, pageNumber = 1) {
   axios({
     method: "POST",
@@ -121,5 +134,25 @@ export function changeUserStatus(id) {
     url: `${Master_URL_API_User}change-status?token=${getToken()}`,
     headers: { "Content-Type": "application/json" },
     data: formData,
+  });
+}
+
+export function getNumberStudent(setNumberStudent) {
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}number-student?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    setNumberStudent(response.data.numberStudent);
+  });
+}
+
+export function getNumberTeacher(setNumberTeacher) {
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}number-teacher?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    setNumberTeacher(response.data.numberTeacher);
   });
 }

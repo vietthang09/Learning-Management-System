@@ -37,6 +37,7 @@ Route::group([
     Route::post('/count-of-user', [CoursesController::class, 'countCoursesOfUser']);
     Route::post('/confirm', [CoursesController::class, 'confirm']);
     Route::post('/get-courses', [CoursesController::class, 'getCourses']);
+    Route::post('/number-course', [CoursesController::class, 'getNumberCourses']);
 });
 
 // For assignment controller
@@ -81,12 +82,15 @@ Route::group([
 ], function () {
     Route::post('/update', [UserController::class, 'update']);
     Route::post('/students', [UserController::class, 'getStudents']);
+    Route::post('/filter-students', [UserController::class, 'getStudentsWithFilter']);
     Route::post('/teachers', [UserController::class, 'getTeachers']);
     Route::post('/add-student', [UserController::class, 'addStudent']);
     Route::post('/add-teacher', [UserController::class, 'addTeacher']);
     Route::post('/edit-user', [UserController::class, 'editUser']);
     Route::post('/delete', [UserController::class, 'delete']);
     Route::post('/change-status', [UserController::class, 'changeStatus']);
+    Route::post('/number-student', [UserController::class, 'getNumberStudents']);
+    Route::post('/number-teacher', [UserController::class, 'getNumberTeachers']);
 });
 
 // For forum controller
@@ -99,6 +103,7 @@ Route::group([
     Route::post('/get-post', [ForumController::class, 'getPost']);
     Route::post('/count-of-user', [ForumController::class, 'countPostsOfUser']);
     Route::post('/count-of-admin', [ForumController::class, 'countPostForAdmin']);
+    Route::post('/number-post', [ForumController::class, 'getNumberPosts']);
 });
 
 // For comment controller

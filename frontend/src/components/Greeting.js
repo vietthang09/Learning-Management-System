@@ -9,7 +9,7 @@ function Greeting() {
   }, []);
   return (
     <div className="mb-5 relative">
-      <div class="p-5 bg-green-400 text-white flex items-center justify-start rounded-3xl shadow-lg">
+      <div class="p-5 h-52 bg-green-400 text-white flex items-center justify-start rounded-3xl shadow-lg">
         <div className="p-5">
           <h1 className="mb-5 text-4xl lg:text-5xl font-bold">
             {"Hi " + getUser().name + " !"}
@@ -33,7 +33,11 @@ function Greeting() {
         </div>
       </div>
       <div className="hidden lg:block absolute top-0 right-10">
-        <img src="./assets/img/Learning-bro.svg" alt="" className="w-64" />
+        {isAdmin() ? (
+          <img src="./assets/img/Accept-tasks-bro.svg" className="w-64" />
+        ) : (
+          <img src="./assets/img/Learning-bro.svg" className="w-64" />
+        )}
       </div>
     </div>
   );

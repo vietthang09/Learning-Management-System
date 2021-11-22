@@ -114,4 +114,14 @@ class ForumController extends Controller
             'yesterday' => $yesterday,
         ]);
     }
+
+    // For admin 
+    public function getNumberPosts()
+    {
+        $number = DB::table('posts')
+            ->count();
+        return response()->json([
+            'numberPost' => $number,
+        ]);
+    }
 }

@@ -4,9 +4,9 @@ import EditUserButton from "../buttons/EditUserButton";
 import UserStatusSwitch from "../switch/UserStatusSwitch";
 import UserAvatar from "../UserAvatar";
 import Pagination from "react-js-pagination";
+import FilterUserDropdown from "../dropdowns/FilterUserDropdown";
 function UserList(props) {
   let [users, setUsers] = useState([]);
-
   useEffect(() => {
     if (props.for == "student") {
       getStudents(setUsers);
@@ -17,15 +17,16 @@ function UserList(props) {
     }
   }, [props.refresh]);
   return (
-    <div class="flex flex-col">
+    <div class=" flex flex-col">
       <div className="flex justify-end">
+        <FilterUserDropdown setUsers={setUsers} />
         <Pagination
           activePage={users.current_page}
           itemsCountPerPage={users.per_page}
           totalItemsCount={users.total}
           pageRangeDisplayed={1}
           onChange={(num) => {
-            if ((props.for == "student")) {
+            if (props.for == "student") {
               getStudents(setUsers, num);
             } else {
               getTeachers(setUsers, num);

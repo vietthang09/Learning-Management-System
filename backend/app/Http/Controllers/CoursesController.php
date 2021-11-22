@@ -307,4 +307,14 @@ class CoursesController extends Controller
             'courses' => $courses,
         ]);
     }
+
+    // For admin
+    public function getNumberCourses()
+    {
+        $number = DB::table('courses')
+            ->count();
+        return response()->json([
+            'numberCourse' => $number,
+        ]);
+    }
 }
