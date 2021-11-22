@@ -12,7 +12,9 @@ class UserController extends Controller
     {
         $this->middleware('auth:api', ['except' => [
             'getStudents',
-            'getTeachers', 'getStudentsWithFilter'
+            'getTeachers',
+            'getStudentsWithFilter',
+            'getTeachersWithFilter',
         ]]);
     }
 
@@ -62,10 +64,28 @@ class UserController extends Controller
                     ->where('role', 0)
                     ->paginate(10);
                 break;
-            case 'Name desc':
+            case 'A - Z':
+                $students = DB::table('users')
+                    ->where('role', 0)
+                    ->orderBy('name', 'asc')
+                    ->paginate(10);
+                break;
+            case 'Z - A':
                 $students = DB::table('users')
                     ->where('role', 0)
                     ->orderBy('name', 'desc')
+                    ->paginate(10);
+                break;
+            case 'Active':
+                $students = DB::table('users')
+                    ->where('role', 0)
+                    ->where('status', 1)
+                    ->paginate(10);
+                break;
+            case 'Inactive':
+                $students = DB::table('users')
+                    ->where('role', 0)
+                    ->where('status', 0)
                     ->paginate(10);
                 break;
 
@@ -85,6 +105,52 @@ class UserController extends Controller
         $teachers = DB::table('users')
             ->where('role', 1)
             ->paginate(10);
+        return response()->json([
+            'teachers' => $teachers,
+        ]);
+    }
+
+    // For admin
+    public function getTeachersWithFilter(Request $request)
+    {
+        $filter = $request->input('filter');
+        $teachers = null;
+        switch ($filter) {
+            case 'All':
+                $teachers = DB::table('users')
+                    ->where('role', 1)
+                    ->paginate(10);
+                break;
+            case 'A - Z':
+                $teachers = DB::table('users')
+                    ->where('role', 1)
+                    ->orderBy('name', 'asc')
+                    ->paginate(10);
+                break;
+            case 'Z - A':
+                $teachers = DB::table('users')
+                    ->where('role', 1)
+                    ->orderBy('name', 'desc')
+                    ->paginate(10);
+                break;
+            case 'Active':
+                $teachers = DB::table('users')
+                    ->where('role', 1)
+                    ->where('status', 1)
+                    ->paginate(10);
+                break;
+            case 'Inactive':
+                $teachers = DB::table('users')
+                    ->where('role', 1)
+                    ->where('status', 0)
+                    ->paginate(10);
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
         return response()->json([
             'teachers' => $teachers,
         ]);
@@ -183,6 +249,32 @@ class UserController extends Controller
             ->count();
         return response()->json([
             'numberTeacher' => $number,
+        ]);
+    }
+
+    // For admin
+    public function findStudent(Request $request)
+    {
+        $input = $request->input('input');
+        $users = DB::table('users')
+            ->where('role', 0)
+            ->where('name', 'LIKE', '%' . $input . '%')
+            ->paginate(10);
+        return response()->json([
+            'students' => $users,
+        ]);
+    }
+
+    // For admin
+    public function findTeacher(Request $request)
+    {
+        $input = $request->input('input');
+        $users = DB::table('users')
+            ->where('role', 1)
+            ->where('name', 'LIKE', '%' . $input . '%')
+            ->paginate(10);
+        return response()->json([
+            'teachers' => $users,
         ]);
     }
 }

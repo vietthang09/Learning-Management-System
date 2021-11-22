@@ -84,6 +84,7 @@ Route::group([
     Route::post('/students', [UserController::class, 'getStudents']);
     Route::post('/filter-students', [UserController::class, 'getStudentsWithFilter']);
     Route::post('/teachers', [UserController::class, 'getTeachers']);
+    Route::post('/filter-teachers', [UserController::class, 'getTeachersWithFilter']);
     Route::post('/add-student', [UserController::class, 'addStudent']);
     Route::post('/add-teacher', [UserController::class, 'addTeacher']);
     Route::post('/edit-user', [UserController::class, 'editUser']);
@@ -91,6 +92,8 @@ Route::group([
     Route::post('/change-status', [UserController::class, 'changeStatus']);
     Route::post('/number-student', [UserController::class, 'getNumberStudents']);
     Route::post('/number-teacher', [UserController::class, 'getNumberTeachers']);
+    Route::post('/find-student', [UserController::class, 'findStudent']);
+    Route::post('/find-teacher', [UserController::class, 'findTeacher']);
 });
 
 // For forum controller

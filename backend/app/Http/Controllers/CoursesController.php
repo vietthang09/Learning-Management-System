@@ -208,12 +208,14 @@ class CoursesController extends Controller
         if (auth()->user()->role == 0) {
             $course = DB::table('registered_students')
                 ->where('user_id', auth()->id())
+                ->where('registered_students.course_id', $courseId)
                 ->update([
                     'accessed_at' => Carbon::now('Asia/Ho_Chi_Minh'),
                 ]);
         } else {
             $course = DB::table('courses')
                 ->where('id', $courseId)
+                ->where('courses.user_id', auth()->id())
                 ->update([
                     'accessed_at' => Carbon::now('Asia/Ho_Chi_Minh'),
                 ]);

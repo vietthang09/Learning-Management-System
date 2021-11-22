@@ -3,6 +3,7 @@ import { Switch } from "@headlessui/react";
 import { changeUserStatus } from "../../api/API_User";
 function UserStatusSwitch(props) {
   const [enabled, setEnabled] = useState(props.status == 0 ? false : true);
+  console.log(props.status);
   return (
     <Switch
       checked={enabled}

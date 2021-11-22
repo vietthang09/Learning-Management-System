@@ -5,6 +5,9 @@ import UserStatusSwitch from "../switch/UserStatusSwitch";
 import UserAvatar from "../UserAvatar";
 import Pagination from "react-js-pagination";
 import FilterUserDropdown from "../dropdowns/FilterUserDropdown";
+import SearchUserForm from "../forms/SearchUserForm";
+import AddUserButton from "../buttons/AddUserButton";
+import BackButton from "../buttons/BackButton";
 function UserList(props) {
   let [users, setUsers] = useState([]);
   useEffect(() => {
@@ -18,28 +21,33 @@ function UserList(props) {
   }, [props.refresh]);
   return (
     <div class=" flex flex-col">
-      <div className="flex justify-end">
-        <FilterUserDropdown setUsers={setUsers} />
-        <Pagination
-          activePage={users.current_page}
-          itemsCountPerPage={users.per_page}
-          totalItemsCount={users.total}
-          pageRangeDisplayed={1}
-          onChange={(num) => {
-            if (props.for == "student") {
-              getStudents(setUsers, num);
-            } else {
-              getTeachers(setUsers, num);
-            }
-          }}
-          innerClass="flex"
-          activeClass="border-none"
-          itemClass="px-5 text-center font-medium text-green-400 text-xl rounded-full hover:bg-green-400 hover:text-white cursor-pointer"
-          hideDisabled={true}
-          hideFirstLastPages={true}
-        />
+      <div className="flex justify-between items-center">
+        <BackButton />
+        <div className="flex items-center space-x-5">
+          <AddUserButton for={props.for} setRefresh={props.setRefresh} />
+          <SearchUserForm for={props.for} setUsers={setUsers} />
+          <FilterUserDropdown for={props.for} setUsers={setUsers} />
+          <Pagination
+            activePage={users.current_page}
+            itemsCountPerPage={users.per_page}
+            totalItemsCount={users.total}
+            pageRangeDisplayed={1}
+            onChange={(num) => {
+              if (props.for == "student") {
+                getStudents(setUsers, num);
+              } else {
+                getTeachers(setUsers, num);
+              }
+            }}
+            innerClass="flex"
+            activeClass="border-none"
+            itemClass="px-5 text-center font-medium text-green-400 text-xl rounded-full hover:bg-green-400 hover:text-white cursor-pointer"
+            hideDisabled={true}
+            hideFirstLastPages={true}
+          />
+        </div>
       </div>
-      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">

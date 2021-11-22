@@ -5,8 +5,6 @@ import { SearchIcon } from "@heroicons/react/outline";
 import { NavLink } from "react-router-dom";
 function AllCourses() {
   var [courses, setCourses] = useState([]);
-  // var [searchInput, setSearchInput] = useState("");
-  // var [searchResult, setSearchResult] = useState([]);
   useEffect(() => {
     getAllCourses(setCourses);
   }, []);

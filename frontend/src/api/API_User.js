@@ -69,6 +69,19 @@ export function getStudentsWithFilter(setStudents, filter, pageNumber = 1) {
   });
 }
 
+export function getTeachersWithFilter(setTeachers, filter, pageNumber = 1) {
+  var formData = new FormData();
+  formData.append("filter", filter.name);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}filter-teachers?page=${pageNumber}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  }).then((response) => {
+    setTeachers(response.data.teachers);
+  });
+}
+
 export function getTeachers(setTeacher, pageNumber = 1) {
   axios({
     method: "POST",
@@ -154,5 +167,31 @@ export function getNumberTeacher(setNumberTeacher) {
     headers: { "Content-Type": "application/json" },
   }).then((response) => {
     setNumberTeacher(response.data.numberTeacher);
+  });
+}
+
+export function findStudent(input, setUsers) {
+  var formData = new FormData();
+  formData.append("input", input);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}find-student?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  }).then((response) => {
+    setUsers(response.data.students);
+  });
+}
+
+export function findTeacher(input, setUsers) {
+  var formData = new FormData();
+  formData.append("input", input);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}find-teacher?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  }).then((response) => {
+    setUsers(response.data.teachers);
   });
 }
