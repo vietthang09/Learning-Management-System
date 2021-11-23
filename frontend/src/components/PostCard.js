@@ -32,18 +32,23 @@ function PostCard(props) {
       </div>
       <div className="mt-2 mb-2">
         {props.data.filePath ? (
-          <img
-            src={"http://127.0.0.1:8000/" + props.data.filePath}
-            className="rounded-md border w-full max-h-96 object-cover"
-          />
+          <Link to={"forum/" + props.data.postId}>
+            <img
+              src={"http://127.0.0.1:8000/" + props.data.filePath}
+              className="border w-full max-h-96 object-cover"
+            />
+          </Link>
         ) : (
           ""
         )}
       </div>
       <div className="flex space-x-5 justify-between items-center">
-        <p className="text-gray-600 w-full truncate">{props.data.content}</p>
+        <p className="text-gray-600 w-full truncate">
+          <span className="font-medium">{props.data.authorName}</span>{" "}
+          {props.data.content}
+        </p>
         <Link to={"forum/" + props.data.postId}>
-          <span className="flex items-center text-gray-500 font-medium">
+          <span className="flex items-center space-x-2 text-gray-500 font-medium">
             <span>{props.data.numberOfComments}</span>
             <AnnotationIcon className="w-5" />
           </span>

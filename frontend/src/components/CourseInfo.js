@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getCourseInfo } from "../api/API_Courses";
-import { getUser, isAdmin } from "../api/Session";
+import { checkTeaching, getCourseInfo } from "../api/API_Courses";
+import { getUser, isAdmin, isTeacher } from "../api/Session";
 import CancleButton from "./buttons/CancleButton";
 import UserAvatar from "./UserAvatar";
 import ConfirmButton from "./buttons/ConfirmButton";
@@ -13,7 +13,7 @@ function CourseInfo(props) {
     <div className="p-3 shadow rounded-xl bg-white">
       <img
         src={`http://localhost:8000/${course.courseCover}`}
-        className="w-full h-full object-cover rounded-xl"
+        className="w-96 h-72 object-cover rounded-xl"
       />
       <div className="space-y-3">
         <p className="text-2xl font-bold text-gray-600">{course.courseTitle}</p>
@@ -28,7 +28,7 @@ function CourseInfo(props) {
       <div className="flex justify-center">
         {isAdmin() ? (
           <ConfirmButton type="confirm-course" id={props.id} />
-        ) : getUser().id == course.teacherId ? (
+        ) : isTeacher() && getUser().id == course.teacherId && props.full ? (
           <CancleButton id={props.id} />
         ) : (
           ""

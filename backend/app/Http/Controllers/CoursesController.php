@@ -319,4 +319,42 @@ class CoursesController extends Controller
             'numberCourse' => $number,
         ]);
     }
+
+    // For students
+    public function checkEnrolled(Request $request)
+    {
+        $courseId = $request->input('id');
+        $user = DB::table('registered_students')
+            ->where('user_id', auth()->id())
+            ->where('course_id', $courseId)
+            ->first();
+        if ($user) {
+            return response()->json([
+                'enrolled' => true,
+            ]);
+        } else {
+            return response()->json([
+                'enrolled' => false,
+            ]);
+        }
+    }
+
+    // For students
+    public function checkTeaching(Request $request)
+    {
+        $courseId = $request->input('id');
+        $user = DB::table('courses')
+            ->where('user_id', auth()->id())
+            ->where('id', $courseId)
+            ->first();
+        if ($user) {
+            return response()->json([
+                'teaching' => true,
+            ]);
+        } else {
+            return response()->json([
+                'teaching' => false,
+            ]);
+        }
+    }
 }

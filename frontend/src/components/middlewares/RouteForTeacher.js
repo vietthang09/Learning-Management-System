@@ -1,5 +1,6 @@
-import { Route, useHistory } from "react-router";
-import { getToken, isTeacher } from "../../api/Session";
+import { Redirect, Route, useHistory } from "react-router";
+import { checkActive, getToken, isTeacher } from "../../api/Session";
+import Unactive from "../../pages/Unactive";
 import Navbar from "../Navbar";
 
 function RouteForTeacher({ exact, path, type, component: Component, ...rest }) {
@@ -10,13 +11,17 @@ function RouteForTeacher({ exact, path, type, component: Component, ...rest }) {
       path={path}
       {...rest}
       render={(routeProps) => {
-        return getToken() && isTeacher() ? (
-          <>
-            <Navbar />
-            <Component {...routeProps} />
-          </>
+        return checkActive() ? (
+          getToken() && isTeacher() ? (
+            <>
+              <Navbar />
+              <Component {...routeProps} />
+            </>
+          ) : (
+            history.goBack()
+          )
         ) : (
-          history.goBack()
+          <Unactive />
         );
       }}
     />

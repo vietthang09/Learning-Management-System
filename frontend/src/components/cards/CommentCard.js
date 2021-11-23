@@ -11,7 +11,7 @@ function CommentCard(props) {
     props.setAddComment(true);
   }
   return (
-    <div className="p-3 space-x-3 flex comment">
+    <div className="p-3 flex comment">
       <UserAvatar link={props.data.authorAvatar} />
       <span>
         <span className="text-gray-600 font-medium">

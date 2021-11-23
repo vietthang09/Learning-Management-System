@@ -39,3 +39,7 @@ export function isTeacher() {
 export function isAdmin() {
   return getUser().role == 2;
 }
+
+export function checkActive() {
+  return getUser().status == 1;
+}

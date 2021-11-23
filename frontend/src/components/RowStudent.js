@@ -1,4 +1,5 @@
 import React from "react";
+import { isTeacher } from "../api/Session";
 import UserAvatar from "./UserAvatar";
 
 function RowStudent(props) {
@@ -25,11 +26,6 @@ function RowStudent(props) {
       </td>
       <td class="px-6 py-4 whitespace-nowrap">
         <div class="text-sm text-gray-900">{props.data.studentEmail}</div>
-      </td>
-      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-        <button className="text-red-400 font-medium hover:text-red-500">
-          Reject
-        </button>
       </td>
     </tr>
   );

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { createCourse } from "../../api/API_Courses";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import BackButton from "../buttons/BackButton";
 function CreateCourseForm() {
   var [courseInfo, setCourseInfo] = useState({
     title: "",
@@ -18,9 +18,12 @@ function CreateCourseForm() {
   }
   return (
     <div>
-      <p className="my-10 font-semibold text-xl lg:text-3xl text-gray-600 tracking-widest">
-        NEW COURSE
-      </p>
+      <div className="flex items-center my-7 space-x-3">
+        <BackButton />
+        <p className="font-semibold text-xl lg:text-3xl text-gray-600 tracking-widest">
+          NEW COURSE
+        </p>
+      </div>
       <div className="py-5 flex space-x-10">
         <div className="flex-1">
           <p className="text-2xl text-gray-600">Basics</p>

@@ -1,5 +1,6 @@
 import { Redirect, Route } from "react-router";
-import { getToken } from "../api/Session";
+import { getToken, checkActive } from "../api/Session";
+import Unactive from "../pages/Unactive";
 import Navbar from "./Navbar";
 
 export const RouteWithNav = ({
@@ -16,10 +17,14 @@ export const RouteWithNav = ({
       {...rest}
       render={(routeProps) => {
         return getToken() ? (
-          <>
-            <Navbar />
-            <Component {...routeProps} />
-          </>
+          checkActive() ? (
+            <>
+              <Navbar />
+              <Component {...routeProps} />
+            </>
+          ) : (
+            <Unactive />
+          )
         ) : (
           <Redirect to={{ pathname: "/login" }} />
         );

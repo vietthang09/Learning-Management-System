@@ -38,6 +38,8 @@ Route::group([
     Route::post('/confirm', [CoursesController::class, 'confirm']);
     Route::post('/get-courses', [CoursesController::class, 'getCourses']);
     Route::post('/number-course', [CoursesController::class, 'getNumberCourses']);
+    Route::post('/check-enrolled', [CoursesController::class, 'checkEnrolled']);
+    Route::post('/check-teaching', [CoursesController::class, 'checkTeaching']);
 });
 
 // For assignment controller

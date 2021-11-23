@@ -1,5 +1,6 @@
 import { Route, useHistory } from "react-router";
-import { getToken, isAdmin } from "../../api/Session";
+import { checkActive, getToken, isAdmin } from "../../api/Session";
+import Unactive from "../../pages/Unactive";
 import Navbar from "../Navbar";
 
 function RouteForAdmin({ exact, path, type, component: Component, ...rest }) {
@@ -11,10 +12,14 @@ function RouteForAdmin({ exact, path, type, component: Component, ...rest }) {
       {...rest}
       render={(routeProps) => {
         return getToken() && isAdmin() ? (
-          <>
-            <Navbar />
-            <Component {...routeProps} />
-          </>
+          checkActive() ? (
+            <>
+              <Navbar />
+              <Component {...routeProps} />
+            </>
+          ) : (
+            <Unactive />
+          )
         ) : (
           history.goBack()
         );

@@ -90,7 +90,7 @@ function CourseDetail(props) {
             </div>
           </div>
           <div className="w-full lg:w-1/3 order-1 lg:order-2">
-            <CourseInfo id={courseId} />
+            <CourseInfo id={courseId} full={false} />
           </div>
         </div>
       </div>

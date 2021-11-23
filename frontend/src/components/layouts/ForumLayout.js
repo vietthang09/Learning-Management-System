@@ -23,13 +23,6 @@ function ForumLayout() {
   }
   return (
     <div className="flex justify-center">
-      {isAdmin() ? (
-        <div className="w-1/4">
-          <BoxNumberPost />
-        </div>
-      ) : (
-        ""
-      )}
       <div className="w-1/2">
         <div className="mt-5 p-5 m-auto flex items-center bg-white shadow rounded-lg">
           <UserAvatar link={getUser().avatar} name={getUser().name} />
@@ -44,7 +37,6 @@ function ForumLayout() {
           <PostList datas={posts} changed={setChanged} />
         </div>
       </div>
-      {isAdmin() ? <div className="w-1/4">b</div> : ""}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"

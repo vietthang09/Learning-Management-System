@@ -94,6 +94,21 @@ export function enroll(courseId) {
   });
 }
 
+// For students
+export function checkEnrolled(id, setEnrolled) {
+  var formData = new FormData();
+  formData.append("id", id);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Course}check-enrolled?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  }).then((response) => {
+    setEnrolled(response.data.enrolled);
+  });
+}
+
+
 export function getRegisteredList(courseId, setStudents) {
   var formData = new FormData();
   formData.append("id", courseId);

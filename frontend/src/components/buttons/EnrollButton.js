@@ -10,7 +10,7 @@ function EnrollButton(props) {
         onClick={(e) => {
           e.preventDefault();
           enroll(props.id);
-          toast.info("Done!");
+          props.setRefresh(true);
         }}
       >
         Enroll
