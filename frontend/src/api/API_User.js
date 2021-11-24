@@ -8,10 +8,12 @@ import {
   removeUser,
   getUserData,
 } from "./Session";
-export function login(loginInfo, setErrors, history) {
+export function login(loginInfo, remember, seterrors, setloading, history) {
+  setloading(true);
   let formData = new FormData();
   formData.append("email", loginInfo.email);
   formData.append("password", loginInfo.password);
+  formData.append("remember", remember);
   axios({
     method: "POST",
     url: `${Master_URL_API}auth/login`,
@@ -19,12 +21,16 @@ export function login(loginInfo, setErrors, history) {
     data: formData,
   })
     .then((response) => {
-      setToken(response.data.access_token);
-      setUser(response.data.user);
-      history.push("/");
+      if (response.data.access_token) {
+        setToken(response.data.access_token);
+        setUser(response.data.user);
+        setloading(false);
+        history.push("/");
+      }
     })
     .catch((error) => {
-      setErrors(error.response);
+      seterrors(error.response.data);
+      setloading(false);
     });
 }
 
