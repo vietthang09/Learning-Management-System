@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
 import NewCourseCard from "./NewCourseCard";
 import { getNewCourses } from "../api/API_Courses";
-import { getUser } from "../api/Session";
+import { isTeacher } from "../api/Session";
 import { Link, NavLink } from "react-router-dom";
 import { PlusCircleIcon } from "@heroicons/react/outline";
 function NewCoursesList() {
-  var [newCourses, setNewCourses] = useState([]);
+  const [newCourses, setNewCourses] = useState([]);
   useEffect(() => {
     getNewCourses(setNewCourses);
   }, []);
   return (
     <div className="space-y-2">
       <span className="text-gray-600 text-2xl font-bold">
-        {getUser().role == 0 ? "Enroll now" : "Waiting for approval"}
+        {isTeacher() ? "Waiting for approval" : "Enroll now"}
       </span>
-      {getUser().role == 0 ? (
-        ""
-      ) : (
+      {isTeacher() && (
         <div className=" flex space-x-2 text-green-400 font-semibold">
           <NavLink
             to="/new-course"

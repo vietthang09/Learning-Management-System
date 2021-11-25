@@ -4,13 +4,12 @@ import {
   AcademicCapIcon,
   BookOpenIcon,
 } from "@heroicons/react/outline";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "../UserAvatar";
 function CourseCard(props) {
   return (
     <div className="relative group">
       <img
         src={"http://localhost:8000/" + props.data.courseCover}
-        alt=""
         className="h-44 w-full object-cover overflow-hidden rounded-3xl shadow group-hover:shadow-sm"
       />
       <div className="absolute -top-5 right-5 bg-green-400 text-white rounded-3xl shadow-md">

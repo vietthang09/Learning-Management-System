@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getAssignmentsOfCourse } from "../../api/API_Assignments";
 import { isTeacher } from "../../api/Session";
-import AssignmentCardMini from "../AssignmentCardMini";
+import AssignmentCardMini from "../cards/AssignmentCardMini";
 
 function AssignmentList(props) {
   var [assignments, setAssignments] = useState([]);

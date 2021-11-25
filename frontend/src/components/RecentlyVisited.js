@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { getRecentlyCourses } from "../api/API_Courses";
-import CourseCard from "./CourseCard";
+import CourseCard from "./cards/CourseCard";
 function RecentlyVisited() {
   const [recentlyCourses, setRecentlyCourses] = useState([]);
   useEffect(() => {
@@ -18,15 +18,7 @@ function RecentlyVisited() {
         <div className="px-5 lg:px-0 grid grid-cols-1 lg:grid-cols-3 gap-2 gap-y-8">
           {recentlyCourses.map((item, index) => {
             return (
-              <NavLink
-                key={index}
-                to={{
-                  pathname: "/courses/" + item.course_id,
-                  state: {
-                    new: false,
-                  },
-                }}
-              >
+              <NavLink key={index} to={"/courses/" + item.course_id}>
                 <CourseCard data={item} />
               </NavLink>
             );

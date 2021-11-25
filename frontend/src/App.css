@@ -8,14 +8,8 @@ body {
 .hidescroll::-webkit-scrollbar {
   display: none;
 }
-.active::after {
-  content: "";
-  display: flex;
-  justify-content: center;
-  width: 30px;
-  height: 5px;
-  background-color: rgba(52, 211, 153, 1);
-  border-radius: 10px;
+.active svg {
+  color: rgba(52, 211, 153, 1);
 }
 .inputfile {
   width: 0.1px;

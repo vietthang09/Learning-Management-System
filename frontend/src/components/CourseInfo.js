@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { checkTeaching, getCourseInfo } from "../api/API_Courses";
+import { getCourseInfo } from "../api/API_Courses";
 import { getUser, isAdmin, isTeacher } from "../api/Session";
 import CancleButton from "./buttons/CancleButton";
 import UserAvatar from "./UserAvatar";
@@ -28,10 +28,10 @@ function CourseInfo(props) {
       <div className="flex justify-center">
         {isAdmin() ? (
           <ConfirmButton type="confirm-course" id={props.id} />
-        ) : isTeacher() && getUser().id == course.teacherId && props.full ? (
-          <CancleButton id={props.id} />
         ) : (
-          ""
+          isTeacher() &&
+          getUser().id == course.teacherId &&
+          props.full && <CancleButton id={props.id} />
         )}
       </div>
     </div>

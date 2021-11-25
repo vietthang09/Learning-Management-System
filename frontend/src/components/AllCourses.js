@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getAllCourses, findCourse } from "../api/API_Courses";
-import CourseCard from "./CourseCard";
+import CourseCard from "./cards/CourseCard";
 import { SearchIcon } from "@heroicons/react/outline";
 import { NavLink } from "react-router-dom";
 function AllCourses() {

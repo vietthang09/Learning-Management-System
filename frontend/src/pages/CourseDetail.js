@@ -1,14 +1,11 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Dialog, Transition, Tab } from "@headlessui/react";
-// import AssignmentCard from "../components/AssignmentCard";
+import React from "react";
+import { Tab } from "@headlessui/react";
 import {
   AcademicCapIcon,
   BookOpenIcon,
   PlusCircleIcon,
 } from "@heroicons/react/outline";
-import MaterialCard from "../components/MaterialCard";
-import axios from "axios";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import CourseInfo from "../components/CourseInfo";
 import AssignmentList from "../components/lists/AssignmentList";
@@ -56,7 +53,7 @@ function CourseDetail(props) {
                 </Tab.List>
                 <Tab.Panels>
                   <Tab.Panel className="mt-5 px-10">
-                    {isTeacher() ? (
+                    {isTeacher() && (
                       <Link
                         to={"/assignment/create/" + courseId}
                         className="p-2 mb-5 w-72 flex justify-center items-center bg-white text-gray-500 text-lg font-medium border-r-2 rounded-md shadow-md hover:shadow relative"
@@ -64,13 +61,11 @@ function CourseDetail(props) {
                         <PlusCircleIcon className="animate-pulse w-5 mr-2 text-green-400" />
                         New assignment
                       </Link>
-                    ) : (
-                      ""
                     )}
                     <AssignmentList id={courseId} />
                   </Tab.Panel>
                   <Tab.Panel className="mt-5 px-10">
-                    {isTeacher() ? (
+                    {isTeacher() && (
                       <div className="flex justify-end">
                         <Link
                           to={"/material/create/" + courseId}
@@ -80,8 +75,6 @@ function CourseDetail(props) {
                           New material
                         </Link>
                       </div>
-                    ) : (
-                      ""
                     )}
                     <MaterialList id={courseId} />
                   </Tab.Panel>

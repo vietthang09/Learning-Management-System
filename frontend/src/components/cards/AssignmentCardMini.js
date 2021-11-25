@@ -1,7 +1,7 @@
 import React from "react";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "../UserAvatar";
 import moment from "moment";
-import { isStudent } from "../api/Session";
+import { isStudent } from "../../api/Session";
 
 function AssignmentCardMini(props) {
   const today = moment().format("YYYYMMDD");

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getTimelineOfAssignments } from "../api/API_Assignments";
-import AssignmentCardMini from "./AssignmentCardMini";
+import { getTimelineOfAssignments } from "../../api/API_Assignments";
+import AssignmentCardMini from "../cards/AssignmentCardMini";
 
 function AssignmentListMini() {
   const [assignments, setAssignments] = useState([]);
