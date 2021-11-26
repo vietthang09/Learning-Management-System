@@ -1,21 +1,30 @@
 import React, { useState } from "react";
 import { TrashIcon } from "@heroicons/react/outline";
 import { createCourse } from "../../api/API_Courses";
-import { toast } from "react-toastify";
 import BackButton from "../buttons/BackButton";
+import { useHistory } from "react-router-dom";
+import ErrorText from "../ErrorText";
+import LoadingButton from "../buttons/LoadingButton";
 function CreateCourseForm() {
-  var [courseInfo, setCourseInfo] = useState({
+  // States
+  const history = useHistory();
+  const [courseInfo, setCourseInfo] = useState({
     title: "",
     introduction: "",
   });
   const [seletedImage, setSelectedImage] = useState([]);
+  const [loading, setloading] = useState(false);
+  const [errors, seterrors] = useState([]);
+  // End States
+
+  // Functions
   function handleInput(e) {
     setCourseInfo({ ...courseInfo, [e.target.name]: [e.target.value] });
   }
   function confirm() {
-    createCourse(courseInfo, seletedImage);
-    toast.info("Done!");
+    createCourse(courseInfo, seletedImage, setloading, seterrors, history);
   }
+  // End Functions
   return (
     <div>
       <div className="flex items-center my-7 space-x-3">
@@ -42,6 +51,7 @@ function CreateCourseForm() {
               name="title"
               onChange={(e) => handleInput(e)}
             />
+            {errors.title && <ErrorText text={errors.title} />}
           </div>
           <div className="grid grid-cols-1 gap-1">
             <label className="text-sm text-gray-500">Introduction</label>
@@ -51,6 +61,7 @@ function CreateCourseForm() {
               name="introduction"
               onChange={(e) => handleInput(e)}
             ></textarea>
+            {errors.introduction && <ErrorText text={errors.introduction} />}
           </div>
         </div>
       </div>
@@ -63,15 +74,21 @@ function CreateCourseForm() {
               You can change it later.
             </span>
           </div>
-          <button
-            className="mt-10 p-2 block bg-green-400 text-white font-semibold rounded-md hover:bg-green-500"
-            id="confirm"
-            onClick={(e) => {
-              confirm(e);
-            }}
-          >
-            Request
-          </button>
+          <div className="mt-10">
+            {loading ? (
+              <LoadingButton width="w-16" />
+            ) : (
+              <button
+                className="p-2 block bg-green-400 text-white font-semibold rounded-md hover:bg-green-500"
+                id="confirm"
+                onClick={(e) => {
+                  confirm(e);
+                }}
+              >
+                Request
+              </button>
+            )}
+          </div>
         </div>
         <div className="flex-2">
           <div className="">
@@ -82,6 +99,7 @@ function CreateCourseForm() {
             >
               {seletedImage.name ? seletedImage.name : "Choose file"}
             </label>
+            {errors.cover && <ErrorText text={errors.cover} />}
             <input
               type="file"
               className="hidden"

@@ -9,7 +9,7 @@ function UserAvatar(props) {
           className="w-10 h-10 mr-3 object-cover rounded-full shadow"
         />
       ) : (
-        <div className="bg-green-400 text-white font-medium text-3xl h-10 w-10 rounded-full flex justify-center uppercase">
+        <div className="mr-3 bg-green-400 text-white font-medium text-3xl h-10 w-10 rounded-full flex justify-center uppercase">
           <UserIcon className="w-5 text-white" />
         </div>
       )}

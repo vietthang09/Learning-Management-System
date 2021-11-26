@@ -7,9 +7,12 @@ function NewCourseCard(props) {
       <div className="flex items-center p-2 rounded-lg shadow group-hover:shadow-sm">
         <UserAvatar link={props.data.teacherAvatar} />
         <div>
-          <span className="text-gray-600 text-lg font-medium">
+          <p
+            title={props.data.courseTitle}
+            className="text-gray-600 text-lg font-medium w-56 truncate"
+          >
             {props.data.courseTitle}
-          </span>
+          </p>
           <div>
             <div className="text-gray-500 font-medium text-sm">
               by {props.data.teacherName}

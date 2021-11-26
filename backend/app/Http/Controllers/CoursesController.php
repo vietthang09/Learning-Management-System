@@ -7,6 +7,7 @@ use Dflydev\DotAccessData\Exception\DataException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Validator;
 
 class CoursesController extends Controller
 {
@@ -157,20 +158,36 @@ class CoursesController extends Controller
         ]);
     }
 
+    // For teachers
     public function createCourse(Request $request)
     {
-        $title = $request->input('title');
-        $introduction = $request->input('introduction');
-        $filePath = $request->file('cover')->store('courses');
-        DB::table('courses')
-            ->insert([
-                'user_id' => auth()->id(),
-                'cover' => $filePath,
-                'title' => $title,
-                'introduction' => $introduction,
-                'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
-                'public' => 0,
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'introduction' => 'required|max:255',
+            'cover' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+        try {
+            $filePath = $request->file('cover')->store('courses');
+            DB::table('courses')
+                ->insert([
+                    'user_id' => auth()->id(),
+                    'cover' => $filePath,
+                    'title' => $request->input('title'),
+                    'introduction' => $request->input('introduction'),
+                    'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+                    'public' => 0,
+                ]);
+            return response()->json([
+                'status' => 201,
             ]);
+        } catch (DataException $de) {
+            return response()->json([
+                'errors' => $de,
+            ]);
+        }
     }
 
     public function enrollCourse(Request $request)

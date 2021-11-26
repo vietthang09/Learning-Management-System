@@ -45,7 +45,14 @@ export function getNewCourses(setNewCourses) {
   });
 }
 
-export function createCourse(courseInfo, seletedImage) {
+export function createCourse(
+  courseInfo,
+  seletedImage,
+  setloading,
+  seterrors,
+  history
+) {
+  setloading(true);
   var formData = new FormData();
   formData.append("title", courseInfo.title);
   formData.append("introduction", courseInfo.introduction);
@@ -55,7 +62,16 @@ export function createCourse(courseInfo, seletedImage) {
     url: `${Master_URL_API_Course}create?token=${getToken()}`,
     headers: { "Content-Type": "multipart/form-data" },
     data: formData,
-  });
+  })
+    .then((response) => {
+      if (response.data.status == 201) {
+        history.goBack();
+      }
+    })
+    .catch((error) => {
+      seterrors(error.response.data);
+      setloading(false);
+    });
 }
 
 export function getCourseInfo(id, setCourse) {
@@ -107,7 +123,6 @@ export function checkEnrolled(id, setEnrolled) {
     setEnrolled(response.data.enrolled);
   });
 }
-
 
 export function getRegisteredList(courseId, setStudents) {
   var formData = new FormData();
