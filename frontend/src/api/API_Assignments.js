@@ -34,7 +34,14 @@ export function getAssignmentsOfCourse(id, setAssignments) {
   });
 }
 
-export function createAssignment(id, assignmentInfo) {
+export function createAssignment(
+  id,
+  assignmentInfo,
+  setloading,
+  seterrors,
+  history
+) {
+  setloading(true);
   var formData = new FormData();
   formData.append("id", id);
   formData.append("title", assignmentInfo.title);
@@ -45,7 +52,16 @@ export function createAssignment(id, assignmentInfo) {
     url: `${Master_URL_API_Assignment}create?token=${getToken()}`,
     headers: { "Content-Type": "application/json" },
     data: formData,
-  });
+  })
+    .then((response) => {
+      if (response.data.status == 201) {
+        history.goBack();
+      }
+    })
+    .catch((errors) => {
+      seterrors(errors.response.data);
+      setloading(false);
+    });
 }
 
 export function getAssignmentInfo(id, setAssignmentInfo) {
@@ -71,7 +87,8 @@ export function deleteAssignment(id) {
     data: formData,
   });
 }
-export function updateAssignment(id, assignmentInfo) {
+export function updateAssignment(id, assignmentInfo, setloading) {
+  setloading(true);
   var formData = new FormData();
   formData.append("id", id);
   formData.append("title", assignmentInfo.assignmentTitle);
@@ -82,5 +99,7 @@ export function updateAssignment(id, assignmentInfo) {
     url: `${Master_URL_API_Assignment}update?token=${getToken()}`,
     headers: { "Content-Type": "application/json" },
     data: formData,
+  }).then((response) => {
+    setloading(false);
   });
 }

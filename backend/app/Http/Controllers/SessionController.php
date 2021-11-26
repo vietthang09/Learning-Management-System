@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Validator;
 
@@ -30,7 +29,6 @@ class SessionController extends Controller
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
-        $remember = $request->input('remember');
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }

@@ -1,25 +1,34 @@
 import React from "react";
 import { updateAssignment } from "../../api/API_Assignments";
-import { useHistory } from "react-router";
-import { toast } from "react-toastify";
 import { createSubmission, updateSubmission } from "../../api/API_Submissions";
 import { createMaterial, updateMaterial } from "../../api/API_Materials";
 import { updateProfile } from "../../api/API_User";
 import { confirmCourse } from "../../api/API_Courses";
 
 function ConfirmButton(props) {
-  const history = useHistory();
   function confirm(e) {
     e.preventDefault();
     switch (props.type) {
       case "update-assignment":
-        updateAssignment(props.id, props.data);
+        updateAssignment(props.id, props.data, props.setloading);
         break;
       case "create-submission":
-        createSubmission(props.id, props.data);
+        createSubmission(
+          props.id,
+          props.data,
+          props.setLoading,
+          props.setRefresh
+        );
+        props.setSelectedFile([]);
         break;
       case "update-submission":
-        updateSubmission(props.id, props.data);
+        updateSubmission(
+          props.id,
+          props.data,
+          props.setLoading,
+          props.setRefresh
+        );
+        props.setSelectedFile([]);
         break;
       case "create-material":
         createMaterial(props.id, props.data, props.file);
@@ -36,12 +45,10 @@ function ConfirmButton(props) {
       default:
         break;
     }
-    toast.info("Done!");
-    history.goBack();
   }
   return (
     <button
-      className="p-2 bg-green-400 text-white font-semibold rounded-md hover:bg-green-500"
+      className="p-2 bg-green-400 text-white font-semibold rounded-md hover:bg-green-500 focus:outline-none"
       onClick={(e) => confirm(e)}
     >
       Confirm

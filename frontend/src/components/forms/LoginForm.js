@@ -65,7 +65,7 @@ function LoginForm() {
             <label className="text-sm text-gray-500">Remeber me</label>
           </div>
           {loading ? (
-            <LoadingButton bg="bg-green-400" />
+            <LoadingButton width="w-full" />
           ) : (
             <button
               className="p-2 w-full bg-green-400 text-white font-semibold rounded-md hover:bg-green-500 focus:outline-none"

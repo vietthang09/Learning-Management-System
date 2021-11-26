@@ -5,25 +5,35 @@ import moment from "moment";
 import { TrashIcon } from "@heroicons/react/outline";
 import { getAssignmentInfo } from "../../api/API_Assignments";
 import { checkSubmission } from "../../api/API_Submissions";
-import DisabledButton from "../buttons/DisabledButton";
+import LoadingButton from "../buttons/LoadingButton";
 function SubmissionForm(props) {
-  var [selectedFile, setSelectedFile] = useState([]);
+  // States
+  const [selectedFile, setSelectedFile] = useState([]);
   const [submissionInfo, setSubmissionInfo] = useState([]);
   const [assignmentInfo, setAssignmentInfo] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  // End States
+  // Functions
   useEffect(() => {
     getAssignmentInfo(props.id, setAssignmentInfo);
     checkSubmission(props.id, setSubmissionInfo);
-  }, []);
+    setRefresh(false);
+  }, [refresh]);
+  // End Functions
+
+  // Temp
   const today = moment().format("YYYYMMDD");
   const deadline = moment(assignmentInfo.assignmentDeadline).format("YYYYMMDD");
+  // End Temp
   return (
     <div className="space-y-5 m-auto">
       <div className="py-5 flex space-x-10">
         <div className="flex-1">
           <p className="text-2xl text-gray-600">Requirements</p>
           <span className="text-sm text-gray-400">
-            Please carefully read the request from the teacher and <br /> submit
-            the assignment on time.
+            Please carefully read the request from the teacher and submit the
+            assignment on time.
           </span>
         </div>
         <div className="flex-2 space-y-3">
@@ -52,8 +62,8 @@ function SubmissionForm(props) {
           <div>
             <p className="text-2xl text-gray-600">Submission</p>
             <span className="text-sm text-gray-400">
-              Post your submission here, <br />
-              you can only submit or update them while there is a deadline.
+              Post your submission here, you can only submit or update them
+              while there is a deadline.
             </span>
           </div>
         </div>
@@ -64,7 +74,7 @@ function SubmissionForm(props) {
               <div className="flex items-center text-sm text-gray-500">
                 <span>
                   {submissionInfo ? "You submitted" : "You have not submiited"}
-                  {submissionInfo ? (
+                  {submissionInfo && (
                     <>
                       <span>
                         <a
@@ -81,26 +91,22 @@ function SubmissionForm(props) {
                           .fromNow()}
                       </span>
                     </>
-                  ) : (
-                    ""
                   )}
                 </span>
               </div>
               <div className="flex items-center">
-                {submissionInfo ? (
+                {submissionInfo && (
                   <span className="block mr-5 text-sm text-gray-500">
                     Do you want to update ?
                   </span>
-                ) : (
-                  ""
                 )}
                 {today > deadline && submissionInfo == null ? (
                   ""
                 ) : (
-                  <div>
+                  <div className="flex space-x-3">
                     <label
                       htmlFor="file"
-                      className="text-green-400 font-semibold rounded-lg cursor-pointer hover:text-green-500"
+                      className="text-green-400 font-semibold rounded-lg cursor-pointer hover:text-green-500 w-44 truncate"
                     >
                       {selectedFile.name ? selectedFile.name : "Choose file"}
                     </label>
@@ -113,7 +119,7 @@ function SubmissionForm(props) {
                         setSelectedFile(e.target.files[0]);
                       }}
                     />
-                    {selectedFile.name ? (
+                    {selectedFile.name && (
                       <TrashIcon
                         className="w-7 text-red-400 border-2 border-red-400 rounded-full cursor-pointer hover:text-red-500 hover:border-red-500"
                         onClickCapture={(e) => {
@@ -121,8 +127,6 @@ function SubmissionForm(props) {
                           setSelectedFile([]);
                         }}
                       />
-                    ) : (
-                      ""
                     )}
                   </div>
                 )}
@@ -130,24 +134,25 @@ function SubmissionForm(props) {
             </div>
           </div>
           <div className="space-x-5">
-            {selectedFile.name ? (
+            {loading && <LoadingButton width="w-16" />}
+            {selectedFile.name && (
               <ConfirmButton
                 type={
                   submissionInfo ? "update-submission" : "create-submission"
                 }
                 id={submissionInfo ? submissionInfo.submissionId : props.id}
                 data={selectedFile}
+                setRefresh={setRefresh}
+                setLoading={setLoading}
+                setSelectedFile={setSelectedFile}
               />
-            ) : (
-              <DisabledButton />
             )}
-            {submissionInfo ? (
+            {submissionInfo && (
               <DeleteButton
                 type="delete-submission"
                 id={submissionInfo.submissionId}
+                setRefresh={setRefresh}
               />
-            ) : (
-              ""
             )}
           </div>
         </div>

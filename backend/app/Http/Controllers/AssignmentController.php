@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Dflydev\DotAccessData\Exception\DataException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Validator;
 
 class AssignmentController extends Controller
 {
@@ -126,17 +128,25 @@ class AssignmentController extends Controller
 
     public function createAssignment(Request $request)
     {
-        $courseId = $request->input('id');
-        $title = $request->input('title');
-        $content = $request->input('content');
-        $deadline = $request->input('deadline');
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'title' => 'required',
+            'content' => 'required|max:255',
+            'deadline' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
         DB::table('assignments')
             ->insert([
-                'course_id' => $courseId,
-                'title' => $title,
-                'content' => $content,
-                'deadline' => $deadline,
+                'course_id' => $request->input('id'),
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'deadline' => $request->input('deadline'),
             ]);
+        return response()->json([
+            'status' => 201,
+        ]);
     }
 
     // For teacher 
@@ -168,16 +178,30 @@ class AssignmentController extends Controller
     // for teacher
     public function update(Request $request)
     {
-        $assignmentId = $request->input('id');
-        $title = $request->input('title');
-        $content = $request->input('content');
-        $deadline = $request->input('deadline');
-        DB::table('assignments')
-            ->where('id', $assignmentId)
-            ->update([
-                'title' => $title,
-                'content' => $content,
-                'deadline' => $deadline,
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'title' => 'required',
+            'content' => 'required|max:255',
+            'deadline' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+        try {
+            DB::table('assignments')
+                ->where('id', $request->input('id'))
+                ->update([
+                    'title' => $request->input('title'),
+                    'content' => $request->input('content'),
+                    'deadline' => $request->input('deadline'),
+                ]);
+            return response()->json([
+                'status' => 201,
             ]);
+        } catch (DataException $de) {
+            return response()->json([
+                'status' => $de,
+            ]);
+        }
     }
 }

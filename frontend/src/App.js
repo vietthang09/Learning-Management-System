@@ -7,8 +7,8 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import { RouteWithNav } from "./components/RouteWithNav";
-import CreateAssignment from "./components/CreateAssignment";
-import AssignmentAdjustments from "./components/AssignmentAdjustments";
+import CreateAssignmentLayout from "./components/layouts/CreateAssignmentLayout";
+import AssignmentAdjustmentsLayout from "./components/layouts/AssignmentAdjustmentsLayout";
 import CreateNewCourse from "./pages/CreateNewCourse";
 import NewCourse from "./pages/NewCourse";
 import Register from "./pages/Register";
@@ -27,7 +27,7 @@ import TeacherManagement from "./pages/TeacherManagement";
 import CourseManagement from "./pages/CourseManagement";
 function App() {
   return (
-    <>
+    <div className="font-mono">
       <Router>
         <Switch>
           <RouteGuest exact path="/login" component={Login} />
@@ -56,12 +56,12 @@ function App() {
           <RouteForTeacher
             exact
             path="/assignment/create/:id"
-            component={CreateAssignment}
+            component={CreateAssignmentLayout}
           />
           <RouteForTeacher
             exact
             path="/assignment/update/:id"
-            component={AssignmentAdjustments}
+            component={AssignmentAdjustmentsLayout}
           />
           {/* Submissions Management */}
           <RouteForStudent
@@ -96,7 +96,7 @@ function App() {
         </Switch>
       </Router>
       <Toast />
-    </>
+    </div>
   );
 }
 

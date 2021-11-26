@@ -84,7 +84,7 @@ class SubmissionController extends Controller
                 'users.avatar as studentAvatar',
                 'submissions.submitted_at as submittedAt',
                 'submissions.fileName',
-                'submissions.mark',
+                'submissions.id as submissionId',
             )
             ->join('users', 'users.id', 'submissions.user_id')
             ->where('assignment_id', $assignmentId)
