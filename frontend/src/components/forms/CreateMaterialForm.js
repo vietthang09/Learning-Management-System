@@ -17,9 +17,9 @@ function CreateMaterialForm(props) {
         <div className="flex-1">
           <p className="text-2xl text-gray-600">Basics</p>
           <span className="text-sm text-gray-400">
-            Write a brief description <br /> to keep students interested in your
-            course. <br />
-            You can change this information later
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+            Consectetur consequuntur qui nobis impedit expedita distinctio
+            officia laborum beatae quis delectus!
           </span>
         </div>
         <div className="flex-2 space-y-3">
@@ -48,8 +48,8 @@ function CreateMaterialForm(props) {
           <div>
             <p className="text-2xl text-gray-600">Image</p>
             <span className="text-sm text-gray-400">
-              Please upload a photo to describe your course. <br />
-              You can change it later.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa,
+              eligendi?
             </span>
           </div>
           {selectedFile.name ? (

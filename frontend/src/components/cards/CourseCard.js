@@ -24,9 +24,12 @@ function CourseCard(props) {
         </div>
       </div>
       <div className="px-5 py-3 bg-white rounded-3xl shadow group-hover:shadow-sm">
-        <span className="text-gray-600 text-lg font-medium">
+        <p
+          className="text-gray-600 text-lg font-medium truncate"
+          title={props.data.courseTitle}
+        >
           {props.data.courseTitle}
-        </span>
+        </p>
         <div className="pt-2">
           <div className="flex items-center">
             <UserAvatar link={props.data.teacherAvatar} />

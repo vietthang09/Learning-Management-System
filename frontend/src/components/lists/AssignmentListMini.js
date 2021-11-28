@@ -16,7 +16,7 @@ function AssignmentListMini() {
         <div>
           {assignments.map((item, index) => {
             return (
-              <Link key={index} to={"/courses/" + item.course_id}>
+              <Link key={index} to={`/courses/${item.course_id}`}>
                 <AssignmentCardMini data={item} />
               </Link>
             );

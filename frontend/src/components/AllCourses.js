@@ -12,7 +12,7 @@ function AllCourses() {
   return (
     <div>
       <div className="mb-10 flex justify-between items-center">
-        <div className="flex justify-between lg:w-80 p-2 bg-gray-100 rounded-md relative shadow-inner">
+        <div className="flex justify-between lg:w-96 p-2 bg-gray-100 rounded-md relative shadow-inner">
           <input
             type="text"
             className="w-full bg-gray-100 text-gray-500 focus:outline-none"
