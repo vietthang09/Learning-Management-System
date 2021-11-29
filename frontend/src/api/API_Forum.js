@@ -43,11 +43,14 @@ export function getPost(id, setPost) {
     setPost(response.data.post);
   });
 }
-export function countOfUser(setNumberOfPosts) {
+export function countOfUser(userId, setNumberOfPosts) {
+  var formData = new FormData();
+  formData.append("id", userId);
   axios({
     method: "POST",
     url: `${Master_URL_API_Forum}count-of-user?token=${getToken()}`,
     headers: { "Content-Type": "application/json" },
+    data: formData,
   }).then((response) => {
     setNumberOfPosts(response.data.count);
   });
@@ -73,11 +76,14 @@ export function getNumberPost(setNumberPost) {
   });
 }
 
-export function getOwnPost(setposts) {
+export function getOwnPost(id, setposts) {
+  var formData = new FormData();
+  formData.append("id", id);
   axios({
     method: "POST",
     url: `${Master_URL_API_Forum}get-own-post?token=${getToken()}`,
     headers: { "Content-Type": "application/json" },
+    data: formData,
   }).then((response) => {
     setposts(response.data.posts);
   });

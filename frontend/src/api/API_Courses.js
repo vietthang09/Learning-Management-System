@@ -137,11 +137,14 @@ export function getRegisteredList(courseId, setStudents) {
   });
 }
 
-export function countOfUser(setNumberOfCourses) {
+export function countOfUser(userId, setNumberOfCourses) {
+  var formData = new FormData();
+  formData.append("id", userId);
   axios({
     method: "POST",
     url: `${Master_URL_API_Course}count-of-user?token=${getToken()}`,
     headers: { "Content-Type": "application/json" },
+    data: formData,
   }).then((response) => {
     setNumberOfCourses(response.data.numberOfCourses);
   });

@@ -201,3 +201,16 @@ export function findTeacher(input, setUsers) {
     setUsers(response.data.teachers);
   });
 }
+
+export function getUserById(id, setUser) {
+  var formData = new FormData();
+  formData.append("id", id);
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_User}get-by-id?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+    data: formData,
+  }).then((response) => {
+    setUser(response.data.user);
+  });
+}

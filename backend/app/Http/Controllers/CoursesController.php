@@ -306,16 +306,20 @@ class CoursesController extends Controller
         ]);
     }
 
-    public function countCoursesOfUser()
+    public function countCoursesOfUser(Request $request)
     {
+        $userId = $request->input('id');
+        $user = DB::table('users')
+            ->where('id', $userId)
+            ->first();
         $count = 0;
-        if (auth()->user()->role == 0) {
+        if ($user->role == 0) {
             $count = DB::table('registered_students')
-                ->where('user_id', auth()->id())
+                ->where('user_id', $userId)
                 ->count();
         } else {
             $count = DB::table('courses')
-                ->where('user_id', auth()->id())
+                ->where('user_id', $userId)
                 ->count();
         }
         return response()->json([

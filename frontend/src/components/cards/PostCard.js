@@ -1,10 +1,10 @@
 import React from "react";
 import { AnnotationIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "../UserAvatar";
 import moment from "moment";
-import PostDropdown from "./dropdowns/PostDropdown";
-import { getUser, isAdmin } from "../api/Session";
+import PostDropdown from "../dropdowns/PostDropdown";
+import { getUser, isAdmin } from "../../api/Session";
 
 function PostCard(props) {
   return (
@@ -16,9 +16,12 @@ function PostCard(props) {
             name={props.data.authorName}
           />
           <div className="grid">
-            <span className="text-xl text-gray-600 font-medium">
+            <Link
+              to={`profile/${props.data.authorId}`}
+              className="text-xl text-gray-600 font-medium"
+            >
               {props.data.authorName}
-            </span>
+            </Link>
             <span className="text-xs font-medium text-gray-400">
               {moment(props.data.createdAt).utcOffset(420).fromNow()}
             </span>

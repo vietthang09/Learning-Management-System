@@ -90,10 +90,11 @@ class ForumController extends Controller
         ]);
     }
 
-    public function countPostsOfUser()
+    public function countPostsOfUser(Request $request)
     {
+        $userId = $request->input('id');
         $count = DB::table('posts')
-            ->where('user_id', auth()->id())
+            ->where('user_id', $userId)
             ->count();
         return response()->json([
             'count' => $count,
@@ -126,8 +127,9 @@ class ForumController extends Controller
     }
 
     // For all
-    public function getOwnPost()
+    public function getOwnPost(Request $request)
     {
+        $userId = $request->input('id');
         $posts = DB::table('posts')
             ->select(
                 'users.id as authorId',
@@ -138,7 +140,7 @@ class ForumController extends Controller
                 'posts.created_at as createdAt',
             )
             ->join('users', 'users.id', 'posts.user_id')
-            ->where('user_id', auth()->id())
+            ->where('user_id', $userId)
             ->get();
         return response()->json([
             'posts' => $posts,

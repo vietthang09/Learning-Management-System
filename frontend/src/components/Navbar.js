@@ -109,7 +109,7 @@ function Navbar() {
               )}
             </Popover>
           </div>
-          <Popover className="hidden lg:block relative flex">
+          <Popover className="hidden lg:block relative">
             {({ open }) => (
               <>
                 <Popover.Button className={`${open ? "" : "text-opacity-90"}`}>
@@ -131,7 +131,7 @@ function Navbar() {
                     </div>
                     <div>
                       <Link
-                        to="/profile"
+                        to={`/profile/${getUser().id}`}
                         className="flex items-center space-x-10 group hover:bg-green-50 w-full p-2 rounded-lg"
                       >
                         <UserIcon className="w-5 text-gray-400 group-hover:text-green-400" />

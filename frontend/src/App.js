@@ -90,7 +90,7 @@ function App() {
           <RouteWithNav exact path="/courses/:id" component={CourseDetail} />
           <RouteWithNav exact path="/courses/new/:id" component={NewCourse} />
           <RouteWithNav exact path="/courses" component={Courses} />
-          <RouteWithNav exact path="/profile" component={Profile} />
+          <RouteWithNav exact path="/profile/:id" component={Profile} />
           <RouteWithNav exact path="/profile/edit" component={ProfileEdit} />
           <RouteWithNav exact path="/" component={Home} />
         </Switch>

@@ -277,4 +277,16 @@ class UserController extends Controller
             'teachers' => $users,
         ]);
     }
+
+    // For all
+    public function getUserById(Request $request)
+    {
+        $userId = $request->input('id');
+        $user = DB::table('users')
+            ->where('id', $userId)
+            ->first();
+        return response()->json([
+            'user' => $user,
+        ]);
+    }
 }

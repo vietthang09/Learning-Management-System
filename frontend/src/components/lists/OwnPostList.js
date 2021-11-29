@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { getOwnPost } from "../../api/API_Forum";
 import PostList from "../lists/PostList";
-function OwnPostList() {
+function OwnPostList(props) {
   const [posts, setposts] = useState([]);
   useEffect(() => {
-    getOwnPost(setposts);
+    getOwnPost(props.id, setposts);
   }, []);
 
   return (

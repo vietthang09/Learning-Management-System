@@ -96,6 +96,7 @@ Route::group([
     Route::post('/number-teacher', [UserController::class, 'getNumberTeachers']);
     Route::post('/find-student', [UserController::class, 'findStudent']);
     Route::post('/find-teacher', [UserController::class, 'findTeacher']);
+    Route::post('/get-by-id', [UserController::class, 'getUserById']);
 });
 
 // For forum controller
