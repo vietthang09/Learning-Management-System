@@ -4,11 +4,21 @@ import CourseCard from "./cards/CourseCard";
 import { SearchIcon } from "@heroicons/react/outline";
 import { NavLink } from "react-router-dom";
 function AllCourses() {
-  var [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [input, setinput] = useState();
   useEffect(() => {
-    getAllCourses(setCourses);
-  }, []);
-  function handleInput(input) {}
+    getCourses();
+  }, [input]);
+  function getCourses() {
+    if (input) {
+      findCourse(input, setCourses);
+    } else {
+      getAllCourses(setCourses);
+    }
+  }
+  function handleInput(e) {
+    setinput(e.target.value);
+  }
   return (
     <div>
       <div className="mb-10 flex justify-between items-center">
@@ -17,7 +27,7 @@ function AllCourses() {
             type="text"
             className="w-full bg-gray-100 text-gray-500 focus:outline-none"
             placeholder="What course are you looking for?"
-            onChange={(e) => handleInput(e.target.value)}
+            onChange={(e) => handleInput(e)}
           />
           <button className="absolute -top-1/4 -right-2 p-4 bg-white border-2 border-green-400 rounded-full">
             <SearchIcon className="w-6 text-green-400 transform hover:scale-105" />

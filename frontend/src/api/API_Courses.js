@@ -24,7 +24,7 @@ export function getAllCourses(setCourses) {
 
 export function findCourse(input, setSearchResult) {
   var formData = new FormData();
-  formData.append("searchInput", input);
+  formData.append("input", input);
   axios({
     method: "POST",
     url: `${Master_URL_API_Course}find?token=${getToken()}`,

@@ -133,7 +133,7 @@ class ForumController extends Controller
                 'users.id as authorId',
                 'users.avatar as authorAvatar',
                 'users.name as authorName',
-                'posts.image',
+                'posts.id as postId',
                 'posts.content',
                 'posts.created_at as createdAt',
             )

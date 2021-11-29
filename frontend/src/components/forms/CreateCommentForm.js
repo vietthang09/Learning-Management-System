@@ -16,7 +16,7 @@ function CreateCommentForm(props) {
   return (
     <div>
       <div className="p-3 flex space-x-3">
-        <div className="w-full flex items-center">
+        <div className="w-full flex items-center space-x-3">
           <label htmlFor="image">
             <PhotographIcon className="w-5 text-green-400 hover:text-green-500 cursor-pointer" />
           </label>
@@ -50,7 +50,7 @@ function CreateCommentForm(props) {
           Post
         </button>
       </div>
-      {image.name ? (
+      {image.name && (
         <div className="relative w-32 h-32 ml-3">
           <img
             src={URL.createObjectURL(image)}
@@ -66,8 +66,6 @@ function CreateCommentForm(props) {
             <XCircleIcon className="w-5 text-red-400  cursor-pointer hover:text-red-500" />
           </button>
         </div>
-      ) : (
-        ""
       )}
     </div>
   );

@@ -117,25 +117,51 @@ class CoursesController extends Controller
 
     public function findCourses(Request $request)
     {
-        $searchInput = $request->input('searchInput');
-        $courses = DB::table('courses')
-            ->select(
-                'course_id',
-                'course_title',
-                'course_cover',
-                'public',
-                'users.id as teacherId',
-                'users.avatar as teacherAvatar',
-                DB::raw("(select COUNT(*) from registered_students where registered_students.course_id = courses.id) as numberStudent")
-            )
-            ->join('registered_students', 'registered_students.course_id', '=', 'courses.id')
-            ->join('users', 'users.id', 'courses.user_id')
-            ->where('public', 1)
-            ->where('registered_students.user_id', auth()->id())
-            ->where('course_title', 'LIKE', "%{$searchInput}%")
-            ->get();
+        $searchInput = $request->input('input');
+        $courses = null;
+        if (auth()->user()->role == 0) {
+            $courses = DB::table('courses')
+                ->select(
+                    'courses.id as course_id',
+                    'courses.title as courseTitle',
+                    'courses.cover as courseCover',
+                    'courses.public',
+                    'courses.user_id',
+                    'users.name as teacherName',
+                    'users.avatar as teacherAvatar',
+                    DB::raw("(SELECT COUNT(id) FROM registered_students WHERE registered_students.course_id = courses.id) as numberOfStudents"),
+                    DB::raw("(SELECT COUNT(id) FROM materials WHERE materials.course_id = courses.id) as numberOfMaterials"),
+                    DB::raw("(SELECT COUNT(id) FROM assignments WHERE assignments.course_id = courses.id) as numberOfAssignments"),
+                )
+                ->join('registered_students', 'registered_students.course_id', '=', 'courses.id')
+                ->join('users', 'users.id', 'courses.user_id')
+                ->where('public', 1)
+                ->where('registered_students.user_id', auth()->id())
+                ->where('courses.title', 'LIKE', "%{$searchInput}%")
+                ->orderBy('registered_students.accessed_at', 'desc')
+                ->get();
+        } else {
+            $courses = DB::table('courses')
+                ->select(
+                    'courses.id as course_id',
+                    'courses.title as courseTitle',
+                    'courses.cover as courseCover',
+                    'courses.public',
+                    'courses.user_id',
+                    'users.name as teacherName',
+                    'users.avatar as teacherAvatar',
+                    DB::raw("(SELECT COUNT(id) FROM registered_students WHERE registered_students.course_id = courses.id) as numberOfStudents"),
+                    DB::raw("(SELECT COUNT(id) FROM materials WHERE materials.course_id = courses.id) as numberOfMaterials"),
+                    DB::raw("(SELECT COUNT(id) FROM assignments WHERE assignments.course_id = courses.id) as numberOfAssignments"),
+                )
+                ->join('users', 'users.id', 'courses.user_id')
+                ->where('courses.user_id', auth()->id())
+                ->where('courses.public', 1)
+                ->where('courses.title', 'LIKE', "%{$searchInput}%")
+                ->orderBy('courses.accessed_at', 'desc')
+                ->get();
+        }
         return response()->json([
-            'status' => 201,
             'courses' => $courses,
         ]);
     }

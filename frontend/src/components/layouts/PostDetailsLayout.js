@@ -37,10 +37,8 @@ function PostDetailsLayout(props) {
               </span>
             </div>
             <div>
-              {getUser().id == post.authorId ? (
+              {getUser().id == post.authorId && (
                 <PostDropdown id={postId} goback={true} />
-              ) : (
-                ""
               )}
             </div>
           </div>

@@ -24,22 +24,18 @@ function PostCard(props) {
             </span>
           </div>
         </div>
-        {getUser().id == props.data.authorId || isAdmin() ? (
+        {(getUser().id == props.data.authorId || isAdmin()) && (
           <PostDropdown id={props.data.postId} changed={props.changed} />
-        ) : (
-          ""
         )}
       </div>
       <div className="mt-2 mb-2">
-        {props.data.filePath ? (
+        {props.data.filePath && (
           <Link to={"forum/" + props.data.postId}>
             <img
-              src={"http://127.0.0.1:8000/" + props.data.filePath}
+              src={`http://127.0.0.1:8000/${props.data.filePath}`}
               className="border w-full max-h-96 object-cover"
             />
           </Link>
-        ) : (
-          ""
         )}
       </div>
       <div className="flex space-x-5 justify-between items-center">
