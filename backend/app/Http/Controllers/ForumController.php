@@ -124,4 +124,24 @@ class ForumController extends Controller
             'numberPost' => $number,
         ]);
     }
+
+    // For all
+    public function getOwnPost()
+    {
+        $posts = DB::table('posts')
+            ->select(
+                'users.id as authorId',
+                'users.avatar as authorAvatar',
+                'users.name as authorName',
+                'posts.image',
+                'posts.content',
+                'posts.created_at as createdAt',
+            )
+            ->join('users', 'users.id', 'posts.user_id')
+            ->where('user_id', auth()->id())
+            ->get();
+        return response()->json([
+            'posts' => $posts,
+        ]);
+    }
 }

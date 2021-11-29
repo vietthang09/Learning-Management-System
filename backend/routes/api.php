@@ -109,6 +109,7 @@ Route::group([
     Route::post('/count-of-user', [ForumController::class, 'countPostsOfUser']);
     Route::post('/count-of-admin', [ForumController::class, 'countPostForAdmin']);
     Route::post('/number-post', [ForumController::class, 'getNumberPosts']);
+    Route::post('/get-own-post', [ForumController::class, 'getOwnPost']);
 });
 
 // For comment controller

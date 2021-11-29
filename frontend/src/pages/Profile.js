@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { countOfUser } from "../api/API_Forum";
 import { countOfUser as countOfUser_Courses } from "../api/API_Courses";
 import { getUser } from "../api/Session";
+import OwnPostList from "../components/lists/OwnPostList";
 function Profile() {
   const [numberOfPosts, setNumberOfPosts] = useState(0);
   const [numberOfCourses, setNumberOfCourses] = useState(0);
@@ -45,6 +46,7 @@ function Profile() {
         <p className="my-5 font-semibold text-xl lg:text-3xl text-gray-600 uppercase tracking-widest">
           posts
         </p>
+        <OwnPostList />
       </div>
     </div>
   );

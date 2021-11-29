@@ -72,3 +72,13 @@ export function getNumberPost(setNumberPost) {
     setNumberPost(response.data.numberPost);
   });
 }
+
+export function getOwnPost(setposts) {
+  axios({
+    method: "POST",
+    url: `${Master_URL_API_Forum}get-own-post?token=${getToken()}`,
+    headers: { "Content-Type": "application/json" },
+  }).then((response) => {
+    setposts(response.data.posts);
+  });
+}
