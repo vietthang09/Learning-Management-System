@@ -19,7 +19,7 @@ function Profile(props) {
     <div className="container m-auto mt-5 px-24 divide-y">
       <div className="flex p-5 space-x-10">
         <img
-          src={"http://localhost:8000/" + user.avatar}
+          src={`http://localhost:8000/${user.avatar}`}
           className="w-40 h-40 object-cover rounded-full"
         />
         <div className="space-y-3">
@@ -29,7 +29,7 @@ function Profile(props) {
             </span>
             {userId == getUser().id && (
               <Link
-                to="/profile/edit"
+                to="/me/edit"
                 className="p-2 border rounded-lg text-sm text-gray-600 font-medium"
               >
                 Edit Profile

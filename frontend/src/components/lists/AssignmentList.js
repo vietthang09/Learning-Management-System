@@ -2,30 +2,40 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getAssignmentsOfCourse } from "../../api/API_Assignments";
 import { isTeacher } from "../../api/Session";
+import Blank from "../Blank";
 import AssignmentCardMini from "../cards/AssignmentCardMini";
+import Loading from "../Loading";
 
 function AssignmentList(props) {
-  var [assignments, setAssignments] = useState([]);
+  const [assignments, setAssignments] = useState([]);
+  const [loading, setloading] = useState(false);
   useEffect(() => {
-    getAssignmentsOfCourse(props.id, setAssignments);
+    getAssignmentsOfCourse(props.id, setloading, setAssignments);
   }, []);
   return (
     <>
-      {assignments.map((item, index) => {
-        return (
-          <>
-            {isTeacher() ? (
-              <Link to={"/assignment/update/" + item.assignmentId}>
-                <AssignmentCardMini data={item} />
-              </Link>
-            ) : (
-              <Link to={"/submission/submit/" + item.assignmentId}>
-                <AssignmentCardMini data={item} />
-              </Link>
-            )}
-          </>
-        );
-      })}
+      {loading ? (
+        <Loading />
+      ) : assignments.length >= 1 ? (
+        assignments.map((item, index) => {
+          return (
+            <>
+              {isTeacher() ? (
+                <Link to={"/assignment/update/" + item.assignmentId}>
+                  <AssignmentCardMini data={item} />
+                </Link>
+              ) : (
+                <Link to={"/submission/submit/" + item.assignmentId}>
+                  <AssignmentCardMini data={item} />
+                </Link>
+              )}
+            </>
+          );
+        })
+      ) : (
+        <Blank />
+      )}
+      {}
     </>
   );
 }

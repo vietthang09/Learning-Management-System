@@ -33,7 +33,7 @@ function PostCard(props) {
       </div>
       <div className="mt-2 mb-2">
         {props.data.filePath && (
-          <Link to={"forum/" + props.data.postId}>
+          <Link to={`forum/${props.data.postId}`}>
             <img
               src={`http://127.0.0.1:8000/${props.data.filePath}`}
               className="border w-full max-h-96 object-cover"
@@ -46,7 +46,7 @@ function PostCard(props) {
           <span className="font-medium">{props.data.authorName}</span>{" "}
           {props.data.content}
         </p>
-        <Link to={"forum/" + props.data.postId}>
+        <Link to={`forum/${props.data.postId}`}>
           <span className="flex items-center space-x-2 text-gray-500 font-medium">
             <span>{props.data.numberOfComments}</span>
             <AnnotationIcon className="w-5" />

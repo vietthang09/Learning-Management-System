@@ -16,7 +16,8 @@ export function createMaterial(id, materialInfo, selectedFile) {
   });
 }
 // For all
-export function getMaterialInCourse(id, setMaterials) {
+export function getMaterialInCourse(id, setloading, setMaterials) {
+  setloading(true);
   const formData = new FormData();
   formData.append("id", id);
   axios({
@@ -26,6 +27,7 @@ export function getMaterialInCourse(id, setMaterials) {
     data: formData,
   }).then((response) => {
     setMaterials(response.data.materials);
+    setloading(false);
   });
 }
 

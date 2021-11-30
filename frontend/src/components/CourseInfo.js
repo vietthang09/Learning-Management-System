@@ -4,6 +4,7 @@ import { getUser, isAdmin, isTeacher } from "../api/Session";
 import CancleButton from "./buttons/CancleButton";
 import UserAvatar from "./UserAvatar";
 import ConfirmButton from "./buttons/ConfirmButton";
+import { Link } from "react-router-dom";
 function CourseInfo(props) {
   const [course, setCourse] = useState([]);
   useEffect(() => {
@@ -19,9 +20,12 @@ function CourseInfo(props) {
         <p className="text-2xl font-bold text-gray-600">{course.courseTitle}</p>
         <div className="flex items-center">
           <UserAvatar link={course.teacherAvatar} />
-          <span className="text-gray-500 text-lg font-medium">
+          <Link
+            to={`/profile/${course.teacherId}`}
+            className="text-gray-500 text-lg font-medium"
+          >
             {course.teacherName}
-          </span>
+          </Link>
         </div>
         <p className="text-gray-400">{course.courseIntroduction}</p>
       </div>

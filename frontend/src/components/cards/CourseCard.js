@@ -5,6 +5,7 @@ import {
   BookOpenIcon,
 } from "@heroicons/react/outline";
 import UserAvatar from "../UserAvatar";
+import { Link } from "react-router-dom";
 function CourseCard(props) {
   return (
     <div className="relative group">
@@ -33,9 +34,12 @@ function CourseCard(props) {
         <div className="pt-2">
           <div className="flex items-center">
             <UserAvatar link={props.data.teacherAvatar} />
-            <span className="text-base font-medium text-gray-500">
+            <Link
+              to={"profile/" + props.data.teacherId}
+              className="text-base font-medium text-gray-500"
+            >
               {props.data.teacherName}
-            </span>
+            </Link>
           </div>
           <div className="flex items-center mt-2 text-xs">
             <div className="flex items-center text-gray-400 mr-5">

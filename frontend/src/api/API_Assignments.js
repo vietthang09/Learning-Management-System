@@ -21,7 +21,8 @@ export function getTimelineOfAssignments(setAssignments) {
     setAssignments(response.data.assignments);
   });
 }
-export function getAssignmentsOfCourse(id, setAssignments) {
+export function getAssignmentsOfCourse(id, setloading, setAssignments) {
+  setloading(true);
   var formData = new FormData();
   formData.append("id", id);
   axios({
@@ -31,6 +32,7 @@ export function getAssignmentsOfCourse(id, setAssignments) {
     data: formData,
   }).then((response) => {
     setAssignments(response.data.assignments);
+    setloading(false);
   });
 }
 
