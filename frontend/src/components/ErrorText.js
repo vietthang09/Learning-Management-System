@@ -1,7 +1,7 @@
 import React from "react";
 
 function ErrorText(props) {
-  return <span className="text-sm text-red-400 font-medium">{props.text}</span>;
+  return <p className="text-sm text-red-400 font-medium text-center">{props.text}</p>;
 }
 
 export default ErrorText;

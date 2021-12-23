@@ -4,8 +4,7 @@ import { getPosts } from "../../api/API_Forum";
 import PostList from "../lists/PostList";
 import CreatePostForm from "../forms/CreatePostForm";
 import UserAvatar from "../UserAvatar";
-import { getUser, isAdmin } from "../../api/Session";
-import BoxNumberPost from "../BoxNumber/BoxNumberPost";
+import { getUser } from "../../api/Session";
 
 function ForumLayout() {
   let [posts, setPosts] = useState([]);
